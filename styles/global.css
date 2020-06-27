@@ -1,0 +1,46 @@
+body {
+  scroll-behavior: smooth !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 300;
+  line-height: 1.5;
+  word-break: break-word;
+  word-wrap: break-word;
+  font-size: 16px;
+  font-family: 'Inter', 'sans-serif';
+  color: black;
+}
+
+main {
+
+}
+
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.content-wrapper {
+  max-width: 1300px;
+  box-sizing: content-box;
+  margin: 0 auto;
+  padding: 0 50px;
+}
+
+@media screen and (max-width: 800px) {
+  .content-wrapper {
+    padding: 0 30px;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .content-wrapper {
+    padding: 0 20px;
+  }
+}
