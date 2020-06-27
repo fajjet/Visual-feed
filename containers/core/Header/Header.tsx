@@ -10,6 +10,9 @@ const Header = () => {
         <Link href={'/'} passHref>
           <Styled.Link as={'a'}>Home</Styled.Link>
         </Link>
+        <Link href={'/signup'} passHref>
+          <Styled.Link as={'a'}>Sign up</Styled.Link>
+        </Link>
       </Styled.Wrapper>
     </Styled.Root>
   )

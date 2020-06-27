@@ -1,6 +1,4 @@
-import React, { useEffect } from 'react';
-import { SignUp } from 'containers';
-// import { IMovie } from 'server/models/user';
+import React from 'react';
 
 import Styled from './Home.style';
 
@@ -9,27 +7,10 @@ interface Props {
 }
 
 const Home = (props: Props) => {
-  useEffect(() => {
-   fetch('/api/users', {
-     method: 'POST',
-     headers: {
-       'Content-type': 'application/json',
-     },
-     body: JSON.stringify({
-       firstName: 'John',
-       lastName: 'Wilson',
-       email: 'test@example.com',
-       password: '123',
-     }),
-   }).then(res => {
-    console.log(res)
-   });
-  }, []);
-
   return (
     <Styled.Root>
       <div className={'content-wrapper'}>
-        <SignUp/>
+        <h1>Home page</h1>
       </div>
     </Styled.Root>
   )

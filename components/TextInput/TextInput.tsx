@@ -5,12 +5,15 @@ import Styled from './TextInput.style';
 
 interface Props {
   value: any;
+  type?: 'text' | 'email' | 'number' | 'password' | 'tel';
   onChange?(value: string): any;
+  required?: boolean;
   label?: string;
+  minLength?: number;
 }
 
 const TextInput = (props: Props) => {
-  const { label, value, onChange: onChangeHandler } = props;
+  const { label, type = 'text', value, onChange: onChangeHandler, required, minLength } = props;
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onChangeHandler && onChangeHandler(e.target.value);
@@ -21,8 +24,11 @@ const TextInput = (props: Props) => {
       <label>
         {label && <Styled.Label>{label}</Styled.Label>}
         <input
+          type={type}
           onChange={onChange}
           value={value}
+          required={required}
+          minLength={minLength}
         />
       </label>
     </Styled.Root>

@@ -5,14 +5,15 @@ import Styled from './Button.style';
 
 interface Props {
   children: React.ReactChild;
+  type?: 'button' | 'submit';
   onClick?(): any;
 }
 
 const Button = (props: Props) => {
-  const { children, onClick } = props;
+  const { children, type = 'button' , onClick } = props;
 
   return (
-    <Styled.Root as={'button'} onClick={onClick}>
+    <Styled.Root as={'button'} type={type} onClick={onClick}>
       {children}
     </Styled.Root>
   )

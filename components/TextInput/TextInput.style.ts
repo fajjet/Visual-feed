@@ -9,6 +9,12 @@ TextInput.Root = styled.div`
     height: 35px;
     display: block;
     padding: 0 5px;
+    appearance: none;
+    border: 1px solid black;
+    outline: none;
+    &:not([value=""]):not(:focus):invalid{
+      border-color: red;
+    }
   }
 `;
 
