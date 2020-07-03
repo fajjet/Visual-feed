@@ -12,6 +12,10 @@ Header.Root = styled.div`
   background-color: white;
   box-shadow: 0 0 18px rgba(0,0,0,0.05);
   z-index: 100;
+    font-weight: 300;
+  text-transform: uppercase;
+  font-size: 0.6rem;
+  letter-spacing: 1px;
 `;
 
 Header.Wrapper = styled.div`
@@ -19,18 +23,25 @@ Header.Wrapper = styled.div`
   align-items: center;
   width: 100%;
   height: 100%;
+  justify-content: space-between;
 `;
 
 Header.Link = styled.a`
-  font-weight: 300;
   margin-right: 2rem;
-  text-transform: uppercase;
-  font-size: 0.6rem;
-  letter-spacing: 1px;
   transition: all 0.15s ease;
   &:hover{
     color: ${provider.color.blue};
   }
+`;
+
+Header.Left = styled.a`
+  display: flex;
+  align-items: center;
+`;
+
+Header.Right = styled.a`
+  display: flex;
+  align-items: center;
 `;
 
 export default Header;

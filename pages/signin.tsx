@@ -1,7 +1,7 @@
 import React from 'react';
 import Head from 'next/head';
 
-// import { SignUp } from 'containers';
+import { SignIn } from 'containers';
 
 const SignInPage = () => {
   return (
@@ -9,7 +9,7 @@ const SignInPage = () => {
       <Head>
         <title>Sign in page</title>
       </Head>
-      <h1>Sign in page</h1>
+      <SignIn/>
     </>
   )
 };

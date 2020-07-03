@@ -41,13 +41,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var next_1 = __importDefault(require("next"));
 var express_1 = __importDefault(require("express"));
-var movies_1 = __importDefault(require("./api/movies"));
+// @ts-ignore
+var cookie_parser_1 = __importDefault(require("cookie-parser"));
+var users_1 = __importDefault(require("./controllers/users"));
+var middleware_1 = require("./middleware");
+require('dotenv').config();
 require('./database');
 var dev = process.env.NODE_ENV !== "production";
 var app = next_1.default({ dev: dev });
 var handle = app.getRequestHandler();
 var port = process.env.PORT || 3000;
-require('dotenv').config();
 (function () { return __awaiter(void 0, void 0, void 0, function () {
     var server, e_1;
     return __generator(this, function (_a) {
@@ -59,8 +62,12 @@ require('dotenv').config();
                 _a.sent();
                 server = express_1.default();
                 server.use(express_1.default.json());
+                server.use(cookie_parser_1.default());
                 // API
-                server.use('/api/movies', movies_1.default);
+                server.use(users_1.default);
+                server.get('/api/users/me', middleware_1.auth, function (req, res) {
+                    res.send(res.locals.user);
+                });
                 server.all("*", function (req, res) {
                     return handle(req, res);
                 });

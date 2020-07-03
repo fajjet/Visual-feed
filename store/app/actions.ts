@@ -14,3 +14,10 @@ export const changeDimensions = (width: number, height: number): AppActionTypes 
     payload: { width, height }
   }
 };
+
+export const setUser = (user: any): AppActionTypes => {
+  return {
+    type: ACTIONS.SET_USER,
+    payload: { user }
+  }
+};

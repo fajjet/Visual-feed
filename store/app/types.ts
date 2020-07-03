@@ -2,6 +2,7 @@
 enum Types {
   SET_TITLE = 'SET_TITLE',
   CHANGE_DIMENSIONS = 'CHANGE_DIMENSIONS',
+  SET_USER = 'SET_USER',
 }
 
 interface SetTitle {
@@ -19,6 +20,13 @@ interface changeDimensions {
   };
 }
 
+interface setUser {
+  type: typeof Types.SET_USER;
+  payload: {
+    user: any;
+  };
+}
+
 export default Types;
 
-export type AppActionTypes = SetTitle | changeDimensions
+export type AppActionTypes = SetTitle | changeDimensions | setUser;

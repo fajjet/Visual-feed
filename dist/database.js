@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 // @ts-ignore
 var mongoose_1 = __importDefault(require("mongoose"));
-var connection = "mongodb+srv://fajjet:strong_password@cluster-p0dww.gcp.mongodb.net/sample_mflix?retryWrites=true&w=majority";
+var connection = process.env.DB_URL || '';
 mongoose_1.default.connect(connection, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })
     .then(function () { return console.log("Database Connected Successfully"); })
     .catch(function (err) { return console.log(err); });

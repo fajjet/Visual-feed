@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 
 import { TextInput, Button } from 'components';
-import { createUser } from "utils/api";
+import { createUser, getUserTrace } from "utils/api";
 import Styled from './SignUpForm.style';
 
 interface Props {
@@ -16,14 +16,11 @@ const SignUpForm = (props: Props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const onSubmit = (e: React.SyntheticEvent) => {
+  const onSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
-    createUser({
-      firstName,
-      lastName,
-      email,
-      password,
-    }).then(res => {
+    const user = { firstName, lastName, email, password };
+    const trace = await getUserTrace();
+    createUser(user, trace).then(res => {
       setStatus(res.status);
     });
   };

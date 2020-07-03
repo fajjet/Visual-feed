@@ -1,3 +1,5 @@
+import { Trace } from 'types';
+
 export const percentageToColor = (
   percentage: number,
   inversion: boolean,
@@ -42,4 +44,14 @@ export const keysToCamel = function (o: object) : any {
     });
   }
   return o;
+};
+
+export const parseTextResponseToJson = (text: string): Trace => {
+  const array = text.split('\n');
+  const obj = { ip: '', uag: '' };
+  return array.reduce((acc, cur) => {
+    const entries = cur.split('=');
+    acc[entries[0]] = entries[1];
+    return acc;
+  }, obj);
 };

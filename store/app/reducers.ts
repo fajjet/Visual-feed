@@ -19,6 +19,12 @@ export default function AppReducer(
         width,
         height
       };
+      case ACTION.SET_USER:
+      const { user } = action.payload;
+      return {
+        ...state,
+        user,
+      };
     default:
       return state
   }
