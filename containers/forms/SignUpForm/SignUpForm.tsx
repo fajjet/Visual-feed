@@ -20,14 +20,13 @@ const SignUpForm = (props: Props) => {
     e.preventDefault();
     const user = { firstName, lastName, email, password };
     const trace = await getUserTrace();
-    createUser(user, trace).then(res => {
+    createUser(user, trace).then((res: any) => {
       setStatus(res.status);
     });
   };
 
   return (
     <Styled.Root as={'form'} onSubmit={onSubmit}>
-      <h2>Sign up</h2>
       {status !== 201 && (
         <>
           <Styled.Field>

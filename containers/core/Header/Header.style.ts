@@ -26,7 +26,7 @@ Header.Wrapper = styled.div`
   justify-content: space-between;
 `;
 
-Header.Link = styled.a`
+Header.Link = styled.div`
   margin-right: 2rem;
   transition: all 0.15s ease;
   &:hover{
@@ -34,12 +34,12 @@ Header.Link = styled.a`
   }
 `;
 
-Header.Left = styled.a`
+Header.Left = styled.div`
   display: flex;
   align-items: center;
 `;
 
-Header.Right = styled.a`
+Header.Right = styled.div`
   display: flex;
   align-items: center;
 `;

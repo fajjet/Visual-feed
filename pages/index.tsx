@@ -3,7 +3,8 @@ import Head from 'next/head';
 
 import { Home } from 'containers';
 
-const HomePage = () => {
+const HomePage = (props: any) => {
+  console.log(props)
   return (
     <>
       <Head>

@@ -61,14 +61,23 @@ var port = process.env.PORT || 3000;
             case 1:
                 _a.sent();
                 server = express_1.default();
-                server.use(express_1.default.json());
                 server.use(cookie_parser_1.default());
+                server.use(express_1.default.json());
                 // API
                 server.use(users_1.default);
-                server.get('/api/users/me', middleware_1.auth, function (req, res) {
-                    res.send(res.locals.user);
+                server.all('/api/users/me', middleware_1.auth, function (req, res) {
+                    var user = res.locals.user;
+                    if (res.statusCode === 409) {
+                        res.clearCookie('token');
+                    }
+                    res.send(user);
                 });
                 server.all("*", function (req, res) {
+                    // const token = req.cookies.token;
+                    // if (token && (['/signin', '/signup'].includes(req.url))) {
+                    //     console.log(req.url)
+                    //     res.redirect('/');
+                    // }
                     return handle(req, res);
                 });
                 server.listen(port, function (err) {

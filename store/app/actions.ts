@@ -1,4 +1,5 @@
 import ACTIONS, { AppActionTypes } from './types';
+
 // import { AnyAction } from "redux";
 
 export const setTitle = (title: string): AppActionTypes => {

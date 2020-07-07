@@ -11,6 +11,7 @@ const SignIn = (props: Props) => {
   return (
     <Styled.Root>
       <div className={'content-wrapper'}>
+        <h2>Sign in</h2>
         <SignInForm/>
       </div>
     </Styled.Root>

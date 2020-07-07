@@ -4,22 +4,22 @@
   "license": "MIT",
   "private": false,
   "scripts": {
+    "build-like-dev": "ts-node --project tsconfig.server.json server/server.ts",
     "dev": "nodemon -e ts,js --watch server --exec ts-node --project tsconfig.server.json server/server.ts",
     "build": "next build && tsc --project tsconfig.server.json",
     "postinstall": "npm run build",
-    "start": "NODE_ENV=production node dist/server.js"
+    "start": "SET NODE_ENV=production node dist/server.js"
   },
   "dependencies": {
     "@babel/plugin-proposal-optional-chaining": "^7.9.0",
     "@types/express": "^4.17.6",
     "@types/mongoose": "^5.7.28",
     "@types/node": "^14.0.14",
-    "@types/react": "^16.9.34",
-    "@types/react-redux": "^7.1.7",
+    "@types/react": "^16.9.41",
+    "@types/react-redux": "^7.1.9",
     "@types/redux": "^3.6.0",
     "@types/request-promise": "^4.1.46",
     "@types/styled-components": "^5.1.0",
-    "@zeit/next-css": "^1.0.1",
     "babel-plugin-module-resolver": "^4.0.0",
     "bcrypt": "^5.0.0",
     "cookie-parser": "^1.4.5",
@@ -29,9 +29,9 @@
     "isomorphic-fetch": "^2.2.1",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.20",
-    "next": "^9.3.5",
+    "next": "^9.4.4",
     "next-absolute-url": "^1.2.2",
-    "next-redux-wrapper": "^5.0.0",
+    "next-redux-wrapper": "^6.0.2",
     "normalize.css": "^8.0.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
@@ -43,6 +43,6 @@
     "request-promise": "^4.2.5",
     "styled-components": "^5.1.0",
     "ts-node": "^8.10.2",
-    "typescript": "^3.8.3"
+    "typescript": "3.8.3"
   }
 }

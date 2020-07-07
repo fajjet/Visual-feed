@@ -1,16 +1,17 @@
 // @ts-ignore
 import jwt from 'jsonwebtoken';
-// import { clearUserData } from "../utils";
 import User from '../models/user';
 
 
 export const auth = async(req: any, res: any, next: any) => {
 
-  const token = req.cookies.token || req.body.token;
-
-  const data = token && jwt.verify(token, process.env.JWT_KEY);
+  const { isInitialAuth, token: bodyToken } = req.body;
+  const token = req.cookies.token || bodyToken;
 
   try {
+
+    const data = token && jwt.verify(token, process.env.JWT_KEY);
+
     if (!data) {
       throw new Error('You have no permission');
     }
@@ -28,8 +29,12 @@ export const auth = async(req: any, res: any, next: any) => {
     next();
 
   } catch (e) {
-    res.status(401).json({
-      error: new Error('Invalid request!')
-    });
+    if (isInitialAuth) {
+      res.status(409);
+      next();
+    } else {
+      res.status(401);
+    }
   }
+
 };

@@ -6,7 +6,6 @@ import Styled from './Header.style';
 import { State } from "store/initialState";
 
 const Header = () => {
-
   const user = useSelector((state: State) => state.app.user);
 
   return (

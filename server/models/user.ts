@@ -1,12 +1,14 @@
 import { Document, Schema, Model, model } from 'mongoose';
 // @ts-ignore
 import bcrypt from 'bcrypt';
+import { Trace } from "../../types";
 const jwt = require('jsonwebtoken');
 
 export interface ITokenDocument {
-  token: string;
+  token?: string;
   ip?: string;
   uag?: string;
+  city?: string;
 }
 
 export interface IUserDocument extends Document {
@@ -18,7 +20,8 @@ export interface IUserDocument extends Document {
 }
 
 export interface IUser extends IUserDocument {
-  generateAuthToken(ip: string, uag: string) : string;
+  generateAuthToken(trace: Trace) : string;
+  removeSensitiveData() : IUser;
 }
 
 export interface IUserModel extends Model<IUser> {
@@ -34,6 +37,7 @@ export const UserSchema = new Schema({
     token: { type: String,  required: true },
     ip: { type: String },
     uag: { type: String },
+    city: { type: String },
   }]
 });
 
@@ -57,16 +61,28 @@ UserSchema.statics.findByCredentials = async (email: string, password: string) =
   return user;
 };
 
-UserSchema.methods.generateAuthToken = async function(this: IUser, ip: string, uag: string) {
+UserSchema.methods.generateAuthToken = async function(this: IUser, trace: Trace) {
   const user = this;
+  const { uag, ip } = trace;
   const token = jwt.sign({_id: user._id}, process.env.JWT_KEY);
   const tokens = user.tokens.filter(token => {
     return !(token.ip === ip && token.uag === uag);
   });
-  user.tokens = [ ...tokens, { token, ip, uag } ];
+  user.tokens = [ ...tokens, { token, ...trace } ];
   await user.save();
   return token;
 };
 
+UserSchema.methods.removeSensitiveData = function(this: IUser) {
+  return this.toObject({ transform: (doc, ret: IUser, opt) => {
+    ret.tokens = ret.tokens?.map(({ token, ...rest }) => {
+      return { ...rest };
+    });
+    delete ret.password;
+    return ret;
+  }});
+};
+
 const User: IUserModel = model<IUser, IUserModel>('User', UserSchema);
+
 export default User;

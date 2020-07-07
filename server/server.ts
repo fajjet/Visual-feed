@@ -1,6 +1,8 @@
 import next from 'next';
 import express, { Response, Request } from 'express';
 // @ts-ignore
+import cookieSession from 'cookie-session';
+// @ts-ignore
 import cookieParser from 'cookie-parser';
 
 import userRouter from './controllers/users';
@@ -25,20 +27,24 @@ const port = process.env.PORT || 3000;
         // API
         server.use(userRouter);
 
-        server.post('/api/users/me', auth, (req: Request, res: Response) => {
+        server.all('/api/users/me', auth, (req: Request, res: Response) => {
             const { user } = res.locals;
+            if (res.statusCode === 409) {
+                res.clearCookie('token');
+            }
             res.send(user);
         });
 
-        // server.get('/api/users/test', auth, (req: Request, res: Response) => {
-        //     res.send('success');
-        // });
-
         server.all("*", (req: Request, res: Response) => {
+            // const token = req.cookies.token;
+            // if (token && (['/signin', '/signup'].includes(req.url))) {
+            //     console.log(req.url)
+            //     res.redirect('/');
+            // }
             return handle(req, res);
         });
 
-        server.listen(port, (err?: any) => {
+        server.listen(port, (err?: Error) => {
             if (err) throw err;
             console.log(`> Ready on localhost:${port} - env ${process.env.NODE_ENV}`);
         });
