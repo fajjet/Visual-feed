@@ -1,16 +1,3 @@
-import { Trace } from 'types';
-
-export const percentageToColor = (
-  percentage: number,
-  inversion: boolean,
-  saturation: number = 100,
-  lightness: number = 50,
-  maxHue: number = 360,
-  minHue: number = 110
-) => {
-  const hue = ((inversion ? 1 : 0) - percentage) * (maxHue - minHue) + minHue;
-  return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
-};
 
 export const getRandomInteger = (min: number, max: number) => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -44,14 +31,4 @@ export const keysToCamel = function (o: object) : any {
     });
   }
   return o;
-};
-
-export const parseTextResponseToJson = (text: string): Trace => {
-  const array = text.split('\n');
-  const obj = { ip: '', uag: '' };
-  return array.reduce((acc, cur) => {
-    const entries = cur.split('=');
-    acc[entries[0]] = entries[1];
-    return acc;
-  }, obj);
 };

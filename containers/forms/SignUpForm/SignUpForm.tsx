@@ -1,28 +1,40 @@
 import React, { useState } from 'react';
-import Link from 'next/link';
+import { useDispatch } from "react-redux";
 
 import { TextInput, Button } from 'components';
 import { createUser, getUserTrace } from "utils/api";
 import Styled from './SignUpForm.style';
+import actions from 'store/actions';
+import {IUser} from "../../../server/models/user";
 
-interface Props {
-
+interface Response {
+  user?: IUser;
+  error?: string;
 }
 
-const SignUpForm = (props: Props) => {
+const SignUpForm = () => {
+  const [error, setError] = useState<undefined | string>(undefined);
   const [status, setStatus] = useState<null | number>(null);
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const dispatch = useDispatch();
 
   const onSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     const user = { firstName, lastName, email, password };
     const trace = await getUserTrace();
-    createUser(user, trace).then((res: any) => {
-      setStatus(res.status);
-    });
+    const res = await createUser(user, trace);
+    const response: Response = await res.json();
+    if (res.status === 201) {
+      if (error) setError(undefined);
+      const user = response.user;
+      dispatch(actions.setUser(user));
+    } else {
+      setError(response.error);
+    }
+    setStatus(res.status);
   };
 
   return (
@@ -71,14 +83,10 @@ const SignUpForm = (props: Props) => {
           <Button type={'submit'}>Create an account</Button>
         </>
       )}
-      {status === 409 && <div style={{ color: 'red', paddingTop: '1rem' }}>User with the same email exists</div>}
+      {error && <div style={{ color: 'red', paddingTop: '1rem' }}>{error}</div>}
       {status === 201 && (
         <>
           <div style={{ color: 'green', paddingBottom: '0.5rem' }}>Account was successfully created!</div>
-          <Link href={'/signin'} passHref>
-            <a>Sign in</a>
-          </Link>
-          <br/><br/>
         </>
       )}
     </Styled.Root>

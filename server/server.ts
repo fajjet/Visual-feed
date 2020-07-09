@@ -1,12 +1,10 @@
 import next from 'next';
 import express, { Response, Request } from 'express';
 // @ts-ignore
-import cookieSession from 'cookie-session';
-// @ts-ignore
 import cookieParser from 'cookie-parser';
 
 import userRouter from './controllers/users';
-import { auth } from './middleware';
+// import { auth } from './middleware';
 
 require('dotenv').config();
 require('./database');
@@ -26,14 +24,6 @@ const port = process.env.PORT || 3000;
 
         // API
         server.use(userRouter);
-
-        server.all('/api/users/me', auth, (req: Request, res: Response) => {
-            const { user } = res.locals;
-            if (res.statusCode === 409) {
-                res.clearCookie('token');
-            }
-            res.send(user);
-        });
 
         server.all("*", (req: Request, res: Response) => {
             // const token = req.cookies.token;

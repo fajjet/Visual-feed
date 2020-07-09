@@ -12,7 +12,7 @@ Header.Root = styled.div`
   background-color: white;
   box-shadow: 0 0 18px rgba(0,0,0,0.05);
   z-index: 100;
-    font-weight: 300;
+  font-weight: 300;
   text-transform: uppercase;
   font-size: 0.6rem;
   letter-spacing: 1px;
@@ -42,6 +42,10 @@ Header.Left = styled.div`
 Header.Right = styled.div`
   display: flex;
   align-items: center;
+  ${Header.Link} {
+    margin-right: 0;
+    margin-left: 2rem;
+  }
 `;
 
 export default Header;

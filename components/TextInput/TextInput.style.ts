@@ -6,6 +6,7 @@ const TextInput: any = {};
 TextInput.Root = styled.div`
   text-align: left;
   input {
+    width: 100%;
     height: 35px;
     display: block;
     padding: 0 5px;

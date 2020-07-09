@@ -16,6 +16,11 @@ Profile.Link = styled.div`
   }
 `;
 
+Profile.Flex = styled.span`
+  display: flex;
+  align-items: center;
+`;
+
 Profile.DataItem = styled.div`
   padding-bottom: 0.7rem;
 `;
@@ -24,13 +29,24 @@ Profile.DataSection = styled.div`
   padding-top: 2rem;
 `;
 
-Profile.DeleteSession = styled.span`
-  color: red;
-  cursor: pointer;
-  margin-left: 1rem;
-  &:hover{
-    opacity: 0.5;
-  }
+Profile.Sessions = styled.div`
+  padding-top: 2rem;
+`;
+
+Profile.Head = styled.span`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+Profile.Session = styled.div`
+  padding-top: 1.25rem;
+  max-width: 35rem;
+`;
+
+Profile.SessionHead = styled.span`
+  display: flex;
+  align-items: center;
 `;
 
 export default Profile;

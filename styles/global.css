@@ -28,7 +28,6 @@ a {
 
 .content-wrapper {
   max-width: 1300px;
-  box-sizing: content-box;
   margin: 0 auto;
   padding: 0 50px;
 }

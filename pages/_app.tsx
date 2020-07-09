@@ -11,17 +11,23 @@ import { Page } from 'containers';
 import 'normalize.css';
 import 'styles/global.css';
 import 'styles/fonts.css';
+import {NextComponentType} from "next";
 
 const MyApp = (props: AppProps) => {
-  const { Component, router } = props;
+  const { Component, router, pageProps } = props;
   const key = router.asPath;
   const authFromClientPassed = useRef(false);
 
+  const propsPackage = {
+    pageProps,
+  };
+
   const auth = async () => {
+    // provide token validation, in case if invalid delete it
     fetch('/api/users/me', {
       method: 'POST',
       headers: { 'Content-type': 'application/json' },
-      body: JSON.stringify({ isInitialAuth: true }),
+      body: JSON.stringify({ nextShouldBeCalled: true }),
     })
   };
 
@@ -33,13 +39,13 @@ const MyApp = (props: AppProps) => {
   return (
     <>
       <Page>
-        <Component key={key}/>
+        <Component {...propsPackage} key={key}/>
       </Page>
     </>
   )
 };
 
-MyApp.getInitialProps = async ({ ctx } : { ctx: any }) => {
+MyApp.getInitialProps = async ({ ctx, Component } : { ctx: any, Component: NextComponentType }) => {
   if (ctx.req && !process.browser) {
     const { token } = ctx.req.cookies;
     const { origin } = absoluteUrl(ctx.req);
@@ -48,7 +54,7 @@ MyApp.getInitialProps = async ({ ctx } : { ctx: any }) => {
       headers: {
         'Content-type': 'application/json',
       },
-      body: JSON.stringify({ token, isInitialAuth: true }),
+      body: JSON.stringify({ token, nextShouldBeCalled: true }),
     });
     if (res.status === 200) {
       const user = await res.json();
@@ -57,7 +63,9 @@ MyApp.getInitialProps = async ({ ctx } : { ctx: any }) => {
       ctx.store.dispatch(actionsCreators.setUser(false));
     }
   }
-  return true;
+  return {
+    pageProps: Component.getInitialProps ? await Component.getInitialProps(ctx) : {},
+  };
 };
 
 export default wrapper.withRedux(MyApp);

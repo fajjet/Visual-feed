@@ -1,22 +1,22 @@
 import React, { useState } from 'react';
 import { useDispatch } from "react-redux";
-import Router from 'next/router'
+import Router from 'next/router';
+import Cookies from 'js-cookie';
 
 import actions from "store/actions";
 import { TextInput, Button } from 'components';
-import { auth, getUserTrace } from "utils/api";
+import { auth } from "utils/api";
 import Styled from './SignInForm.style';
 import { IUser } from "server/models/user";
 
-interface Props {
-
-}
-
 interface AuthResponse {
   user?: IUser;
+  tokenId?: string;
+  error?: string;
 }
 
-const SignInForm = (props: Props) => {
+const SignInForm = () => {
+  const [error, setError] = useState<undefined | string>(undefined);
   const [status, setStatus] = useState<null | number>(null);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -24,14 +24,17 @@ const SignInForm = (props: Props) => {
 
   const onSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
-    const trace = await getUserTrace();
-    const res = await auth(email, password, trace);
+    const res = await auth(email, password);
+    const response: AuthResponse = (await res.json());
     if (res.status === 200) {
-      setStatus(200);
-      const user: AuthResponse  = (await res.json())?.user;
-      await dispatch(actions.setUser(user));
+      if (error) setError(undefined);
+      await dispatch(actions.setUser(response.user));
+      Cookies.set('tokenId', response.tokenId || '');
       Router.push('/');
+    } else {
+      setError(response.error);
     }
+    setStatus(res.status);
   };
 
   return (
@@ -58,6 +61,9 @@ const SignInForm = (props: Props) => {
             />
           </Styled.Field>
           <Button type={'submit'}>Enter</Button>
+          {error && (
+            <div style={{ color: 'red', paddingTop: '1rem' }}>{error}</div>
+          )}
         </>
       )}
     </Styled.Root>

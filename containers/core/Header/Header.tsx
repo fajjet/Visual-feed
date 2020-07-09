@@ -29,7 +29,7 @@ const Header = () => {
        <Styled.Right>
          {user && (
            <Link href={'/profile'} passHref>
-             <Styled.Link as={'a'}>{user?.email}</Styled.Link>
+             <Styled.Link as={'a'}>profile</Styled.Link>
            </Link>
          )}
        </Styled.Right>

@@ -3,15 +3,32 @@ import Head from 'next/head';
 
 import { Profile } from 'containers';
 
-const ProfilePage = () => {
+interface Props {
+  pageProps: {
+    tokenId: string;
+  }
+}
+
+const ProfilePage = (props: Props) => {
+  const { tokenId } = props.pageProps || {};
   return (
     <>
       <Head>
         <title>Profile</title>
       </Head>
-      <Profile/>
+      <Profile tokenId={tokenId}/>
     </>
   )
 };
 
-export default React.memo(ProfilePage);
+ProfilePage.getInitialProps = async (context: any) => {
+  let tokenId = '';
+  if (context.req) {
+    tokenId = context.req?.cookies?.tokenId;
+  }
+  return {
+    tokenId,
+  }
+};
+
+export default ProfilePage;

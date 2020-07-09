@@ -1,4 +1,3 @@
-
 import { Trace } from "types";
 
 export const createUser = async (data: any, trace: Trace) => {
@@ -14,13 +13,15 @@ export const createUser = async (data: any, trace: Trace) => {
     });
 };
 
-export const auth = async (email: string, password: string, trace: Trace) => {
+export const auth = async (email: string, password: string) => {
+  const trace = await getUserTrace();
+  const date = new Date().getTime();
     return await fetch('/api/users/auth', {
       method: 'POST',
       headers: {
         'Content-type': 'application/json',
       },
-      body: JSON.stringify({ email, password, trace }),
+      body: JSON.stringify({ email, password, trace, date }),
     });
 };
 

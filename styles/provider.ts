@@ -17,6 +17,7 @@ enum Color {
     red = '#ff0029',
 
     blue = '#4fd6ff',
+    linkColor = '#1d7894',
 
     footerBackground = 'white',
 }
