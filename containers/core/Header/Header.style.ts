@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { provider } from 'styles';
 
 const Header: any = {};
 
@@ -28,10 +27,6 @@ Header.Wrapper = styled.div`
 
 Header.Link = styled.div`
   margin-right: 2rem;
-  transition: all 0.15s ease;
-  &:hover{
-    color: ${provider.color.blue};
-  }
 `;
 
 Header.Left = styled.div`

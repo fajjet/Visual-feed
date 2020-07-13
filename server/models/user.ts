@@ -5,7 +5,7 @@ import { Trace } from "../../types";
 import { capitalizeFirstLetter } from '../utils';
 const jwt = require('jsonwebtoken');
 
-export interface ITokenDocument {
+export interface ISessionDocument {
   _id?: string;
   ip?: string;
   uag?: string;
@@ -21,7 +21,7 @@ export interface IUserDocument extends Document {
   password?: string;
   fullName?: string;
   email: string;
-  tokens: ITokenDocument[],
+  sessions: ISessionDocument[],
 }
 
 export interface IUser extends IUserDocument {
@@ -38,7 +38,7 @@ export const UserSchema = new Schema({
   lastName: { type: String, required: true, minlength: 2, lowercase: true },
   password: { type: String, required: true, minlength: 6 },
   email: { type: String, required: true, unique: true, lowercase: true },
-  tokens: [{
+  sessions: [{
     token: { type: String,  required: true },
     ip: { type: String },
     uag: { type: String },
@@ -71,18 +71,18 @@ UserSchema.methods.generateAuthToken = async function(this: IUser, trace: Trace,
   const user = this;
   const { uag, ip } = trace;
   const token = jwt.sign({_id: user._id}, process.env.JWT_KEY);
-  const tokens = user.tokens.filter(token => {
-    return !(token.ip === ip && token.uag === uag);
+  const sessions = user.sessions.filter(session => {
+    return !(session.ip === ip && session.uag === uag);
   });
-  user.tokens = [ ...tokens, { token, lastSeenDate: date, ...trace } ];
+  user.sessions = [ ...sessions, { token, lastSeenDate: date, ...trace } ];
   await user.save();
-  const createdTokenId = user.tokens[user.tokens.length - 1]._id;
+  const createdTokenId = user.sessions[user.sessions.length - 1]._id;
   return { token, id: createdTokenId };
 };
 
 UserSchema.methods.getClientData = function(this: IUser) {
   return this.toObject({ transform: (doc, ret: IUser, opt) => {
-    ret.tokens = ret.tokens?.map(({ token, ...rest }) => {
+    ret.sessions = ret.sessions?.map(({ token, ...rest }) => {
       return { ...rest };
     });
     delete ret.password;

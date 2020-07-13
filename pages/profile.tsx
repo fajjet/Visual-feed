@@ -1,5 +1,6 @@
 import React from 'react';
 import Head from 'next/head';
+import Cookies from "js-cookie";
 
 import { Profile } from 'containers';
 
@@ -25,6 +26,8 @@ ProfilePage.getInitialProps = async (context: any) => {
   let tokenId = '';
   if (context.req) {
     tokenId = context.req?.cookies?.tokenId;
+  } else {
+    tokenId = Cookies.get('tokenId') || '';
   }
   return {
     tokenId,

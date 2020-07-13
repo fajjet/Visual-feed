@@ -24,10 +24,11 @@ const MyApp = (props: AppProps) => {
 
   const auth = async () => {
     // provide token validation, in case if invalid delete it
+    const lastSeenDate = new Date().getTime();
     fetch('/api/users/me', {
       method: 'POST',
       headers: { 'Content-type': 'application/json' },
-      body: JSON.stringify({ nextShouldBeCalled: true }),
+      body: JSON.stringify({ nextShouldBeCalled: true, isClient: true, lastSeenDate }),
     })
   };
 
@@ -60,7 +61,7 @@ MyApp.getInitialProps = async ({ ctx, Component } : { ctx: any, Component: NextC
       const user = await res.json();
       ctx.store.dispatch(actionsCreators.setUser(user));
     } else {
-      ctx.store.dispatch(actionsCreators.setUser(false));
+      ctx.store.dispatch(actionsCreators.setUser(undefined));
     }
   }
   return {

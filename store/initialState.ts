@@ -5,7 +5,7 @@ export interface State {
     title: string;
     width: number | null;
     height: number | null;
-    user: IUserDocument | null;
+    user: IUserDocument | null | undefined;
   },
 }
 

@@ -16,24 +16,24 @@ export const auth = async(req: any, res: any, next: any) => {
       throw new Error('You have no permission');
     }
 
-    const user = await User.findOne({ _id: data._id, 'tokens.token': token });
+    const user = await User.findOne({ _id: data._id, 'sessions.token': token });
 
     if (!user) {
       throw new Error('You have no permission');
     }
 
     res.locals.user = user;
-    res.locals.userForClient = user.toObject();
+    res.locals.userForClient = user?.getClientData();
 
     next();
 
   } catch (e) {
     if (nextShouldBeCalled) {
       res.status(409);
-      next();
     } else {
       res.status(401);
     }
+    next();
   }
 
 };

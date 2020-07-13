@@ -26,11 +26,6 @@ const port = process.env.PORT || 3000;
         server.use(userRouter);
 
         server.all("*", (req: Request, res: Response) => {
-            // const token = req.cookies.token;
-            // if (token && (['/signin', '/signup'].includes(req.url))) {
-            //     console.log(req.url)
-            //     res.redirect('/');
-            // }
             return handle(req, res);
         });
 

@@ -2,9 +2,13 @@ import React from 'react';
 import { useSelector, useDispatch } from "react-redux";
 import Router from 'next/router';
 
+import Session from './ProfileSession';
+import { logout as logoutFetch } from "utils/api";
 import Styled from './Profile.style';
 import { State } from "store/initialState";
 import actions from 'store/actions';
+import { LogoutSelectionType } from 'types';
+import { IUserDocument } from "server/models/user";
 
 interface Props {
   tokenId: string;
@@ -15,24 +19,42 @@ const Profile = (props: Props) => {
   const user = useSelector((state: State) => state.app.user);
   const dispatch = useDispatch();
 
-  const logout = async () => {
-    const res = await fetch('/api/users/logout', { method: 'POST' });
-    if (res.status === 200) {
-      await dispatch(actions.setUser(false));
-      Router.push('/');
+  const logout = async (selection: LogoutSelectionType) => {
+    try {
+      const res = await logoutFetch(selection);
+      const logoutCurrentSession = () => {
+        if (res.status === 200) {
+          dispatch(actions.setUser(undefined));
+          Router.push('/');
+        } else {
+          throw new Error('Some error');
+        }
+      };
+      if (typeof selection === 'object') {
+        if (res.status === 200) {
+          const user: IUserDocument = (await res.json()).user;
+          dispatch(actions.setUser(user));
+        } else {
+          throw new Error('Some error');
+        }
+      } else {
+        logoutCurrentSession();
+      }
+    } catch(err) {
+
     }
   };
 
-  const sortedTokens = user?.tokens?.sort((a, b) => {
+  const sortedSessions = user?.sessions?.sort((a, b) => {
     return Number(b._id === tokenId) - Number(a._id === tokenId);
   });
 
   return (
     <Styled.Root>
       <div className={'content-wrapper'}>
-        <Styled.Head>
+        <Styled.Head as={'section'}>
           <h1>Profile</h1>
-          {user && <button onClick={logout}>logout</button>}
+          {user && <button onClick={e => logout('current')}>logout</button>}
         </Styled.Head>
         {!user && (
           <>
@@ -41,36 +63,16 @@ const Profile = (props: Props) => {
         )}
         {user && (
           <>
-            <Styled.DataSection>
+            <Styled.DataSection as={'section'}>
               <h4>Data</h4>
               <Styled.DataItem>{user.fullName}</Styled.DataItem>
               <Styled.DataItem>{user.email}</Styled.DataItem>
             </Styled.DataSection>
-            <Styled.Sessions>
-              <Styled.Flex>
-                <h4>Active sessions</h4>
-                <button style={{ marginLeft: '1rem' }}>remove all</button>
-              </Styled.Flex>
-              {sortedTokens?.map(({ ip = '', uag = '', city = '', lastSeenDate }, i) => {
-                return (
-                  <>
-                    <Styled.Session key={ip + uag + city}>
-                      <Styled.SessionHead>
-                        <span><b>City:</b> {city} <b>IP:</b> {ip}</span>
-                        <button
-                          style={{ marginLeft: '1rem' }}
-                        >remove</button>
-                        {!i && <span
-                          style={{ color: 'green', fontWeight: 500, paddingLeft: '1rem' }}
-                        >current</span>}
-                      </Styled.SessionHead>
-                      {(!!i && lastSeenDate) && (<div style={{
-                        fontSize: '0.85rem', paddingTop: '0.15rem'
-                      }}><b>Last seen:</b> {lastSeenDate}</div>)}
-                      <div style={{ fontSize: '0.7rem', paddingTop: '0.25rem' }}>{uag}</div>
-                    </Styled.Session>
-                  </>
-                )
+            <Styled.Sessions as={'section'}>
+              <h4>Active sessions</h4>
+              <button onClick={e => logout('all')}>logout all</button>
+              {sortedSessions?.map((session, i) => {
+                return <Session session={session} index={i} onLogoutClick={logout} key={i} />
               })}
             </Styled.Sessions>
           </>

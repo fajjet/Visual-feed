@@ -2,15 +2,13 @@ import React, { useState } from 'react';
 import { useDispatch } from "react-redux";
 
 import { TextInput, Button } from 'components';
-import { createUser, getUserTrace } from "utils/api";
+import { removeSymbolsAndDigits } from 'utils';
+import { createUser } from "utils/api";
 import Styled from './SignUpForm.style';
 import actions from 'store/actions';
-import {IUser} from "../../../server/models/user";
+import { AuthResponse } from "types";
+import Cookies from "js-cookie";
 
-interface Response {
-  user?: IUser;
-  error?: string;
-}
 
 const SignUpForm = () => {
   const [error, setError] = useState<undefined | string>(undefined);
@@ -24,12 +22,12 @@ const SignUpForm = () => {
   const onSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     const user = { firstName, lastName, email, password };
-    const trace = await getUserTrace();
-    const res = await createUser(user, trace);
-    const response: Response = await res.json();
+    const res = await createUser(user);
+    const response: AuthResponse = await res.json();
     if (res.status === 201) {
       if (error) setError(undefined);
       const user = response.user;
+      Cookies.set('tokenId', response.tokenId || '');
       dispatch(actions.setUser(user));
     } else {
       setError(response.error);
@@ -45,7 +43,7 @@ const SignUpForm = () => {
             <TextInput
               value={firstName}
               label={'First name'}
-              onChange={(value: string) => setFirstName(value)}
+              onChange={(value: string) => setFirstName(removeSymbolsAndDigits(value))}
               type={'text'}
               minLength={3}
               required
@@ -55,7 +53,7 @@ const SignUpForm = () => {
             <TextInput
               value={lastName}
               label={'Last name'}
-              onChange={(value: string) => setLastName(value)}
+              onChange={(value: string) => setLastName(removeSymbolsAndDigits(value))}
               type={'text'}
               minLength={3}
               required

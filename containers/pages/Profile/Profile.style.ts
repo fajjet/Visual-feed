@@ -16,17 +16,12 @@ Profile.Link = styled.div`
   }
 `;
 
-Profile.Flex = styled.span`
-  display: flex;
-  align-items: center;
-`;
-
 Profile.DataItem = styled.div`
   padding-bottom: 0.7rem;
 `;
 
 Profile.DataSection = styled.div`
-  padding-top: 2rem;
+  padding-top: 0rem;
 `;
 
 Profile.Sessions = styled.div`

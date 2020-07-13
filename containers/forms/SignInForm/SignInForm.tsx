@@ -3,17 +3,11 @@ import { useDispatch } from "react-redux";
 import Router from 'next/router';
 import Cookies from 'js-cookie';
 
+import { AuthResponse } from "types";
 import actions from "store/actions";
 import { TextInput, Button } from 'components';
 import { auth } from "utils/api";
 import Styled from './SignInForm.style';
-import { IUser } from "server/models/user";
-
-interface AuthResponse {
-  user?: IUser;
-  tokenId?: string;
-  error?: string;
-}
 
 const SignInForm = () => {
   const [error, setError] = useState<undefined | string>(undefined);
@@ -25,7 +19,7 @@ const SignInForm = () => {
   const onSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     const res = await auth(email, password);
-    const response: AuthResponse = (await res.json());
+    const response: AuthResponse = await res.json();
     if (res.status === 200) {
       if (error) setError(undefined);
       await dispatch(actions.setUser(response.user));

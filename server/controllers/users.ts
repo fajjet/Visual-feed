@@ -3,21 +3,21 @@ import express, {Request, Response} from 'express';
 import fetch from 'isomorphic-fetch';
 import { auth } from '../middleware';
 
+import { LogoutSelectionType } from "../../types";
 import User, {IUser} from "../models/user";
 
 const router = express.Router();
 
 router.post('/api/users', async (req: express.Request, res: express.Response) => {
   try {
-    const { user: userData, trace } = req.body;
+    const { user: userData, trace, date } = req.body;
     const existedUser = await User.findOne({ email: userData.email });
     if (existedUser) throw { error: 'User with the same email already exists' };
     const user = new User(userData);
     await user.save();
-    const { token, id } = await user.generateAuthToken(trace, 1);
-    const clienData = user.getClientData();
+    const { token, id } = await user.generateAuthToken(trace, date);
     res.cookie('token', token, { httpOnly: true });
-    res.status(201).send({ user: clienData, tokenId: id });
+    res.status(201).send({ user: user.getClientData(), tokenId: id });
   } catch (error) {
     res.status(400).send(error);
   }
@@ -32,7 +32,7 @@ router.post('/api/users/auth', async (req: express.Request, res: express.Respons
       return res.status(401).send({ error: 'Login failed! Check authentication credentials' })
     }
     const { token, id } = await user.generateAuthToken(trace, date);
-    const clientData = user.getClientData();
+    const clientData = user?.getClientData();
 
     res.cookie('token', token, { httpOnly: true });
     return res.send({ user: clientData, tokenId: id });
@@ -42,27 +42,45 @@ router.post('/api/users/auth', async (req: express.Request, res: express.Respons
   }
 });
 
-router.all('/api/users/me', auth, (req: Request, res: Response) => {
-  const { userForClient } = res.locals;
-  if (res.statusCode === 409) {
-    res.clearCookie('token');
+router.all('/api/users/me', auth, async (req: Request, res: Response) => {
+  try {
+    const { isClient, lastSeenDate } = req.body;
+    const user: IUser = res.locals.user;
+    if (isClient && res.statusCode === 200 && lastSeenDate) {
+      const { token: cookieToken } = req.cookies;
+      user.sessions = user.sessions.map(s => {
+        if (s.token === cookieToken) s.lastSeenDate = lastSeenDate;
+        return s;
+      });
+      await user.save();
+    }
+    if (res.statusCode === 409) {
+      res.clearCookie('token');
+      res.clearCookie('tokenId');
+    }
+    res.send(user?.getClientData());
+  } catch (error) {
+    res.status(400).send(error);
   }
-  res.send(userForClient);
 });
 
 router.post('/api/users/logout', auth, async (req: express.Request, res: express.Response) => {
   try {
-    // const { selection } = req.body;
+    const selection: LogoutSelectionType = req.body.selection;
     const user: IUser = res.locals.user;
-    const { token: cToken } = req.cookies;
-    res.clearCookie('token');
-    user.tokens = user.tokens.filter((token) => {
-      return token.token !== cToken;
-    });
+    const { token: cookieToken } = req.cookies;
+    if (selection === 'current') res.clearCookie('token');
+    if (selection === 'all') {
+      user.sessions = [];
+    } else {
+      user.sessions = user.sessions.filter((session) => {
+        return selection === 'current' ? session.token !== cookieToken : String(session._id) !== selection.id;
+      });
+    }
     await user.save();
-    res.send();
+    res.send({ user: user?.getClientData() });
   } catch (error) {
-    res.status(500).send(error)
+    res.status(500).send(error);
   }
 });
 

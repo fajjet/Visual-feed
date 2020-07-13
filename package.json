@@ -11,6 +11,8 @@
     "start": "SET NODE_ENV=production node dist/server.js"
   },
   "dependencies": {
+    "@babel/core": "^7.10.4",
+    "@babel/node": "^7.10.4",
     "@babel/plugin-proposal-optional-chaining": "^7.9.0",
     "@types/express": "^4.17.6",
     "@types/js-cookie": "^2.2.6",
@@ -45,6 +47,7 @@
     "request-promise": "^4.2.5",
     "styled-components": "^5.1.0",
     "ts-node": "^8.10.2",
-    "typescript": "3.8.3"
+    "typescript": "3.8.3",
+    "ws": "^7.3.1"
   }
 }
