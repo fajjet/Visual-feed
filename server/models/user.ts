@@ -1,6 +1,6 @@
 import { Document, Schema, Model, model } from 'mongoose';
-// @ts-ignore
 import bcrypt from 'bcrypt';
+
 import { Trace } from "../../types";
 import { capitalizeFirstLetter } from '../utils';
 const jwt = require('jsonwebtoken');
@@ -62,7 +62,7 @@ UserSchema.statics.findByCredentials = async (email: string, password: string) =
   const user = await User.findOne({ email });
   const throwAnErr = () => { throw { error: 'Invalid login credentials' } };
   if (!user) throwAnErr();
-  const isPasswordMatch = await bcrypt.compare(password, user?.password);
+  const isPasswordMatch = await bcrypt.compare(password, user?.password || '');
   if (!isPasswordMatch) throwAnErr();
   return user;
 };

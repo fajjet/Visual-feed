@@ -36,6 +36,19 @@ export const updateUser = async (data: {
     });
 };
 
+export const updateUserPassword = async (data: {
+  currentPassword: string;
+  newPassword: string;
+}) : Promise<HttpResponse<{ user?: IUserDocument, error?: string  }>> => {
+  return await fetch('/api/users/password', {
+      method: 'PUT',
+      headers: {
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify({ ...data }),
+    });
+};
+
 export const auth = async (email: string, password: string) => {
   const trace = await getUserTrace();
   const date = new Date().getTime();

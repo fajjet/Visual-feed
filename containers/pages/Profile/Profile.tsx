@@ -68,6 +68,7 @@ const Profile = (props: Props) => {
           <>
             <Styled.DataSection as={'section'}>
               <h4>Data</h4>
+              <p><b>{user?.email}</b></p>
               <ProfileDataForm user={user}/>
             </Styled.DataSection>
             <Styled.Sessions as={'section'}>

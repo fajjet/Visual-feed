@@ -1,19 +1,34 @@
 import React, { useState } from 'react';
+import { NextComponentType } from "next";
 // import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 
+import { updateUserPassword } from "utils/api";
 import { TextInput } from "components";
 
 // import Styled from './Profile.style';
 
 
-const ChangePasswordForm = () => {
+const ChangePasswordForm: NextComponentType = () => {
 
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   // const dispatch = useDispatch();
 
+  const arePasswordsEqual = currentPassword === newPassword;
+
   const onSubmit = async (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (arePasswordsEqual) return;
+    const res = await updateUserPassword({ currentPassword, newPassword });
+    const response = await res.json();
+    if (res.status === 200) {
+      toast.success('New password successfully applied');
+      setCurrentPassword('');
+      setNewPassword('');
+    } else {
+      toast.error(response.error);
+    }
   };
 
   return (
@@ -35,7 +50,7 @@ const ChangePasswordForm = () => {
         required
       />
       <br/>
-      <button type={'submit'}>change</button>
+      <button type={'submit'} disabled={arePasswordsEqual}>change</button>
     </form>
   )
 };

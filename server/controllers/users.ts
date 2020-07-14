@@ -1,4 +1,6 @@
 import express, {Request, Response} from 'express';
+import bcrypt from 'bcrypt';
+
 // @ts-ignore
 import fetch from 'isomorphic-fetch';
 import { auth } from '../middleware';
@@ -91,8 +93,23 @@ router.put('/api/users', auth, async (req: express.Request, res: express.Respons
     if (!user) throw { error: 'Auth error' };
     if (!updatedData) throw { error: 'Empty body' };
     const { firstName, lastName } = updatedData;
-    user.firstName = firstName;
-    user.lastName = lastName;
+    if (firstName) user.firstName = firstName;
+    if (lastName) user.lastName = lastName;
+    await user.save();
+    res.status(200).send({ user: user.getClientData() });
+  } catch (error) {
+    res.status(400).send(error);
+  }
+});
+
+router.put('/api/users/password', auth, async (req: express.Request, res: express.Response) => {
+  try {
+    const { currentPassword, newPassword } = req.body;
+    const user: IUser = res.locals.user;
+    if (!user) throw { error: 'Unauthorized' };
+    const isPasswordMatch = await bcrypt.compare(currentPassword, user.password || '');
+    if (!isPasswordMatch) throw { error: 'Current password does not match' };
+    user.password = newPassword;
     await user.save();
     res.status(200).send({ user: user.getClientData() });
   } catch (error) {
