@@ -21,6 +21,21 @@ export const createUser = async (data: any) => {
     });
 };
 
+export const updateUser = async (data: {
+  firstName: string;
+  lastName: string;
+}) : Promise<HttpResponse<{ user?: IUserDocument, error?: string  }>> => {
+  return await fetch('/api/users', {
+      method: 'PUT',
+      headers: {
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify({
+        user: data,
+      }),
+    });
+};
+
 export const auth = async (email: string, password: string) => {
   const trace = await getUserTrace();
   const date = new Date().getTime();

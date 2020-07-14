@@ -4,6 +4,7 @@ import React from 'react';
 import Styled from './TextInput.style';
 
 interface Props {
+  name?: string;
   value: any;
   type?: 'text' | 'email' | 'number' | 'password' | 'tel';
   onChange?(value: string): any;
@@ -13,7 +14,8 @@ interface Props {
 }
 
 const TextInput = (props: Props) => {
-  const { label, type = 'text', value, onChange: onChangeHandler, required, minLength } = props;
+  const { label, type = 'text', value, onChange: onChangeHandler, required, minLength, name: passedName } = props;
+  const name = passedName || label;
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onChangeHandler && onChangeHandler(e.target.value);
@@ -24,6 +26,7 @@ const TextInput = (props: Props) => {
       <label>
         {label && <Styled.Label>{label}</Styled.Label>}
         <input
+          name={name}
           type={type}
           onChange={onChange}
           value={value}

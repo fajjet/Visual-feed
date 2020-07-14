@@ -4,10 +4,13 @@ import absoluteUrl from 'next-absolute-url'
 // @ts-ignore
 import nodeFetch from 'isomorphic-fetch';
 import actionsCreators from 'store/actions';
+import { ToastContainer } from 'react-toastify';
 
 import { wrapper } from 'store';
 import { Page } from 'containers';
 
+
+import 'react-toastify/dist/ReactToastify.css';
 import 'normalize.css';
 import 'styles/global.css';
 import 'styles/fonts.css';
@@ -41,6 +44,7 @@ const MyApp = (props: AppProps) => {
     <>
       <Page>
         <Component {...propsPackage} key={key}/>
+        <ToastContainer/>
       </Page>
     </>
   )

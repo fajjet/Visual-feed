@@ -39,7 +39,7 @@ const ProfileSession = (props: Props) => {
       {(!!i && date) && (<div style={{
         fontSize: '0.85rem', paddingTop: '0.15rem'
       }}><b>Last seen</b> {date} ago</div>)}
-      <pre style={{ fontSize: '0.7rem', marginTop: '0.25rem' }}>{uag}</pre>
+      <pre style={{ fontSize: '0.7rem', marginTop: '0.5rem' }}>{uag}</pre>
     </Styled.Session>
   )
 };

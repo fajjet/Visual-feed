@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { useDispatch } from "react-redux";
+import { toast } from 'react-toastify';
+import Router from 'next/router';
 
 import { TextInput, Button } from 'components';
-import { removeSymbolsAndDigits } from 'utils';
+import { normalizeNameInput } from 'utils';
 import { createUser } from "utils/api";
 import Styled from './SignUpForm.style';
 import actions from 'store/actions';
@@ -11,7 +13,6 @@ import Cookies from "js-cookie";
 
 
 const SignUpForm = () => {
-  const [error, setError] = useState<undefined | string>(undefined);
   const [status, setStatus] = useState<null | number>(null);
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -25,25 +26,27 @@ const SignUpForm = () => {
     const res = await createUser(user);
     const response: AuthResponse = await res.json();
     if (res.status === 201) {
-      if (error) setError(undefined);
       const user = response.user;
       Cookies.set('tokenId', response.tokenId || '');
       dispatch(actions.setUser(user));
+      toast.success('Your account was successfully created');
+      Router.push('/');
+
     } else {
-      setError(response.error);
+      toast.error(response.error);
     }
     setStatus(res.status);
   };
 
   return (
-    <Styled.Root as={'form'} onSubmit={onSubmit}>
+    <Styled.Root as={'form'} name={'signUp'} onSubmit={onSubmit}>
       {status !== 201 && (
         <>
           <Styled.Field>
             <TextInput
               value={firstName}
               label={'First name'}
-              onChange={(value: string) => setFirstName(removeSymbolsAndDigits(value))}
+              onChange={(value: string) => setFirstName(normalizeNameInput(value))}
               type={'text'}
               minLength={3}
               required
@@ -53,7 +56,7 @@ const SignUpForm = () => {
             <TextInput
               value={lastName}
               label={'Last name'}
-              onChange={(value: string) => setLastName(removeSymbolsAndDigits(value))}
+              onChange={(value: string) => setLastName(normalizeNameInput(value))}
               type={'text'}
               minLength={3}
               required
@@ -79,12 +82,6 @@ const SignUpForm = () => {
             />
           </Styled.Field>
           <Button type={'submit'}>Create an account</Button>
-        </>
-      )}
-      {error && <div style={{ color: 'red', paddingTop: '1rem' }}>{error}</div>}
-      {status === 201 && (
-        <>
-          <div style={{ color: 'green', paddingBottom: '0.5rem' }}>Account was successfully created!</div>
         </>
       )}
     </Styled.Root>

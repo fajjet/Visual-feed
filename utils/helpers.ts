@@ -64,3 +64,15 @@ export const timeSince = (date: number) => {
   }
   return Math.floor(seconds) + " seconds";
 };
+
+export const uppercaseWords = (string: string) => {
+  return string.split(' ').reduce((acc, cur, i, arr) => {
+    let word = cur.toLowerCase();
+    return acc + (i ? ' ' : '') + word.charAt(0).toUpperCase() + word.slice(1);
+  }, '');
+};
+
+export const normalizeNameInput = (string: string) => {
+  return uppercaseWords(removeSymbolsAndDigits(string));
+};
+

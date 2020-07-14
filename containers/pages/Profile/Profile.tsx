@@ -2,6 +2,8 @@ import React from 'react';
 import { useSelector, useDispatch } from "react-redux";
 import Router from 'next/router';
 
+import ChangePasswordForm from "./ChangePasswordForm";
+import ProfileDataForm from './ProfileDataForm';
 import Session from './ProfileSession';
 import { logout as logoutFetch } from "utils/api";
 import Styled from './Profile.style';
@@ -56,6 +58,7 @@ const Profile = (props: Props) => {
           <h1>Profile</h1>
           {user && <button onClick={e => logout('current')}>logout</button>}
         </Styled.Head>
+        <hr/>
         {!user && (
           <>
             <h4>You are not authorized too see this page</h4>
@@ -65,15 +68,18 @@ const Profile = (props: Props) => {
           <>
             <Styled.DataSection as={'section'}>
               <h4>Data</h4>
-              <Styled.DataItem>{user.fullName}</Styled.DataItem>
-              <Styled.DataItem>{user.email}</Styled.DataItem>
+              <ProfileDataForm user={user}/>
             </Styled.DataSection>
             <Styled.Sessions as={'section'}>
-              <h4>Active sessions</h4>
+              <h4>Security</h4>
+              <hr/>
+              <h5>Sessions</h5>
               <button onClick={e => logout('all')}>logout all</button>
               {sortedSessions?.map((session, i) => {
                 return <Session session={session} index={i} onLogoutClick={logout} key={i} />
               })}
+              <h5>Change password</h5>
+              <ChangePasswordForm/>
             </Styled.Sessions>
           </>
         )}

@@ -4,7 +4,7 @@ import fetch from 'isomorphic-fetch';
 import { auth } from '../middleware';
 
 import { LogoutSelectionType } from "../../types";
-import User, {IUser} from "../models/user";
+import User, {IUser, IUserDocument} from "../models/user";
 
 const router = express.Router();
 
@@ -81,6 +81,22 @@ router.post('/api/users/logout', auth, async (req: express.Request, res: express
     res.send({ user: user?.getClientData() });
   } catch (error) {
     res.status(500).send(error);
+  }
+});
+
+router.put('/api/users', auth, async (req: express.Request, res: express.Response) => {
+  try {
+    const updatedData: IUserDocument = req.body.user;
+    const user: IUser = res.locals.user;
+    if (!user) throw { error: 'Auth error' };
+    if (!updatedData) throw { error: 'Empty body' };
+    const { firstName, lastName } = updatedData;
+    user.firstName = firstName;
+    user.lastName = lastName;
+    await user.save();
+    res.status(200).send({ user: user.getClientData() });
+  } catch (error) {
+    res.status(400).send(error);
   }
 });
 
