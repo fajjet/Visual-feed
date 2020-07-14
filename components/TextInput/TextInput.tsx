@@ -11,10 +11,20 @@ interface Props {
   required?: boolean;
   label?: string;
   minLength?: number;
+  placeholder?: string;
 }
 
 const TextInput = (props: Props) => {
-  const { label, type = 'text', value, onChange: onChangeHandler, required, minLength, name: passedName } = props;
+  const {
+    label,
+    type = 'text',
+    value,
+    onChange: onChangeHandler,
+    required,
+    minLength,
+    name: passedName,
+    placeholder = '',
+  } = props;
   const name = passedName || label;
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -32,6 +42,7 @@ const TextInput = (props: Props) => {
           value={value}
           required={required}
           minLength={minLength}
+          placeholder={placeholder}
         />
       </label>
     </Styled.Root>

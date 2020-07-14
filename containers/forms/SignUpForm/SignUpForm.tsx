@@ -3,12 +3,11 @@ import { useDispatch } from "react-redux";
 import { toast } from 'react-toastify';
 import Router from 'next/router';
 
-import { TextInput, Button } from 'components';
+import { TextInput } from 'components';
 import { normalizeNameInput } from 'utils';
 import { createUser } from "utils/api";
 import Styled from './SignUpForm.style';
 import actions from 'store/actions';
-import { AuthResponse } from "types";
 import Cookies from "js-cookie";
 
 
@@ -24,7 +23,7 @@ const SignUpForm = () => {
     e.preventDefault();
     const user = { firstName, lastName, email, password };
     const res = await createUser(user);
-    const response: AuthResponse = await res.json();
+    const response = await res.json();
     if (res.status === 201) {
       const user = response.user;
       Cookies.set('tokenId', response.tokenId || '');
@@ -64,6 +63,7 @@ const SignUpForm = () => {
           </Styled.Field>
           <Styled.Field>
             <TextInput
+              placeholder={'* without confirmation'}
               value={email}
               label={'Email'}
               onChange={(value: string) => setEmail(value)}
@@ -81,7 +81,7 @@ const SignUpForm = () => {
               required
             />
           </Styled.Field>
-          <Button type={'submit'}>Create an account</Button>
+          <button type={'submit'}>Create an account</button>
         </>
       )}
     </Styled.Root>

@@ -1,28 +1,12 @@
 import { Document, Schema, Model, model } from 'mongoose';
 import bcrypt from 'bcrypt';
 
-import { Trace } from "../../types";
-import { capitalizeFirstLetter } from '../utils';
+import { Trace, User } from "../../types";
+import { capitalizeFirstLetter } from "../../utils";
+
 const jwt = require('jsonwebtoken');
 
-export interface ISessionDocument {
-  _id?: string;
-  ip?: string;
-  uag?: string;
-  city?: string;
-  token?: string;
-  lastSeenDate?: number;
-}
-
-export interface IUserDocument extends Document {
-  _id: string;
-  firstName: string;
-  lastName: string;
-  password?: string;
-  fullName?: string;
-  email: string;
-  sessions: ISessionDocument[],
-}
+export type IUserDocument = Document & User;
 
 export interface IUser extends IUserDocument {
   generateAuthToken(trace: Trace, date: number) : { token: string, id: string };
@@ -43,7 +27,7 @@ export const UserSchema = new Schema({
     ip: { type: String },
     uag: { type: String },
     city: { type: String },
-    lastSeenDate: { type: Date },
+    lastSeenDate: { type: Number },
   }]
 }, {
   toJSON: { virtuals: true },

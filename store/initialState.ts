@@ -1,11 +1,11 @@
-import { IUserDocument } from "server/models/user";
+import { User } from "types";
 
 export interface State {
   app: {
     title: string;
     width: number | null;
     height: number | null;
-    user: IUserDocument | null | undefined;
+    user: User | null | undefined;
   },
 }
 

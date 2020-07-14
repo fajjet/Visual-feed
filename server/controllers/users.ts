@@ -10,6 +10,18 @@ import User, {IUser, IUserDocument} from "../models/user";
 
 const router = express.Router();
 
+router.get('/api/users', async (req: express.Request, res: express.Response) => {
+  try {
+    const users = await User.find({}, {
+      password: 0,
+      'sessions.token': 0,
+    });
+    res.status(200).send({ users });
+  } catch (error) {
+    res.status(400).send(error);
+  }
+});
+
 router.post('/api/users', async (req: express.Request, res: express.Response) => {
   try {
     const { user: userData, trace, date } = req.body;

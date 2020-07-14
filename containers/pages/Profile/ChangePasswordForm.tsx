@@ -1,13 +1,9 @@
 import React, { useState } from 'react';
 import { NextComponentType } from "next";
-// import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 
 import { updateUserPassword } from "utils/api";
 import { TextInput } from "components";
-
-// import Styled from './Profile.style';
-
 
 const ChangePasswordForm: NextComponentType = () => {
 

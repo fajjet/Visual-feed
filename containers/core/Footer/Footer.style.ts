@@ -14,6 +14,9 @@ Footer.Root = styled.div`
 Footer.Wrapper = styled.div`
   display: flex;
   justify-content: space-between;
+  a{
+    opacity: 0.5;
+  }
 `;
 
 export default Footer;

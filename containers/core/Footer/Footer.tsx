@@ -6,7 +6,7 @@ const Footer = () => {
   return (
     <Styled.Root as={'footer'}>
       <Styled.Wrapper className={'content-wrapper'}>
-
+        <a href={'https://github.com/fajjet/mern-app'} target={'_blank'}>github</a>
       </Styled.Wrapper>
     </Styled.Root>
   )

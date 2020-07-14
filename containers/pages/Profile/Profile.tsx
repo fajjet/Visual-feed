@@ -10,7 +10,6 @@ import Styled from './Profile.style';
 import { State } from "store/initialState";
 import actions from 'store/actions';
 import { LogoutSelectionType } from 'types';
-import { IUserDocument } from "server/models/user";
 
 interface Props {
   tokenId: string;
@@ -34,7 +33,7 @@ const Profile = (props: Props) => {
       };
       if (typeof selection === 'object') {
         if (res.status === 200) {
-          const user: IUserDocument = (await res.json()).user;
+          const user = (await res.json()).user;
           dispatch(actions.setUser(user));
         } else {
           throw new Error('Some error');
@@ -48,7 +47,8 @@ const Profile = (props: Props) => {
   };
 
   const sortedSessions = user?.sessions?.sort((a, b) => {
-    return Number(b._id === tokenId) - Number(a._id === tokenId);
+    const tokenSubtraction = Number(b._id === tokenId) - Number(a._id === tokenId);
+    return tokenSubtraction == 0 ? (b.lastSeenDate || 0) - (a.lastSeenDate || 0) : tokenSubtraction;
   });
 
   return (

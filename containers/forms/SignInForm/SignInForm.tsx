@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 
 import { AuthResponse } from "types";
 import actions from "store/actions";
-import { TextInput, Button } from 'components';
+import { TextInput } from 'components';
 import { auth } from "utils/api";
 import Styled from './SignInForm.style';
 
@@ -54,7 +54,7 @@ const SignInForm = () => {
               required
             />
           </Styled.Field>
-          <Button type={'submit'}>Enter</Button>
+          <button type={'submit'}>Enter</button>
         </>
       )}
     </Styled.Root>

@@ -1,11 +1,9 @@
-import { Trace, LogoutSelectionType } from "types";
-import {IUserDocument} from "../../server/models/user";
+import { Trace, LogoutSelectionType, HttpResponse, User } from "types";
 
-interface HttpResponse<T> extends Response {
-  parsedBody?: T;
-}
+type UserPayload = Omit<User, 'sessions' | '_id'>;
 
-export const createUser = async (data: any) => {
+export const createUser = async (data: UserPayload)
+  : Promise<HttpResponse<{ user?: User, tokenId?: string, error?: string  }>> => {
   const trace = await getUserTrace();
   const date = new Date().getTime();
   return await fetch('/api/users', {
@@ -24,7 +22,7 @@ export const createUser = async (data: any) => {
 export const updateUser = async (data: {
   firstName: string;
   lastName: string;
-}) : Promise<HttpResponse<{ user?: IUserDocument, error?: string  }>> => {
+}) : Promise<HttpResponse<{ user?: User, error?: string  }>> => {
   return await fetch('/api/users', {
       method: 'PUT',
       headers: {
@@ -39,7 +37,7 @@ export const updateUser = async (data: {
 export const updateUserPassword = async (data: {
   currentPassword: string;
   newPassword: string;
-}) : Promise<HttpResponse<{ user?: IUserDocument, error?: string  }>> => {
+}) : Promise<HttpResponse<{ user?: User, error?: string  }>> => {
   return await fetch('/api/users/password', {
       method: 'PUT',
       headers: {
@@ -62,7 +60,7 @@ export const auth = async (email: string, password: string) => {
 };
 
 export const logout = async (selection: LogoutSelectionType)
-  : Promise<HttpResponse<{ user?: IUserDocument, error?: string  }>> => {
+  : Promise<HttpResponse<{ user?: User, error?: string  }>> => {
     return await fetch('/api/users/logout', {
       method: 'POST',
       headers: {

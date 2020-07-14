@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { toast } from 'react-toastify';
 
 import { TextInput } from "components";
-import { IUserDocument } from "server/models/user";
+import { User } from "types";
 import { normalizeNameInput } from "utils";
 import { updateUser } from "utils/api";
 import actions from "store/actions";
@@ -12,7 +12,7 @@ import actions from "store/actions";
 
 
 interface Props {
-  user: IUserDocument;
+  user: User;
 }
 
 const ProfileDataForm = (props: Props) => {

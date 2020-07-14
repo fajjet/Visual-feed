@@ -1,13 +1,12 @@
 import React from 'react';
 
 import { timeSince } from "utils";
-import { LogoutSelectionType } from "types";
-import { ISessionDocument } from "server/models/user";
+import { LogoutSelectionType, Session } from "types";
 import Styled from './Profile.style';
 
 
 interface Props {
-  session: ISessionDocument;
+  session: Session;
   index: number;
   onLogoutClick(selection: LogoutSelectionType): void;
 }

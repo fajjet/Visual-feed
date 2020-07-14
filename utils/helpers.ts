@@ -65,6 +65,10 @@ export const timeSince = (date: number) => {
   return Math.floor(seconds) + " seconds";
 };
 
+export const capitalizeFirstLetter = (s: string) => {
+  return s.charAt(0).toUpperCase() + s.slice(1);
+};
+
 export const uppercaseWords = (string: string) => {
   return string.split(' ').reduce((acc, cur, i, arr) => {
     let word = cur.toLowerCase();

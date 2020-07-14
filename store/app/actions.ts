@@ -1,5 +1,5 @@
 import ACTIONS, { AppActionTypes } from './types';
-import {IUserDocument} from "server/models/user";
+import { User } from "types";
 
 // import { AnyAction } from "redux";
 
@@ -17,7 +17,7 @@ export const changeDimensions = (width: number, height: number): AppActionTypes 
   }
 };
 
-export const setUser = (user: IUserDocument | undefined): AppActionTypes => {
+export const setUser = (user: User | undefined): AppActionTypes => {
   return {
     type: ACTIONS.SET_USER,
     payload: { user }
