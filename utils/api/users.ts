@@ -1,6 +1,16 @@
+import nodeFetch from 'isomorphic-fetch';
+
 import { Trace, LogoutSelectionType, HttpResponse, User } from "types";
 
 type UserPayload = Omit<User, 'sessions' | '_id'>;
+
+export const getUsers = async (isServer: boolean)
+  : Promise<HttpResponse<{ users?: User[], error?: string  }>> => {
+  const fetchEntity = isServer ? nodeFetch : fetch;
+  return await fetchEntity('/api/users', {
+    method: 'GET',
+  });
+};
 
 export const createUser = async (data: UserPayload)
   : Promise<HttpResponse<{ user?: User, tokenId?: string, error?: string  }>> => {

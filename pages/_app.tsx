@@ -1,7 +1,6 @@
 import React, { useRef }  from 'react';
 import { AppProps } from 'next/app';
 import absoluteUrl from 'next-absolute-url'
-// @ts-ignore
 import nodeFetch from 'isomorphic-fetch';
 import actionsCreators from 'store/actions';
 import { ToastContainer } from 'react-toastify';

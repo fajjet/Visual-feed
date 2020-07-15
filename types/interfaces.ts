@@ -34,3 +34,11 @@ export interface AuthResponse {
 export interface HttpResponse<T> extends Response {
   json(): Promise<T>;
 }
+
+export interface Post {
+  _id: string;
+  authorId: string;
+  title: string;
+  creationTime: number;
+  description?: string;
+}

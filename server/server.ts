@@ -4,6 +4,7 @@ import express, { Response, Request } from 'express';
 import cookieParser from 'cookie-parser';
 
 import userRouter from './controllers/users';
+import postRouter from './controllers/posts';
 // import { auth } from './middleware';
 
 require('dotenv').config();
@@ -24,6 +25,7 @@ const port = process.env.PORT || 3000;
 
         // API
         server.use(userRouter);
+        server.use(postRouter);
 
         server.all("*", (req: Request, res: Response) => {
             return handle(req, res);

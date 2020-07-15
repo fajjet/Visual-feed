@@ -1,17 +1,19 @@
 import React from 'react';
+import { useSelector } from "react-redux";
 
+import { SubmitPost } from "containers";
 import Styled from './Home.style';
+import { State } from "store/initialState";
 
-interface Props {
+const Home = () => {
+  const user = useSelector((state: State) => state.app.user);
 
-}
-
-const Home = (props: Props) => {
   return (
     <Styled.Root>
       <div className={'content-wrapper'}>
         <h1>Home page</h1>
         <hr/>
+        {user && <SubmitPost user={user}/>}
       </div>
     </Styled.Root>
   )
