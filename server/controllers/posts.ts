@@ -1,14 +1,23 @@
-import express, { Request, Response } from 'express';
+import express, { Response } from 'express';
+import cloudinary from 'cloudinary';
 
 import Post from "../models/post";
 
 const router = express.Router();
 
-router.post('/api/posts', async (req: Request, res: Response) => {
+router.post('/api/posts', async (req: any, res: Response) => {
   try {
-    const { post: postData } = req.body;
+    const { title, description, authorId } = req.body;
+    const { image } = req.files;
     const creationTime = Date.now();
-    const post = new Post({ ...postData, creationTime });
+
+    if (!image) throw { error: 'Image is required' };
+
+    const uploadRes = await cloudinary.v2.uploader.upload(image.tempFilePath);
+    const { secure_url: url } = uploadRes || {};
+    if (!url) throw { error: `Image upload problem, try again later` };
+
+    const post = new Post({ title, description, creationTime, authorId, image: url });
     await post.save();
     res.status(200).send({ post });
   } catch (error) {

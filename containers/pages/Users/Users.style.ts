@@ -25,6 +25,7 @@ Users.ItemAvatar = styled.div`
 Users.Item = styled.div`
   display: flex;
   align-items: center;
+  justify-content: space-between;
   padding: 1rem;
   margin: 0;
   border: none !important;
@@ -49,6 +50,11 @@ Users.ItemSelf = styled.div`
   font-size: 0.8rem;
   padding: 0.1rem 0.3rem;
   margin-left: 0.75rem;
+`;
+
+Users.ItemLeft = styled.div`
+  display: flex;
+  align-items: center;
 `;
 
 export default Users;

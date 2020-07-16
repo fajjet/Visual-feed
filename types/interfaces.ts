@@ -1,5 +1,10 @@
 import { IUserDocument } from "server/models/user";
 
+export enum Roles {
+  member = 'member',
+  admin = 'admin',
+}
+
 export interface Session {
   _id?: string;
   ip?: string;
@@ -14,6 +19,7 @@ export interface User {
   firstName: string;
   lastName: string;
   email: string;
+  role: Roles;
   sessions: Session[];
   password?: string;
   fullName?: string;

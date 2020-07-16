@@ -9,7 +9,7 @@ const jwt = require('jsonwebtoken');
 export type IUserDocument = Document & User;
 
 export interface IUser extends IUserDocument {
-  generateAuthToken(trace: Trace, date: number) : { token: string, id: string };
+  generateAuthToken(trace: Trace) : { token: string, id: string };
   getClientData() : IUser;
 }
 
@@ -22,6 +22,7 @@ export const UserSchema = new Schema({
   lastName: { type: String, required: true, minlength: 2, lowercase: true },
   password: { type: String, required: true, minlength: 6 },
   email: { type: String, required: true, unique: true, lowercase: true },
+  role: { type: String, enum: ['member', 'admin'], default: 'member' },
   sessions: [{
     token: { type: String,  required: true },
     ip: { type: String },
@@ -51,13 +52,14 @@ UserSchema.statics.findByCredentials = async (email: string, password: string) =
   return user;
 };
 
-UserSchema.methods.generateAuthToken = async function(this: IUser, trace: Trace, date: number) {
+UserSchema.methods.generateAuthToken = async function(this: IUser, trace: Trace) {
   const user = this;
   const { uag, ip } = trace;
   const token = jwt.sign({_id: user._id}, process.env.JWT_KEY);
   const sessions = user.sessions.filter(session => {
     return !(session.ip === ip && session.uag === uag);
   });
+  const date = Date.now();
   user.sessions = [ ...sessions, { token, lastSeenDate: date, ...trace } ];
   await user.save();
   const createdTokenId = user.sessions[user.sessions.length - 1]._id;

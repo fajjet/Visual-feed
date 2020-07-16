@@ -2,10 +2,12 @@ import next from 'next';
 import express, { Response, Request } from 'express';
 // @ts-ignore
 import cookieParser from 'cookie-parser';
+// @ts-ignore
+import fileUpload from 'express-fileupload';
+
 
 import userRouter from './controllers/users';
 import postRouter from './controllers/posts';
-// import { auth } from './middleware';
 
 require('dotenv').config();
 require('./database');
@@ -21,6 +23,12 @@ const port = process.env.PORT || 3000;
         const server = express();
 
         server.use(cookieParser());
+
+        server.use(fileUpload({
+            useTempFiles : true,
+            tempFileDir : '/tmp/'
+        }));
+
         server.use(express.json());
 
         // API

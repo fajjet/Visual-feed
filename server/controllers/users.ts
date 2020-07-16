@@ -1,8 +1,6 @@
 import express, {Request, Response} from 'express';
 import bcrypt from 'bcrypt';
 
-// @ts-ignore
-import fetch from 'isomorphic-fetch';
 import { auth } from '../middleware';
 
 import { LogoutSelectionType } from "../../types";
@@ -37,12 +35,12 @@ router.get('/api/users/:id', async (req: express.Request, res: express.Response)
 
 router.post('/api/users', async (req: express.Request, res: express.Response) => {
   try {
-    const { user: userData, trace, date } = req.body;
+    const { user: userData, trace } = req.body;
     const existedUser = await User.findOne({ email: userData.email });
     if (existedUser) throw { error: 'User with the same email already exists' };
     const user = new User(userData);
     await user.save();
-    const { token, id } = await user.generateAuthToken(trace, date);
+    const { token, id } = await user.generateAuthToken(trace);
     res.cookie('token', token, { httpOnly: true });
     res.status(201).send({ user: user.getClientData(), tokenId: id });
   } catch (error) {
@@ -52,13 +50,13 @@ router.post('/api/users', async (req: express.Request, res: express.Response) =>
 
 router.post('/api/users/auth', async (req: express.Request, res: express.Response) => {
   try {
-    const { email, password, trace, date } = req.body;
+    const { email, password, trace } = req.body;
     const user = await User.findByCredentials(email, password);
 
     if (!user) {
       return res.status(401).send({ error: 'Login failed! Check authentication credentials' })
     }
-    const { token, id } = await user.generateAuthToken(trace, date);
+    const { token, id } = await user.generateAuthToken(trace);
     const clientData = user?.getClientData();
 
     res.cookie('token', token, { httpOnly: true });
@@ -71,12 +69,13 @@ router.post('/api/users/auth', async (req: express.Request, res: express.Respons
 
 router.all('/api/users/me', auth, async (req: Request, res: Response) => {
   try {
-    const { isClient, lastSeenDate } = req.body;
+    const { isClient } = req.body;
     const user: IUser = res.locals.user;
-    if (isClient && res.statusCode === 200 && lastSeenDate) {
+    if (isClient && res.statusCode === 200) {
       const { token: cookieToken } = req.cookies;
+      const now = Date.now();
       user.sessions = user.sessions.map(s => {
-        if (s.token === cookieToken) s.lastSeenDate = lastSeenDate;
+        if (s.token === cookieToken) s.lastSeenDate = now;
         return s;
       });
       await user.save();

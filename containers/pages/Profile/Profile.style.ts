@@ -16,6 +16,15 @@ Profile.Link = styled.div`
   }
 `;
 
+Profile.Role = styled.div`
+  background-color: steelblue;
+  display: inline-block;
+  border-radius: 5px;
+  color: white;
+  padding: 0.15rem 0.5rem;
+  margin-bottom: 0.5rem;
+`;
+
 Profile.DataItem = styled.div`
   padding-bottom: 0.7rem;
 `;

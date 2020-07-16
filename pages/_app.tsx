@@ -26,11 +26,10 @@ const MyApp = (props: AppProps) => {
 
   const auth = async () => {
     // provide token validation, in case if invalid delete it
-    const lastSeenDate = new Date().getTime();
     fetch('/api/users/me', {
       method: 'POST',
       headers: { 'Content-type': 'application/json' },
-      body: JSON.stringify({ nextShouldBeCalled: true, isClient: true, lastSeenDate }),
+      body: JSON.stringify({ nextShouldBeCalled: true, isClient: true }),
     })
   };
 

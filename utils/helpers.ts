@@ -80,3 +80,11 @@ export const normalizeNameInput = (string: string) => {
   return uppercaseWords(removeSymbolsAndDigits(string));
 };
 
+export const transformObjectToFormData = (obj: any) : null | FormData => {
+  if (obj !== Object(obj)) return null;
+  const data = new FormData();
+  Object.keys(obj).forEach(key => {
+    data.append(key, obj[key]);
+  });
+  return data;
+};

@@ -68,7 +68,10 @@ const Profile = (props: Props) => {
           <>
             <Styled.DataSection as={'section'}>
               <h4>Data</h4>
-              <p><b>{user?.email}</b></p>
+              <Styled.Role><b>{user?.role}</b></Styled.Role>
+              <br/>
+              <div><b>{user?.email}</b></div>
+              <br/>
               <ProfileDataForm user={user}/>
             </Styled.DataSection>
             <Styled.Sessions as={'section'}>

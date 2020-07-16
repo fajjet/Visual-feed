@@ -13,11 +13,18 @@ const SubmitPost = (props: Props) => {
   const { user } = props;
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+  const [image, setImage] = useState<undefined | File>(undefined);
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const res = await createPost({ authorId: user._id, title, description });
+    if (!image) return;
+    const res = await createPost({ authorId: user._id, title, description, image });
     console.log(res)
+  };
+
+  const onFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    setImage(file);
   };
 
   return (
@@ -26,7 +33,7 @@ const SubmitPost = (props: Props) => {
       <label>
         Image
         <br/>
-        <input type={'file'}/>
+        <input type={'file'} onChange={onFileInputChange}/>
       </label>
       <TextInput
         value={title}

@@ -1,10 +1,10 @@
 import React from 'react';
-import { useSelector } from "react-redux";
+import {useSelector} from "react-redux";
 
 import Link from 'next/link';
 import Styled from './Users.style';
 import { User } from "types";
-import {State} from "store/initialState";
+import { State } from "store/initialState";
 
 interface Props {
   users: User[] | null;
@@ -22,19 +22,26 @@ const Users = (props: Props) => {
         <hr/>
         <br/>
         <section>
-          <ul>
-            {sortedUsers?.map(({ _id: id, fullName })  => {
-              return (
-                <Link href={'/user/[id]'} as={`/user/${id}`} passHref>
-                  <Styled.Item as={'a'} key={id}>
-                    <Styled.ItemAvatar/>
-                    {fullName}
-                    {id === user?._id && (<Styled.ItemSelf>{'you'}</Styled.ItemSelf>)}
-                  </Styled.Item>
-                </Link>
-              );
-            })}
-          </ul>
+          {!!sortedUsers?.length ? (
+            <ul>
+              {sortedUsers.map(({ _id: id, fullName, role })  => {
+                return (
+                  <Link href={'/user/[id]'} as={`/user/${id}`} passHref>
+                    <Styled.Item as={'a'} key={id}>
+                      <Styled.ItemLeft>
+                        <Styled.ItemAvatar/>
+                        {fullName}
+                        {id === user?._id && (<Styled.ItemSelf>{'you'}</Styled.ItemSelf>)}
+                      </Styled.ItemLeft>
+                      <div style={{ fontSize: '0.9rem' }}>{role}</div>
+                    </Styled.Item>
+                  </Link>
+                );
+              })}
+            </ul>
+          ) : (
+            <h5>There are no existing users here yet</h5>
+          )}
         </section>
       </div>
     </Styled.Root>

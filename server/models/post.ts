@@ -7,6 +7,7 @@ export type IPostDocument = Document & Post;
 export const PostSchema = new Schema({
   authorId: { type: String, required: true },
   title: { type: String, required: true, minlength: 2 },
+  image: { type: String, required: true },
   description: { type: String },
   creationTime: { type: Number },
 });
