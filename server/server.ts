@@ -5,7 +5,6 @@ import cookieParser from 'cookie-parser';
 // @ts-ignore
 import fileUpload from 'express-fileupload';
 
-
 import userRouter from './controllers/users';
 import postRouter from './controllers/posts';
 

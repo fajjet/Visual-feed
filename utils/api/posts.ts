@@ -13,6 +13,9 @@ export const createPost = async (data: PostPayload)
   const formData = transformObjectToFormData(data);
   return await fetch('/api/posts', {
     method: 'POST',
+    headers: {
+      Accept: 'application/json',
+    },
     body: formData,
   });
 };

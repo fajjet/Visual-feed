@@ -1,14 +1,28 @@
 import express, {Request, Response} from 'express';
 import bcrypt from 'bcrypt';
+// @ts-ignore
+import rateLimit from 'express-rate-limit';
 
 import { auth } from '../middleware';
 
 import { LogoutSelectionType } from "../../types";
 import User, {IUser, IUserDocument} from "../models/user";
 
+const apiLimiter = rateLimit({
+  windowMs: 1 * (60 * 1000),
+  max: 30,
+  message: { error: 'Too many requests to the server' },
+});
+
+const signUpLimit = rateLimit({
+  windowMs: 1 * (60 * 1000),
+  max: 5,
+  message: { error: 'Too many requests to the server' },
+});
+
 const router = express.Router();
 
-router.get('/api/users', async (req: express.Request, res: express.Response) => {
+router.get('/api/users', apiLimiter, async (req: express.Request, res: express.Response) => {
   try {
     const users = await User.find({}, {
       password: 0,
@@ -20,7 +34,7 @@ router.get('/api/users', async (req: express.Request, res: express.Response) => 
   }
 });
 
-router.get('/api/users/:id', async (req: express.Request, res: express.Response) => {
+router.get('/api/users/:id', apiLimiter, async (req: express.Request, res: express.Response) => {
   try {
     const { id } = req.params;
     const user = await User.findOne({ _id: id }, {
@@ -33,7 +47,7 @@ router.get('/api/users/:id', async (req: express.Request, res: express.Response)
   }
 });
 
-router.post('/api/users', async (req: express.Request, res: express.Response) => {
+router.post('/api/users', signUpLimit, async (req: express.Request, res: express.Response) => {
   try {
     const { user: userData, trace } = req.body;
     const existedUser = await User.findOne({ email: userData.email });
@@ -48,7 +62,7 @@ router.post('/api/users', async (req: express.Request, res: express.Response) =>
   }
 });
 
-router.post('/api/users/auth', async (req: express.Request, res: express.Response) => {
+router.post('/api/users/auth', apiLimiter, async (req: express.Request, res: express.Response) => {
   try {
     const { email, password, trace } = req.body;
     const user = await User.findByCredentials(email, password);
@@ -67,7 +81,7 @@ router.post('/api/users/auth', async (req: express.Request, res: express.Respons
   }
 });
 
-router.all('/api/users/me', auth, async (req: Request, res: Response) => {
+router.all('/api/users/me', apiLimiter, auth, async (req: Request, res: Response) => {
   try {
     const { isClient } = req.body;
     const user: IUser = res.locals.user;
@@ -90,7 +104,7 @@ router.all('/api/users/me', auth, async (req: Request, res: Response) => {
   }
 });
 
-router.post('/api/users/logout', auth, async (req: express.Request, res: express.Response) => {
+router.post('/api/users/logout', apiLimiter, auth, async (req: express.Request, res: express.Response) => {
   try {
     const selection: LogoutSelectionType = req.body.selection;
     const user: IUser = res.locals.user;
@@ -110,7 +124,7 @@ router.post('/api/users/logout', auth, async (req: express.Request, res: express
   }
 });
 
-router.put('/api/users', auth, async (req: express.Request, res: express.Response) => {
+router.put('/api/users', apiLimiter, auth, async (req: express.Request, res: express.Response) => {
   try {
     const updatedData: IUserDocument = req.body.user;
     const user: IUser = res.locals.user;
@@ -126,7 +140,7 @@ router.put('/api/users', auth, async (req: express.Request, res: express.Respons
   }
 });
 
-router.put('/api/users/password', auth, async (req: express.Request, res: express.Response) => {
+router.put('/api/users/password', apiLimiter, auth, async (req: express.Request, res: express.Response) => {
   try {
     const { currentPassword, newPassword } = req.body;
     const user: IUser = res.locals.user;
