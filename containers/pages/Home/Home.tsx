@@ -5,13 +5,24 @@ import { toast } from "react-toastify";
 import { SubmitPost } from "containers";
 import Styled from './Home.style';
 import { State } from "store/initialState";
+import { Post } from "types";
 
-const Home = () => {
+interface Props {
+  posts: Post[];
+}
+
+const Home = (props: Props) => {
+  const { posts } = props;
   const user = useSelector((state: State) => state.app.user);
   const [submitFormIsActive, setSubmitFormIsActive] = useState(false);
+  const [createdPosts, setCreatedPosts] = useState<Post[]>([]);
 
   const onSubmitFormClose = () => {
-    setSubmitFormIsActive(!submitFormIsActive);
+    setSubmitFormIsActive(!submitFormIsActive);};
+
+  const onSuccessPostSubmit = (post: Post) => {
+    setSubmitFormIsActive(false);
+    setCreatedPosts([ ...createdPosts, post ]);
   };
 
   const onAddButtonClick = () => {
@@ -22,15 +33,40 @@ const Home = () => {
     setSubmitFormIsActive(true);
   };
 
+  const actualPosts = [ ...posts, ...createdPosts ];
+
   return (
     <Styled.Root>
       <div className={'content-wrapper'}>
-        <h1>Home page</h1>
+        <h1>Home</h1>
         <hr/>
         <Styled.AddButton as={'button'} onClick={onAddButtonClick}>
-          <span></span>
+          <span/>
         </Styled.AddButton>
-        {user && <SubmitPost onClose={onSubmitFormClose} user={user} isActive={submitFormIsActive}/>}
+        <section>
+          <br/>
+          {actualPosts?.map(post => {
+            return (
+              <Styled.Post>
+                <h4>{post.title}</h4>
+                <Styled.PostUnderTitle>
+                  <div>author</div>
+                  <div>{post.creationTime}</div>
+                </Styled.PostUnderTitle>
+                <Styled.PostImage>
+                  <img src={post.image} alt={post.description}/>
+                </Styled.PostImage>
+                {post.description && <pre>{post.description}</pre>}
+              </Styled.Post>
+            )
+          })}
+        </section>
+        {user && <SubmitPost
+          user={user}
+          onClose={onSubmitFormClose}
+          onSuccessSubmit={onSuccessPostSubmit}
+          isActive={submitFormIsActive}
+        />}
       </div>
     </Styled.Root>
   )

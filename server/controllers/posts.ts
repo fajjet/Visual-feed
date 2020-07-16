@@ -61,7 +61,6 @@ router.get('/api/posts', limit, async (req: any, res: Response) => {
     const posts = await Post.find({});
     res.status(200).send({ posts });
   } catch (error) {
-    console.log(error)
     res.status(400).send(error);
   }
 });

@@ -58,4 +58,34 @@ Home.AddButton = styled.div`
   }
 `;
 
+Home.Post = styled.article`
+  position: relative;
+  margin-bottom: 3rem;
+  padding-bottom: 3.5rem;
+  pre{
+    background-color: #ebebeb;
+    margin-bottom: 0;
+    margin-top: 1.5rem;
+  }
+  &:not(:last-of-type) {
+    border-bottom: 1px solid rgba(0,0,0,0.3);
+  }
+`;
+
+Home.PostImage = styled.div`
+  display: flex;
+  justify-content: center;
+  img {
+    max-height: 70vh;
+    margin-bottom: 0;
+  }
+  background-color: #ebebeb;
+`;
+
+Home.PostUnderTitle = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+`;
+
 export default Home;

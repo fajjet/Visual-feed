@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import { toast } from "react-toastify";
 import {useSelector} from "react-redux";
 
-import { User } from 'types';
+import { Post, User } from 'types';
 import { createPost } from "utils/api/posts";
 import Styled from './SubmitPost.style';
 import { TextInput } from "components";
@@ -11,12 +11,13 @@ import { State } from "store/initialState";
 interface Props {
   user: User;
   onClose(): void;
+  onSuccessSubmit(post: Post | undefined): void;
   isActive?: boolean;
 }
 
 const SubmitPost = (props: Props) => {
   const user = useSelector((state: State) => state.app.user);
-  const { onClose, isActive } = props;
+  const { onClose, isActive, onSuccessSubmit } = props;
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [image, setImage] = useState<undefined | File>(undefined);
@@ -39,6 +40,7 @@ const SubmitPost = (props: Props) => {
         setDescription('');
         setImage(undefined);
         formRef.current?.reset();
+        onSuccessSubmit(response.post);
       } else {
         toast.error(response.error);
       }

@@ -45,6 +45,7 @@ export interface Post {
   _id: string;
   authorId: string;
   title: string;
+  image: string;
   creationTime: number;
   description?: string;
 }
