@@ -25,4 +25,8 @@ TextInput.Label = styled.span`
   font-size: 14px;
 `;
 
+TextInput.Input = styled.input`
+  max-width: 100%;
+`;
+
 export default TextInput;

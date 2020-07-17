@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
+import { updateLikes } from 'utils/api';
 import { SubmitPost } from "containers";
 import Styled from './Home.style';
 import { State } from "store/initialState";
@@ -16,7 +17,6 @@ const Home = (props: Props) => {
   const { posts } = props;
   const user = useSelector((state: State) => state.app.user);
   const [submitFormIsActive, setSubmitFormIsActive] = useState(false);
-  // const [createdPosts, setCreatedPosts] = useState<PostWithPopulatedUsers[]>([]);
   const [actualPosts, setActualPosts] = useState<PostWithPopulatedUsers[]>([]);
 
   useEffect(() => {
@@ -39,6 +39,17 @@ const Home = (props: Props) => {
     setSubmitFormIsActive(true);
   };
 
+  const onLikeButtonClick = async (action: boolean, id: string) => {
+    if (!user) toast.warn('You need to be logged in to like posts');
+    const res = await updateLikes(action, id);
+    const response = await res.json();
+    if (response.post) {
+      setActualPosts(actualPosts.map(post => {
+        return (post._id === id && response.post) ? response.post : post;
+      }))
+    }
+  };
+
   return (
     <Styled.Root>
       <div className={'content-wrapper'}>
@@ -54,13 +65,21 @@ const Home = (props: Props) => {
             const showDate = date.toLocaleDateString('en-US', {
               day: 'numeric', hour12: false, weekday: 'short',
               year: 'numeric', month: 'short', hour: 'numeric', minute: 'numeric' });
+            const isLiked = post.likes.some(id => user?._id === id);
+            const likes = !!post.likes.length ? post.likes.length : '';
             return (
               <Styled.Post key={post._id}>
                 <h4>{post.title}</h4>
                 <Styled.PostUnderTitle>
-                  <Link href={'/user/[id]'} as={`/user/${post.author._id}`} passHref>
-                    <Styled.PostAuthor as={'a'}>👤 <span>{post.author.fullName}</span></Styled.PostAuthor>
-                  </Link>
+                  <Styled.PostUnderTitleLeft>
+                    <Link href={'/user/[id]'} as={`/user/${post.author._id}`} passHref>
+                      <Styled.PostAuthor as={'a'}>👤 <span>{post.author.fullName}</span></Styled.PostAuthor>
+                    </Link>
+                    <Styled.PostLike
+                      isLiked={isLiked}
+                      onClick={() => onLikeButtonClick(!isLiked, post._id)}
+                    ><span>{isLiked ? '❤' : '🤍'}{likes && <i>{likes}</i>}</span></Styled.PostLike>
+                  </Styled.PostUnderTitleLeft>
                   <time>{showDate}</time>
                 </Styled.PostUnderTitle>
                 <Styled.PostImage>

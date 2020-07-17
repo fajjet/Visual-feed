@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 import {useSelector} from "react-redux";
 
 import { PostWithPopulatedUsers, User } from 'types';
-import { createPost } from "utils/api/posts";
+import { createPost } from "utils/api";
 import Styled from './SubmitPost.style';
 import { TextInput } from "components";
 import { State } from "store/initialState";
@@ -81,6 +81,7 @@ const SubmitPost = (props: Props) => {
             value={description}
             label={'Short description'}
             onChange={v => setDescription(v)}
+            as={'textarea'}
           />
           <br/>
           <Styled.ButtonsBar>

@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 // import { provider } from 'styles';
 
 const Home: any = {};
@@ -78,6 +78,7 @@ Home.Post = styled.article`
 Home.PostImage = styled.div`
   display: flex;
   justify-content: center;
+  position: relative;
   img {
     max-height: 70vh;
     margin-bottom: 0;
@@ -99,6 +100,32 @@ Home.PostUnderTitle = styled.div`
   display: flex;
   justify-content: space-between;
   margin-bottom: 0.5rem;
+`;
+
+Home.PostLike = styled.div<{ isLiked: boolean }>`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  margin-left: 1rem;
+  ${({ isLiked }) => css`
+    ${isLiked && css`
+        color: red;
+     `}
+  `}
+  span {
+    display: inline-block;
+  }
+  i {
+    font-size: 0.9rem;
+    margin-left: 0.25rem;
+    font-weight: 700;
+  }
+`;
+
+Home.PostUnderTitleLeft = styled.div`
+  display: flex;
+  align-items: center;
 `;
 
 export default Home;

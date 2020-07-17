@@ -12,6 +12,7 @@ interface Props {
   label?: string;
   minLength?: number;
   placeholder?: string;
+  as?: 'input' | 'textarea';
 }
 
 const TextInput = (props: Props) => {
@@ -24,6 +25,7 @@ const TextInput = (props: Props) => {
     minLength,
     name: passedName,
     placeholder = '',
+    as = 'input',
   } = props;
   const name = passedName || label;
 
@@ -35,7 +37,7 @@ const TextInput = (props: Props) => {
     <Styled.Root>
       <label>
         {label && <Styled.Label>{label}</Styled.Label>}
-        <input
+        <Styled.Input
           name={name}
           type={type}
           onChange={onChange}
@@ -43,6 +45,7 @@ const TextInput = (props: Props) => {
           required={required}
           minLength={minLength}
           placeholder={placeholder}
+          as={as}
         />
       </label>
     </Styled.Root>

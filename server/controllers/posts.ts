@@ -66,4 +66,36 @@ router.get('/api/posts', limit, async (req: any, res: Response) => {
   }
 });
 
+router.put('/api/posts/like/:id', limit, auth, async (req: any, res: Response) => {
+  try{
+    const { id } = req.params;
+    const user = res.locals.user;
+    const post = await Post.findOne({ _id: id }).populate('author', 'firstName lastName fullName');
+    if (!post) throw { error: 'Post not found' };
+    const postIsLiked = post.likes.some(uid => user._id.equals(uid));
+    if (postIsLiked) throw { error: 'Post has already been liked' };
+    post.likes = post.likes.concat(user._id);
+    await post.save();
+    res.status(200).send({ post });
+  } catch (error) {
+    res.status(400).send(error);
+  }
+});
+
+router.put('/api/posts/dislike/:id', limit, auth, async (req: any, res: Response) => {
+  try{
+    const { id } = req.params;
+    const user = res.locals.user;
+    const post = await Post.findOne({ _id: id }).populate('author', 'firstName lastName fullName');
+    if (!post) throw { error: 'Post not found' };
+    const postIsLiked = post.likes.some(uid => user._id.equals(uid));
+    if (!postIsLiked) throw { error: `Post hasn't been liked yet` };
+    post.likes = post.likes.filter(uid => !user._id.equals(uid));
+    await post.save();
+    res.status(200).send({ post });
+  } catch (error) {
+    res.status(400).send(error);
+  }
+});
+
 export default router;

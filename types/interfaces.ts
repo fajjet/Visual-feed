@@ -48,7 +48,7 @@ export interface Post {
   image: string;
   creationTime: number;
   description?: string;
-  likes?: string[];
+  likes: string[];
 }
 
 export interface PostWithPopulatedUsers extends Omit<Post, 'author'>{

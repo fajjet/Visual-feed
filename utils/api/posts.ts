@@ -4,7 +4,7 @@ import { transformObjectToFormData } from "../helpers";
 
 import { HttpResponse, Post, PostWithPopulatedUsers } from "types";
 
-interface PostPayload extends Omit<Post, 'creationTime' | '_id' | 'image'> {
+interface PostPayload extends Omit<Post, 'creationTime' | '_id' | 'image' | 'likes'> {
   image: File;
 }
 
@@ -17,6 +17,16 @@ export const createPost = async (data: PostPayload)
       Accept: 'application/json',
     },
     body: formData,
+  });
+};
+
+export const updateLikes = async (action: boolean, id: string)
+  : Promise<HttpResponse<{ post?: PostWithPopulatedUsers, error?: string }>> => {
+  return await fetch(`/api/posts/${action ? 'like' : 'dislike'}/${id}`, {
+    method: 'PUT',
+    headers: {
+      Accept: 'application/json',
+    },
   });
 };
 
