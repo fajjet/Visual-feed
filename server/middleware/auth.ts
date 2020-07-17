@@ -16,7 +16,7 @@ export const auth = async(req: any, res: any, next: any) => {
       throw new Error('You have no permission');
     }
 
-    const user = await User.findOne({ _id: data._id, 'sessions.token': token });
+    const user = await User.findOne({ _id: data._id, 'sessions.token': token }, { posts: 0 });
 
     if (!user) {
       throw new Error('You have no permission');

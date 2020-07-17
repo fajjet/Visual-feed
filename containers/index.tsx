@@ -12,3 +12,5 @@ export { default as User } from './pages/User/User';
 export { default as SignUpForm } from './forms/SignUpForm/SignUpForm';
 export { default as SignInForm } from './forms/SignInForm/SignInForm';
 export { default as SubmitPost } from './forms/SubmitPost/SubmitPost';
+
+export { default as Posts } from './posts/Posts/Posts';

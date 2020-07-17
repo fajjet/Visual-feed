@@ -29,7 +29,7 @@ export const UserSchema = new Schema({
     uag: { type: String },
     city: { type: String },
     lastSeenDate: { type: Number },
-  }]
+  }],
 }, {
   toJSON: { virtuals: true },
   toObject: { virtuals: true }
@@ -44,7 +44,7 @@ UserSchema.pre<IUser>('save', async function (next) {
 });
 
 UserSchema.statics.findByCredentials = async (email: string, password: string) => {
-  const user = await User.findOne({ email });
+  const user = await User.findOne({ email }, { posts: 0 });
   const throwAnErr = () => { throw { error: 'Invalid login credentials' } };
   if (!user) throwAnErr();
   const isPasswordMatch = await bcrypt.compare(password, user?.password || '');
@@ -79,6 +79,12 @@ UserSchema.methods.getClientData = function(this: IUser) {
 UserSchema.virtual('fullName').get(function (this: IUser) {
   if (!(this.firstName && this.lastName)) return '';
   return capitalizeFirstLetter(this.firstName) + ' ' + capitalizeFirstLetter(this.lastName);
+});
+
+UserSchema.virtual('posts', {
+  ref: 'Post',
+  localField: '_id',
+  foreignField: 'author',
 });
 
 const User: IUserModel = model<IUser, IUserModel>('User', UserSchema);

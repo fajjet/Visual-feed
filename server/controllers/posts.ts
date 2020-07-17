@@ -59,7 +59,21 @@ router.post('/api/posts', postCreationLimiter, auth, async (req: any, res: Respo
 
 router.get('/api/posts', limit, async (req: any, res: Response) => {
   try{
-    const posts = await Post.find({}).populate('author', 'firstName lastName fullName');
+    const posts = await Post.find({}).sort({ creationTime: -1 })
+      .populate('author', 'firstName lastName fullName')
+      .populate('likes', 'firstName lastName fullName');
+    res.status(200).send({ posts });
+  } catch (error) {
+    res.status(400).send(error);
+  }
+});
+
+router.get('/api/posts/user/:id', limit, async (req: any, res: Response) => {
+  try{
+    const { id } = req.params;
+    const posts = await Post.find({ author: id }).sort({ creationTime: -1 })
+      .populate('author', 'firstName lastName fullName')
+      .populate('likes', 'firstName lastName fullName');
     res.status(200).send({ posts });
   } catch (error) {
     res.status(400).send(error);
@@ -70,15 +84,17 @@ router.put('/api/posts/like/:id', limit, auth, async (req: any, res: Response) =
   try{
     const { id } = req.params;
     const user = res.locals.user;
-    const post = await Post.findOne({ _id: id }).populate('author', 'firstName lastName fullName');
+    const post = await Post.findOne({ _id: id })
+      .populate('author', 'firstName lastName fullName')
+      .populate('likes', 'firstName lastName fullName');
     if (!post) throw { error: 'Post not found' };
-    const postIsLiked = post.likes.some(uid => user._id.equals(uid));
-    if (postIsLiked) throw { error: 'Post has already been liked' };
-    post.likes = post.likes.concat(user._id);
+    const postIsLiked = post.likes.some(u => user._id.equals(u._id));
+    if (postIsLiked) return res.status(200).send({ post });
+    post.likes = post.likes.concat(user);
     await post.save();
-    res.status(200).send({ post });
+    return res.status(200).send({ post });
   } catch (error) {
-    res.status(400).send(error);
+    return res.status(400).send(error);
   }
 });
 
@@ -86,15 +102,17 @@ router.put('/api/posts/dislike/:id', limit, auth, async (req: any, res: Response
   try{
     const { id } = req.params;
     const user = res.locals.user;
-    const post = await Post.findOne({ _id: id }).populate('author', 'firstName lastName fullName');
+    const post = await Post.findOne({ _id: id })
+      .populate('author', 'firstName lastName fullName')
+      .populate('likes', 'firstName lastName fullName');
     if (!post) throw { error: 'Post not found' };
-    const postIsLiked = post.likes.some(uid => user._id.equals(uid));
-    if (!postIsLiked) throw { error: `Post hasn't been liked yet` };
-    post.likes = post.likes.filter(uid => !user._id.equals(uid));
+    const postIsLiked = post.likes.some(u => user._id.equals(u._id));
+    if (!postIsLiked) return res.status(200).send({ post });
+    post.likes = post.likes.filter(u => !user._id.equals(u._id));
     await post.save();
-    res.status(200).send({ post });
+    return res.status(200).send({ post });
   } catch (error) {
-    res.status(400).send(error);
+    return res.status(400).send(error);
   }
 });
 

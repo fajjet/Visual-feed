@@ -1,14 +1,14 @@
 import styled, { css } from 'styled-components';
 // import { provider } from 'styles';
 
-const Home: any = {};
+const Posts: any = {};
 
-Home.Root = styled.div`
+Posts.Root = styled.div`
   padding: 8rem 0;
   min-height: 100vh;
 `;
 
-Home.AddButton = styled.div`
+Posts.AddButton = styled.div`
   height: 3rem;
   width: 3rem;
   position: fixed;
@@ -58,10 +58,10 @@ Home.AddButton = styled.div`
   }
 `;
 
-Home.Post = styled.article`
+Posts.Post = styled.article`
   position: relative;
   margin-bottom: 3rem;
-  padding-bottom: 3.5rem;
+  padding-bottom: 3.75rem;
   pre{
     background-color: #ebebeb;
     margin-bottom: 0;
@@ -71,11 +71,11 @@ Home.Post = styled.article`
     font-size: 0.75rem;
   }
   &:not(:last-of-type) {
-    border-bottom: 1px solid rgba(0,0,0,0.3);
+     border-bottom: 1px solid steelblue;
   }
 `;
 
-Home.PostImage = styled.div`
+Posts.PostImage = styled.div`
   display: flex;
   justify-content: center;
   position: relative;
@@ -86,7 +86,7 @@ Home.PostImage = styled.div`
   background-color: #ebebeb;
 `;
 
-Home.PostAuthor = styled.div`
+Posts.PostAuthor = styled.div`
   border: none !important;
   font-size: 0.8rem;
   font-weight: 500;
@@ -96,18 +96,19 @@ Home.PostAuthor = styled.div`
   }
 `;
 
-Home.PostUnderTitle = styled.div`
+Posts.PostUnderTitle = styled.div`
   display: flex;
   justify-content: space-between;
   margin-bottom: 0.5rem;
 `;
 
-Home.PostLike = styled.div<{ isLiked: boolean }>`
+Posts.PostLike = styled.div<{ isLiked: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  margin-left: 1rem;
+  user-select: none;
+  color: gray;
   &:hover {
     color: steelblue;
   }
@@ -120,15 +121,30 @@ Home.PostLike = styled.div<{ isLiked: boolean }>`
     display: inline-block;
   }
   i {
+    display: inline-block;
     font-size: 0.9rem;
     margin-left: 0.25rem;
     font-weight: 700;
+    @keyframes numInit {
+      0%{
+        transform: translateY(5px);
+        opacity: 0;
+      }
+      100%{
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+    animation: numInit 0.3s ease forwards;
   }
 `;
 
-Home.PostUnderTitleLeft = styled.div`
+Posts.PostUnderTitleLeft = styled.div`
   display: flex;
   align-items: center;
+  a{
+   margin-right: 1rem;
+  }
 `;
 
-export default Home;
+export default Posts;

@@ -27,6 +27,7 @@ router.get('/api/users', apiLimiter, async (req: express.Request, res: express.R
     const users = await User.find({}, {
       password: 0,
       sessions: 0,
+      posts: 0,
     });
     res.status(200).send({ users });
   } catch (error) {
@@ -40,6 +41,9 @@ router.get('/api/users/:id', apiLimiter, async (req: express.Request, res: expre
     const user = await User.findOne({ _id: id }, {
       password: 0,
       sessions: 0,
+    }).populate({
+      path: 'posts',
+      populate: { path: 'likes', select: 'firstName lastName fullName' },
     });
     res.status(200).send({ user });
   } catch (error) {
@@ -50,7 +54,7 @@ router.get('/api/users/:id', apiLimiter, async (req: express.Request, res: expre
 router.post('/api/users', signUpLimit, async (req: express.Request, res: express.Response) => {
   try {
     const { user: userData, trace } = req.body;
-    const existedUser = await User.findOne({ email: userData.email });
+    const existedUser = await User.findOne({ email: userData.email }, { posts: 0 });
     if (existedUser) throw { error: 'User with the same email already exists' };
     const user = new User(userData);
     await user.save();

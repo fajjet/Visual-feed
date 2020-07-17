@@ -14,6 +14,7 @@ interface Props {
 }
 
 const UserPage = (props: Props) => {
+  console.log(props)
   return (
     <>
       <Head>
@@ -25,17 +26,17 @@ const UserPage = (props: Props) => {
 };
 
 export const getServerSideProps = async (context: NextPageContext) => {
-  let user = null;
+  const result = { user: null };
   if (context.req) {
     const id = context.query.id;
     const { origin } = absoluteUrl(context.req);
     const res = await nodeFetch(origin + '/api/users/' + id, { method: 'GET' });
     if (res.status === 200) {
       const response = await res.json();
-      user = response?.user;
+      result.user = response?.user;
     }
   }
-  return { props: { user } };
+  return { props: result };
 };
 
 

@@ -8,4 +8,17 @@ User.Root = styled.div`
   min-height: 100vh;
 `;
 
+User.Head = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+User.Role = styled.div`
+  background-color: steelblue;
+  color: white;
+  padding: 0.15rem 0.5rem;
+  border-radius: 5px;
+`;
+
 export default User;
