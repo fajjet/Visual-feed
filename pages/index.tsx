@@ -1,14 +1,14 @@
 import React from 'react';
 import Head from 'next/head';
 
-import { Post } from "types";
+import { PostWithPopulatedUsers } from "types";
 import { Home } from 'containers';
 import absoluteUrl from "next-absolute-url";
 import nodeFetch from "isomorphic-fetch";
 
 interface Props {
   pageProps: {
-    posts: Post[];
+    posts: PostWithPopulatedUsers[];
   }
 }
 
@@ -34,7 +34,7 @@ export const getServerSideProps = async (context: any) => {
     const response = await res.json();
     posts = response?.posts;
   }
-  return { props: { posts } };
+  return { props: { posts: posts || [] } };
 };
 
 export default React.memo(HomePage);

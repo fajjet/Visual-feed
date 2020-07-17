@@ -29,7 +29,7 @@ const limit = rateLimit({
 
 router.post('/api/posts', postCreationLimiter, auth, async (req: any, res: Response) => {
   try {
-    const { title, description, authorId } = req.body;
+    const { title, description, author } = req.body;
     const { image } = req.files;
     const creationTime = Date.now();
 
@@ -47,9 +47,10 @@ router.post('/api/posts', postCreationLimiter, auth, async (req: any, res: Respo
     const { secure_url: url } = uploadRes || {};
     if (!url) throw { error: `Image upload problem, try again later` };
 
-    const post = new Post({ title, description, creationTime, authorId, image: url });
+    const post = new Post({ title, description, creationTime, author, image: url });
     await post.save();
-    res.status(200).send({ post });
+    const user = res.locals.user;
+    res.status(200).send({ post: { ...post.toObject(), author: user } });
 
   } catch (error) {
     res.status(400).send(error);
@@ -58,7 +59,7 @@ router.post('/api/posts', postCreationLimiter, auth, async (req: any, res: Respo
 
 router.get('/api/posts', limit, async (req: any, res: Response) => {
   try{
-    const posts = await Post.find({});
+    const posts = await Post.find({}).populate('author', 'firstName lastName fullName');
     res.status(200).send({ posts });
   } catch (error) {
     res.status(400).send(error);

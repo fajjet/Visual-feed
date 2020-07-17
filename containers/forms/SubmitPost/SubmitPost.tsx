@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import { toast } from "react-toastify";
 import {useSelector} from "react-redux";
 
-import { Post, User } from 'types';
+import { PostWithPopulatedUsers, User } from 'types';
 import { createPost } from "utils/api/posts";
 import Styled from './SubmitPost.style';
 import { TextInput } from "components";
@@ -11,7 +11,7 @@ import { State } from "store/initialState";
 interface Props {
   user: User;
   onClose(): void;
-  onSuccessSubmit(post: Post | undefined): void;
+  onSuccessSubmit(post: PostWithPopulatedUsers | undefined): void;
   isActive?: boolean;
 }
 
@@ -31,7 +31,7 @@ const SubmitPost = (props: Props) => {
       if (!user) throw 'Not authorized';
       if (!image) throw 'No image selected';
       setLoading(true);
-      const res = await createPost({ authorId: user._id, title, description, image });
+      const res = await createPost({ author: user._id, title, description, image });
       const response = await res.json();
       setLoading(false);
       if (res.status === 200) {

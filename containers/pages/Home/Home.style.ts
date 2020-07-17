@@ -67,6 +67,9 @@ Home.Post = styled.article`
     margin-bottom: 0;
     margin-top: 1.5rem;
   }
+  time {
+    font-size: 0.85rem;
+  }
   &:not(:last-of-type) {
     border-bottom: 1px solid rgba(0,0,0,0.3);
   }
@@ -80,6 +83,16 @@ Home.PostImage = styled.div`
     margin-bottom: 0;
   }
   background-color: #ebebeb;
+`;
+
+Home.PostAuthor = styled.div`
+  border: none !important;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: steelblue;
+  span {
+    padding-left: 3px;
+  }
 `;
 
 Home.PostUnderTitle = styled.div`

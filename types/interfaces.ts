@@ -43,9 +43,14 @@ export interface HttpResponse<T> extends Response {
 
 export interface Post {
   _id: string;
-  authorId: string;
+  author: string;
   title: string;
   image: string;
   creationTime: number;
   description?: string;
+  likes?: string[];
+}
+
+export interface PostWithPopulatedUsers extends Omit<Post, 'author'>{
+  author: User;
 }

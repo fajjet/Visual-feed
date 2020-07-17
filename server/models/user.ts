@@ -77,6 +77,7 @@ UserSchema.methods.getClientData = function(this: IUser) {
 };
 
 UserSchema.virtual('fullName').get(function (this: IUser) {
+  if (!(this.firstName && this.lastName)) return '';
   return capitalizeFirstLetter(this.firstName) + ' ' + capitalizeFirstLetter(this.lastName);
 });
 
