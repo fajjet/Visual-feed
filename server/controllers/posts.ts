@@ -38,7 +38,7 @@ router.post('/api/posts', postCreationLimiter, auth, async (req: any, res: Respo
     const isValidExt = validateRegex.test(image.name);
     if (!isValidExt) throw { error: 'Allowed image extensions: ' + allowedImageExts.join(', ') };
     const sizeMb = image.size / 1024 / 1024;
-    if (sizeMb > 1) throw { error: 'Image max size is 1 MB' };
+    if (sizeMb > 5) throw { error: 'Image max size is 5 MB' };
 
     const uploadRes = await cloudinary.v2.uploader.upload(image.tempFilePath, {
       width: 2000, height: 2000, crop: "limit"
