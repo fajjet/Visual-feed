@@ -64,8 +64,8 @@ export const logout = async (selection: LogoutSelectionType)
 };
 
 export const getUserTrace = async () : Promise<Trace> => {
-  const trace = await (await fetch('http://www.geoplugin.net/json.gp')).json();
-  const { geoplugin_city: city, geoplugin_request: ip } = trace || {};
+  const trace = await (await fetch('https://ipinfo.io?token='+process.env.IPINFO_API_KEY)).json();
+  const { city, ip } = trace || {};
   const uag = navigator.userAgent;
   return { city: city || '', ip: ip || '', uag: uag || '' };
 };
