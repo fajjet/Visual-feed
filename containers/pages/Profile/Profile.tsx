@@ -1,6 +1,5 @@
 import React from 'react';
 import { useSelector, useDispatch } from "react-redux";
-import Router from 'next/router';
 
 import ChangePasswordForm from "./ChangePasswordForm";
 import ProfileDataForm from './ProfileDataForm';
@@ -26,7 +25,7 @@ const Profile = (props: Props) => {
       const logoutCurrentSession = () => {
         if (res.status === 200) {
           dispatch(actions.setUser(undefined));
-          Router.push('/');
+          location.replace('/');
         } else {
           throw new Error('Some error');
         }

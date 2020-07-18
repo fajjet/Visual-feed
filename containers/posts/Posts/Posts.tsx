@@ -41,7 +41,10 @@ const Posts = (props: Props) => {
   }, [loadMorePosts]);
 
   const onLikeButtonClick = async (action: boolean, id: string) => {
-    if (!user) toast.warn('You need to be logged in to like posts');
+    if (!user) {
+      toast.warn('You need to be logged in to like posts');
+      return;
+    }
     const res = await updateLikes(action, id);
     const response = await res.json();
     if (response.post) {
