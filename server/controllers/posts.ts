@@ -57,13 +57,16 @@ router.post('/api/posts', postCreationLimiter, auth, async (req: any, res: Respo
   }
 });
 
-router.get('/api/posts', limit, async (req: any, res: Response) => {
+router.get('/api/posts/:page?', limit, async (req: any, res: Response) => {
   try{
-    const posts = await Post.find({}).sort({ creationTime: -1 })
+    const { page } = req.params;
+    const posts = await Post.find({})
+      .sort({ creationTime: -1 }).limit(5).skip(Number(page) || 0)
       .populate('author', 'firstName lastName fullName')
       .populate('likes', 'firstName lastName fullName');
     res.status(200).send({ posts });
   } catch (error) {
+    console.log(error)
     res.status(400).send(error);
   }
 });

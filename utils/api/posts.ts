@@ -30,9 +30,9 @@ export const updateLikes = async (action: boolean, id: string)
   });
 };
 
-export const getPosts = async ()
-  : Promise<HttpResponse<{ posts: Post[], error?: string }>> => {
-  return await fetch('/api/posts', {
+export const getPosts = async (skip: number)
+  : Promise<HttpResponse<{ posts: PostWithPopulatedUsers[], error?: string }>> => {
+  return await fetch('/api/posts/' + skip, {
     method: 'GET',
     headers: { Accept: 'application/json' },
   });

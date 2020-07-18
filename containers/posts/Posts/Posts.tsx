@@ -12,11 +12,12 @@ import Link from "next/link";
 interface Props {
   posts: PostWithPopulatedUsers[];
   newPost?: PostWithPopulatedUsers | null;
+  loadMorePosts?: PostWithPopulatedUsers[] | null;
   view?: 'user' | 'home';
 }
 
 const Posts = (props: Props) => {
-  const { posts, newPost, view = 'home' } = props;
+  const { posts, newPost, view = 'home', loadMorePosts } = props;
   const user = useSelector((state: State) => state.app.user);
   const [actualPosts, setActualPosts] = useState<PostWithPopulatedUsers[]>([]);
 
@@ -30,6 +31,14 @@ const Posts = (props: Props) => {
       if (!find) setActualPosts([ newPost, ...actualPosts ]);
     }
   }, [newPost]);
+
+  useEffect(() => {
+    if (!!loadMorePosts?.length) {
+      const anyPost = loadMorePosts[0];
+      const find = actualPosts.some(p => p._id === anyPost._id);
+      if (!find) setActualPosts([ ...actualPosts, ...loadMorePosts ]);
+    }
+  }, [loadMorePosts]);
 
   const onLikeButtonClick = async (action: boolean, id: string) => {
     if (!user) toast.warn('You need to be logged in to like posts');

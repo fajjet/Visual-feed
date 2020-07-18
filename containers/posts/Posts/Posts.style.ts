@@ -110,6 +110,7 @@ Posts.PostLike = styled.div<{ isLiked: boolean }>`
   user-select: none;
   color: gray;
   position: relative;
+  transition: color 0.15s ease;
   &:hover {
     color: steelblue;
   }
@@ -152,6 +153,7 @@ Posts.LikesList = styled.div`
     border: none;
     color: inherit !important;
     display: inline-block;
+    font-size: 0.9rem;
     &:hover{
       text-decoration: underline;
     }

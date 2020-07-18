@@ -21,7 +21,7 @@ Tooltip.Tooltip = styled.div`
     height: 0;
     border-left: 9px solid transparent;
     border-right: 9px solid transparent;
-    border-top: 10px solid white;
+    border-top: 10px solid steelblue;
     position: absolute;
     top: 100%;
     left: 25px;
@@ -37,12 +37,12 @@ Tooltip.Tooltip = styled.div`
 `;
 
 Tooltip.Content = styled.div`
-  padding: 1rem;
-  background: white;
-  box-shadow: 0 0 0 rgba(0, 0, 0, 0.5);
+  color: white;
+  box-shadow: 0 0 0 steelblue;
   border-radius: 7px;
   min-width: 67px;
   position: relative;
+  background-color: steelblue;
 `;
 
 Tooltip.ContentWrapper = styled.div``;
@@ -64,7 +64,7 @@ Tooltip.Root = styled.div`
       transition: all 0.3s ease;
     }
     ${Tooltip.Content} {
-      box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 5px 15px steelblue;
       transition: all 0.3s ease;
     }
   }

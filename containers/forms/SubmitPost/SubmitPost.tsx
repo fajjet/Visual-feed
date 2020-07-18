@@ -41,6 +41,9 @@ const SubmitPost = (props: Props) => {
         setImage(undefined);
         formRef.current?.reset();
         onSuccessSubmit(response.post);
+        window.scroll({
+          top: 0,
+        });
       } else {
         toast.error(response.error);
       }
