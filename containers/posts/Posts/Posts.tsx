@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
+import { Tooltip } from "components";
 import { updateLikes } from 'utils/api';
 import Styled from './Posts.style';
 import { State } from "store/initialState";
@@ -63,10 +64,25 @@ const Posts = (props: Props) => {
                     <Styled.PostAuthor as={'a'}>👤 <span>{post.author.fullName}</span></Styled.PostAuthor>
                   </Link>
                 )}
+              <div style={{ position: 'relative' }} data-tooltip={true}>
+                {!!likes && (<Tooltip>
+                  <Styled.LikesList>
+                    {post.likes.map(u => {
+                      return (
+                        <Link href={'/user/[id]'} as={`/user/${u._id}`} passHref key={u._id}>
+                          <a>{u.fullName}</a>
+                        </Link>
+                      )
+                    })}
+                  </Styled.LikesList>
+                </Tooltip>)}
                 <Styled.PostLike
                   isLiked={isLiked}
                   onClick={() => onLikeButtonClick(!isLiked, post._id)}
-                ><span>❤{likes && <i>{likes}</i>}</span></Styled.PostLike>
+                >
+                  <span>❤{!!likes && <i>{likes}</i>}</span>
+                </Styled.PostLike>
+              </div>
               </Styled.PostUnderTitleLeft>
               <time>{showDate}</time>
             </Styled.PostUnderTitle>

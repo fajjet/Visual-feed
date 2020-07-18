@@ -22,7 +22,7 @@ const User = (props: Props) => {
             </Styled.Head>
             <hr/>
             <section>
-              <h4>User posts</h4>
+              <h4 style={{ color: 'steelblue' }}>User posts: {data?.posts?.length}</h4>
               {!!data?.posts?.length && (
                 <Posts posts={data?.posts} view={'user'}/>
               )}

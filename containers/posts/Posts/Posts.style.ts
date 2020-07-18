@@ -109,6 +109,7 @@ Posts.PostLike = styled.div<{ isLiked: boolean }>`
   cursor: pointer;
   user-select: none;
   color: gray;
+  position: relative;
   &:hover {
     color: steelblue;
   }
@@ -136,6 +137,24 @@ Posts.PostLike = styled.div<{ isLiked: boolean }>`
       }
     }
     animation: numInit 0.3s ease forwards;
+  }
+`;
+
+Posts.LikesList = styled.div`
+  padding: 1rem;
+  max-height: 5rem;
+  overflow-y: auto;
+  li {
+    font-size: 0.85rem;
+    margin-bottom: 0;
+  }
+  a {
+    border: none;
+    color: inherit !important;
+    display: inline-block;
+    &:hover{
+      text-decoration: underline;
+    }
   }
 `;
 

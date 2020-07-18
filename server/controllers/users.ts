@@ -43,6 +43,7 @@ router.get('/api/users/:id', apiLimiter, async (req: express.Request, res: expre
       sessions: 0,
     }).populate({
       path: 'posts',
+      options: { sort: { creationTime: -1 } },
       populate: { path: 'likes', select: 'firstName lastName fullName' },
     });
     res.status(200).send({ user });
