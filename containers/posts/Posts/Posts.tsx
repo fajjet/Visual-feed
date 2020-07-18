@@ -61,7 +61,7 @@ const Posts = (props: Props) => {
         const showDate = date.toLocaleDateString('en-US', {
           day: 'numeric', hour12: false,
           month: 'short', hour: 'numeric', minute: 'numeric', year: 'numeric' });
-        const isLiked = post.likes.some(u => user?._id === u._id);
+        const isLiked = post.likes.some(u => u && user?._id === u._id);
         const likes = !!post.likes.length ? post.likes.length : '';
         return (
           <Styled.Post key={post._id}>
@@ -78,8 +78,8 @@ const Posts = (props: Props) => {
                   <Styled.LikesList>
                     {post.likes.map(u => {
                       return (
-                        <Link href={'/user/[id]'} as={`/user/${u._id}`} passHref key={u._id}>
-                          <a>{u.fullName}</a>
+                        <Link href={'/user/[id]'} as={`/user/${u?._id}`} passHref key={u?._id}>
+                          <a>{u?.fullName}</a>
                         </Link>
                       )
                     })}
