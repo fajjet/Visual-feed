@@ -36,7 +36,7 @@
     "request": "^2.88.2",
     "request-promise": "^4.2.5",
     "styled-components": "^5.1.0",
-    "ws": "^7.3.1"
+    "redux-logger": "^3.0.6"
   },
   "devDependencies": {
     "@babel/core": "^7.10.4",
@@ -55,7 +55,6 @@
     "@types/styled-components": "^5.1.0",
     "babel-plugin-module-resolver": "^4.0.0",
     "nodemon": "^2.0.4",
-    "redux-logger": "^3.0.6",
     "ts-node": "^8.10.2",
     "typescript": "3.8.3"
   }
