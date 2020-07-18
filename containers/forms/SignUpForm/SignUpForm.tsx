@@ -47,7 +47,7 @@ const SignUpForm = () => {
               label={'First name'}
               onChange={(value: string) => setFirstName(normalizeNameInput(value))}
               type={'text'}
-              minLength={3}
+              minLength={2}
               required
             />
           </Styled.Field>
@@ -57,7 +57,7 @@ const SignUpForm = () => {
               label={'Last name'}
               onChange={(value: string) => setLastName(normalizeNameInput(value))}
               type={'text'}
-              minLength={3}
+              minLength={2}
               required
             />
           </Styled.Field>
