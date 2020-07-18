@@ -64,7 +64,7 @@ export const logout = async (selection: LogoutSelectionType)
 };
 
 export const getUserTrace = async () : Promise<Trace> => {
-  const trace = await (await fetch('https://ipinfo.io?token='+process.env.IPINFO_API_KEY)).json();
+  const trace = await (await fetch('https://ipinfo.io?token=d162c66cb8560f')).json();
   const { city, ip } = trace || {};
   const uag = navigator.userAgent;
   return { city: city || '', ip: ip || '', uag: uag || '' };
