@@ -26,10 +26,10 @@ export const auth = async(req: any, res: any, next: any) => {
   } catch (e) {
     if (nextShouldBeCalled) {
       res.status(409);
-      next();
     } else {
       res.status(401);
     }
+    next();
   }
 
 };
