@@ -1,11 +1,11 @@
 import React from 'react';
-import Head from 'next/head';
 
 import { User as UserType } from 'types';
 import { User } from 'containers';
 import {NextPageContext} from "next";
 import absoluteUrl from "next-absolute-url";
 import nodeFetch from "isomorphic-fetch";
+import {Helmet} from "../../components";
 
 interface Props {
   pageProps: {
@@ -14,29 +14,27 @@ interface Props {
 }
 
 const UserPage = (props: Props) => {
-  console.log(props)
+  const { user } = props.pageProps;
   return (
     <>
-      <Head>
-        <title>User page</title>
-      </Head>
-      <User data={props.pageProps.user}/>
+      <Helmet title={(user ? 'User: ' + user.fullName : 'User not found')}/>
+      <User data={user}/>
     </>
   )
 };
 
 export const getServerSideProps = async (context: NextPageContext) => {
-  const result = { user: null };
+  const props = { user: null };
   if (context.req) {
     const id = context.query.id;
     const { origin } = absoluteUrl(context.req);
     const res = await nodeFetch(origin + '/api/users/' + id, { method: 'GET' });
     if (res.status === 200) {
       const response = await res.json();
-      result.user = response?.user;
+      props.user = response?.user;
     }
   }
-  return { props: result };
+  return { props };
 };
 
 

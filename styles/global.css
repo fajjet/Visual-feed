@@ -11,6 +11,7 @@ body {
   color: black;
   max-width: inherit !important;
   padding: 0 !important;
+  overflow-x: hidden;
 }
 
 html {

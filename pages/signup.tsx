@@ -1,14 +1,12 @@
 import React from 'react';
-import Head from 'next/head';
 
 import { SignUp } from 'containers';
+import {Helmet} from "../components";
 
 const SignUpPage = () => {
   return (
     <>
-      <Head>
-        <title>Sign up page</title>
-      </Head>
+      <Helmet title={'Sign up'}/>
       <SignUp/>
     </>
   )

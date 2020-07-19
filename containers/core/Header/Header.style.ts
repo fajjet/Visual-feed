@@ -27,6 +27,29 @@ Header.Wrapper = styled.div`
 
 Header.Link = styled.div`
   margin-right: 2rem;
+  border-bottom: none !important;
+  position: relative;
+  transition: color 0.2s ease;
+  &:after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    background-color: steelblue;
+    height: 2px;
+    //transform-origin: left;
+    transform: scale(0, 3);
+    //opacity: 0;
+    transition: all 0.2s ease;
+  } 
+  &:hover {
+    color: steelblue;
+    &:after{
+      transform: none;
+      opacity: 1;
+    }
+  }
 `;
 
 Header.Left = styled.div`

@@ -1,6 +1,6 @@
 import React from 'react';
-import Head from 'next/head';
 
+import { Helmet } from 'components';
 import { PostWithPopulatedUsers } from "types";
 import { Home } from 'containers';
 import absoluteUrl from "next-absolute-url";
@@ -15,16 +15,16 @@ interface Props {
 const HomePage = (props: Props) => {
   return (
     <>
-      <Head>
-        <title>Home page</title>
-      </Head>
+      <Helmet title={'Home'}/>
       <Home posts={props.pageProps.posts}/>
     </>
   )
 };
 
 export const getServerSideProps = async (context: any) => {
-  let posts = [];
+  const props = {
+    posts: [],
+  };
   if (context.req) {
     const { origin } = absoluteUrl(context.req);
     const res = await nodeFetch(origin + '/api/posts', {
@@ -32,9 +32,9 @@ export const getServerSideProps = async (context: any) => {
       headers: { Accept: 'application/json' }
     });
     const response = await res.json();
-    posts = response?.posts;
+    props.posts = response?.posts || [];
   }
-  return { props: { posts: posts || [] } };
+  return { props };
 };
 
 export default React.memo(HomePage);

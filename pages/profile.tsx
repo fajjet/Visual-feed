@@ -1,8 +1,8 @@
 import React from 'react';
-import Head from 'next/head';
 import Cookies from "js-cookie";
 
 import { Profile } from 'containers';
+import { Helmet } from "components";
 
 interface Props {
   pageProps: {
@@ -14,9 +14,7 @@ const ProfilePage = (props: Props) => {
   const { tokenId } = props.pageProps || {};
   return (
     <>
-      <Head>
-        <title>Profile</title>
-      </Head>
+      <Helmet title={'Profile'}/>
       <Profile tokenId={tokenId}/>
     </>
   )

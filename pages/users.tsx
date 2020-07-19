@@ -1,10 +1,10 @@
 import React from 'react';
-import Head from 'next/head';
 
 import { Users } from 'containers';
 import absoluteUrl from "next-absolute-url";
 import nodeFetch from "isomorphic-fetch";
 import { User } from "types";
+import {Helmet} from "../components";
 
 interface Props {
   pageProps: {
@@ -15,9 +15,7 @@ interface Props {
 const UsersPage = (props: Props) => {
   return (
     <>
-      <Head>
-        <title>Users</title>
-      </Head>
+      <Helmet title={'Users'}/>
       <Users users={props.pageProps.users}/>
     </>
   )
