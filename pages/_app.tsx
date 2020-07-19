@@ -4,6 +4,7 @@ import absoluteUrl from 'next-absolute-url'
 import nodeFetch from 'isomorphic-fetch';
 import actionsCreators from 'store/actions';
 import { ToastContainer } from 'react-toastify';
+import Head from "next/head";
 
 import { wrapper } from 'store';
 import { Page } from 'containers';
@@ -40,6 +41,9 @@ const MyApp = (props: AppProps) => {
 
   return (
     <>
+      <Head>
+        <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1"/>
+      </Head>
       <Page>
         <Component {...propsPackage} key={key}/>
         <ToastContainer/>

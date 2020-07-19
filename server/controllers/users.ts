@@ -60,7 +60,7 @@ router.post('/api/users', signUpLimit, async (req: express.Request, res: express
     const user = new User(userData);
     await user.save();
     const { token, id } = await user.generateAuthToken(trace);
-    res.cookie('token', token, { httpOnly: true, secure: true });
+    res.cookie('token', token, { httpOnly: true });
     res.status(201).send({ user: user.getClientData(), tokenId: id });
   } catch (error) {
     res.status(400).send(error);
@@ -78,7 +78,7 @@ router.post('/api/users/auth', apiLimiter, async (req: express.Request, res: exp
     const { token, id } = await user.generateAuthToken(trace);
     const clientData = user?.getClientData();
 
-    res.cookie('token', token, { httpOnly: true, secure: true });
+    res.cookie('token', token, { httpOnly: true });
     return res.send({ user: clientData, tokenId: id });
 
   } catch (error) {
