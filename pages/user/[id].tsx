@@ -2,10 +2,10 @@ import React from 'react';
 
 import { User as UserType } from 'types';
 import { User } from 'containers';
-import {NextPageContext} from "next";
+import { NextPageContext } from "next";
 import absoluteUrl from "next-absolute-url";
 import nodeFetch from "isomorphic-fetch";
-import {Helmet} from "../../components";
+import { Helmet } from "components";
 
 interface Props {
   pageProps: {
@@ -28,7 +28,7 @@ export const getServerSideProps = async (context: NextPageContext) => {
   if (context.req) {
     const id = context.query.id;
     const { origin } = absoluteUrl(context.req);
-    const res = await nodeFetch(origin + '/api/users/user' + id, { method: 'GET' });
+    const res = await nodeFetch(origin + '/api/users/user/' + id, { method: 'GET' });
     if (res.status === 200) {
       const response = await res.json();
       props.user = response?.user;
