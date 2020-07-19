@@ -1,6 +1,5 @@
 import express, { Response } from 'express';
 import cloudinary from 'cloudinary';
-// @ts-ignore
 import rateLimit from 'express-rate-limit';
 
 import { auth } from '../middleware';
@@ -11,11 +10,15 @@ const router = express.Router();
 const allowedImageExts = ['jpg', 'jpeg', 'png', 'gif'];
 const validateRegex = new RegExp(`.(${allowedImageExts.join('|')})$`, 'i');
 
+const reqErrText = 'Too many requests to the server';
+
 const postCreationLimiter = rateLimit({
-  windowMs: 1 * (60 * 1000),
-  max: 5,
+  windowMs: 5 * (60 * 1000),
+  max: 15,
   message: {
-    error: 'Too many requests to the server',
+    status: 429,
+    error: reqErrText,
+    message: reqErrText,
   }
 });
 
@@ -23,7 +26,9 @@ const limit = rateLimit({
   windowMs: 1 * (60 * 1000),
   max: 15,
   message: {
-    error: 'Too many requests to the server',
+    status: 429,
+    error: reqErrText,
+    message: reqErrText,
   }
 });
 

@@ -12,15 +12,11 @@ export const auth = async(req: any, res: any, next: any) => {
 
     const data = token && jwt.verify(token, process.env.JWT_KEY);
 
-    if (!data) {
-      throw new Error('You have no permission');
-    }
+    if (!data) throw { error: 'You have no permission' };
 
     const user = await User.findOne({ _id: data._id, 'sessions.token': token }, { posts: 0 });
 
-    if (!user) {
-      throw new Error('You have no permission');
-    }
+    if (!user) throw { error: 'You have no permission' };
 
     res.locals.user = user;
     res.locals.userForClient = user?.getClientData();
@@ -30,10 +26,10 @@ export const auth = async(req: any, res: any, next: any) => {
   } catch (e) {
     if (nextShouldBeCalled) {
       res.status(409);
+      next();
     } else {
       res.status(401);
     }
-    next();
   }
 
 };

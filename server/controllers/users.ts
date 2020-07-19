@@ -1,23 +1,34 @@
 import express, {Request, Response} from 'express';
 import bcrypt from 'bcrypt';
-// @ts-ignore
 import rateLimit from 'express-rate-limit';
+
+
 
 import { auth } from '../middleware';
 
 import { LogoutSelectionType } from "../../types";
 import User, {IUser, IUserDocument} from "../models/user";
 
+const reqErrText = 'Too many requests to the server';
+
 const apiLimiter = rateLimit({
   windowMs: 1 * (60 * 1000),
   max: 30,
-  message: { error: 'Too many requests to the server' },
+  message: {
+    status: 429,
+    message: reqErrText,
+    error: reqErrText,
+  },
 });
 
 const signUpLimit = rateLimit({
-  windowMs: 1 * (60 * 1000),
-  max: 5,
-  message: { error: 'Too many requests to the server' },
+  windowMs: 5 * (60 * 1000),
+  max: 10,
+  message: {
+    status: 429,
+    message: reqErrText,
+    error: reqErrText,
+  },
 });
 
 const router = express.Router();
@@ -60,7 +71,7 @@ router.post('/api/users', signUpLimit, async (req: express.Request, res: express
     const user = new User(userData);
     await user.save();
     const { token, id } = await user.generateAuthToken(trace);
-    res.cookie('token', token, { httpOnly: true });
+    res.cookie('token', token, { httpOnly: true, secure: true });
     res.status(201).send({ user: user.getClientData(), tokenId: id });
   } catch (error) {
     res.status(400).send(error);
@@ -78,7 +89,7 @@ router.post('/api/users/auth', apiLimiter, async (req: express.Request, res: exp
     const { token, id } = await user.generateAuthToken(trace);
     const clientData = user?.getClientData();
 
-    res.cookie('token', token, { httpOnly: true });
+    res.cookie('token', token, { httpOnly: true, secure: true });
     return res.send({ user: clientData, tokenId: id });
 
   } catch (error) {

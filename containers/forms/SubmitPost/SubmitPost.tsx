@@ -64,7 +64,7 @@ const SubmitPost = (props: Props) => {
         <Styled.Content>
           <h4>Submit a new post</h4>
           <label>
-            Image
+            Image (max size 1.5 mb)
             <br/>
             <input
               type={'file'}
