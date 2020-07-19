@@ -23,13 +23,13 @@ export const auth = async(req: any, res: any, next: any) => {
 
     next();
 
-  } catch (e) {
+  } catch (error) {
     if (nextShouldBeCalled) {
       res.status(409);
+      next();
     } else {
-      res.status(401);
+      res.status(401).send(error);
     }
-    next();
   }
 
 };

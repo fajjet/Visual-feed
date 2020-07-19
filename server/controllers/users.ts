@@ -46,7 +46,7 @@ router.get('/api/users', apiLimiter, async (req: express.Request, res: express.R
   }
 });
 
-router.get('/api/users/:id', apiLimiter, async (req: express.Request, res: express.Response) => {
+router.get('/api/users/user/:id', apiLimiter, async (req: express.Request, res: express.Response) => {
   try {
     const { id } = req.params;
     const user = await User.findOne({ _id: id }, {
@@ -66,13 +66,13 @@ router.get('/api/users/:id', apiLimiter, async (req: express.Request, res: expre
 router.post('/api/users', signUpLimit, async (req: express.Request, res: express.Response) => {
   try {
     const { user: userData, trace } = req.body;
-    const existedUser = await User.findOne({ email: userData.email }, { posts: 0 });
+    const existedUser = await User.findOne({ email: userData.email }, { posts: 0, sessions: 0, password: 0 });
     if (existedUser) throw { error: 'User with the same email already exists' };
     const user = new User(userData);
     await user.save();
     const { token, id } = await user.generateAuthToken(trace);
-    res.cookie('token', token, { httpOnly: true, secure: true });
-    res.status(201).send({ user: user.getClientData(), tokenId: id });
+    res.cookie('token', token, { httpOnly: true, secure: process.env.NODE_ENV === 'production' });
+    res.status(201).send({ user, tokenId: id });
   } catch (error) {
     res.status(400).send(error);
   }
@@ -87,10 +87,9 @@ router.post('/api/users/auth', apiLimiter, async (req: express.Request, res: exp
       return res.status(401).send({ error: 'Login failed! Check authentication credentials' })
     }
     const { token, id } = await user.generateAuthToken(trace);
-    const clientData = user?.getClientData();
 
-    res.cookie('token', token, { httpOnly: true, secure: true });
-    return res.send({ user: clientData, tokenId: id });
+    res.cookie('token', token, { httpOnly: true, secure: process.env.NODE_ENV === 'production' });
+    return res.send({ user: user.toObject(), tokenId: id });
 
   } catch (error) {
     return res.status(400).send(error);
@@ -116,7 +115,7 @@ router.all('/api/users/me', apiLimiter, auth, async (req: Request, res: Response
     }
     res.send(user?.getClientData());
   } catch (error) {
-    res.status(400).send(error);
+    res.status(401).send(error);
   }
 });
 
@@ -134,7 +133,7 @@ router.post('/api/users/logout', apiLimiter, auth, async (req: express.Request, 
       });
     }
     await user.save();
-    res.send({ user: user?.getClientData() });
+    res.send({ user: user.getClientData() });
   } catch (error) {
     res.status(500).send(error);
   }
@@ -149,8 +148,12 @@ router.put('/api/users', apiLimiter, auth, async (req: express.Request, res: exp
     const { firstName, lastName } = updatedData;
     if (firstName) user.firstName = firstName;
     if (lastName) user.lastName = lastName;
-    await user.save();
-    res.status(200).send({ user: user.getClientData() });
+    if (user.isModified()) {
+      await user.save();
+      res.status(200).send({ user: user.getClientData() });
+    } else {
+      throw { error: 'Nothing to save' };
+    }
   } catch (error) {
     res.status(400).send(error);
   }

@@ -71,7 +71,6 @@ router.get('/api/posts/:page?', limit, async (req: any, res: Response) => {
       .populate('likes', 'firstName lastName fullName');
     res.status(200).send({ posts });
   } catch (error) {
-    console.log(error)
     res.status(400).send(error);
   }
 });

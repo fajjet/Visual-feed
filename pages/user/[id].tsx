@@ -28,7 +28,7 @@ export const getServerSideProps = async (context: NextPageContext) => {
   if (context.req) {
     const id = context.query.id;
     const { origin } = absoluteUrl(context.req);
-    const res = await nodeFetch(origin + '/api/users/' + id, { method: 'GET' });
+    const res = await nodeFetch(origin + '/api/users/user' + id, { method: 'GET' });
     if (res.status === 200) {
       const response = await res.json();
       props.user = response?.user;

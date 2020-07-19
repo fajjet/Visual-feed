@@ -9,7 +9,6 @@ import Head from "next/head";
 import { wrapper } from 'store';
 import { Page } from 'containers';
 
-
 import 'react-toastify/dist/ReactToastify.css';
 import 'normalize.css';
 import 'styles/global.css';
