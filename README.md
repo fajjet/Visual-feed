@@ -2,7 +2,7 @@
 
 ## description
 Simple app which has next features: 
-- sign up, sign in, autorization uses jwt tokens through sucure http-only cookies without sending authorization header 
+- sign up, sign in, autorization uses jwt tokens through secure http-only cookies without sending authorization header 
 - secure routes with rate limits for each route 
 - profile page with active sessions and forms to modify your personal data and password 
 - user list page and certain user page with its own posts 
