@@ -9,6 +9,7 @@ Simple app which has next features:
 - home page which shows all posts (with fetching more on scroll) and has button to submit a new post 
 - posts have got like feature (also it shows users who liked a post) 
 - forms cover validation for all possible cases and fire notifications
+- uploading images and store them on cloudinary
 
 ## tech stack
 jwt auth, express, mongoose (mongodb), nextjs (react), styled-components, redux, cloudinary
