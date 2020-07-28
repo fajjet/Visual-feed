@@ -1,6 +1,6 @@
 # mern-app
 
-(/test.svg)
+!(/test.svg)
 
 ## description
 Simple app which has next features: 
