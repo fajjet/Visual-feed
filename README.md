@@ -1,6 +1,6 @@
 # mern-app
 
-![Image of Yaktocat](/test.svg)
+(/test.svg)
 
 ## description
 Simple app which has next features: 
