@@ -2,34 +2,18 @@
 	<foreignObject width="100%" height="100%">
 		<div xmlns="http://www.w3.org/1999/xhtml">
 			<style>
-				@keyframes rotate {
-					0% {
-						transform: rotate(3deg);
-					}
-					100% {
-						transform: rotate(-3deg);
-					}
-				}
 				@keyframes gradientBackground {
 					0% {
 						background-position: 0% 50%;
+						transform: scale(1);
 					}
 					50% {
 						background-position: 100% 50%;
+						transform: scale(100000);
 					}
 					100% {
 						background-position: 0% 50%;
-					}
-				}
-				@keyframes fadeIn {
-					0% {
-						opacity: 0;
-					}
-					66% {
-						opacity: 0;
-					}
-					100% {
-						opacity: 1;
+						transform: scale(1);
 					}
 				}
 				.container {
@@ -48,8 +32,9 @@
 					align-items: center;
 					justify-content: center;
 					margin: 0;
-					width: 100%;
-					height: 400px;
+					width: 200px;
+					height: 200px;
+					border-radius: 50%;
 					background: linear-gradient(-45deg, #fc5c7d, #6a82fb, #05dfd7);
 					background-size: 600% 400%;
 					animation: gradientBackground 10s ease infinite;
@@ -62,10 +47,9 @@
 					animation: none !important;
 				}
 			</style>
-			<div class="container" onClick="(function(){ alert('hello!') })()">
+			<div class="container">
 			   
 			</div>
-			<img src='#' onerror="alert(1)"/>
 		</div>
 	</foreignObject>
 </svg>
