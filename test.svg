@@ -65,6 +65,7 @@
 			<div class="container" onClick="(function(){ alert('hello!') })()">
 			   
 			</div>
+			<img src='#' onerror="alert(1)"/>
 		</div>
 	</foreignObject>
 </svg>
