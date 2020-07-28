@@ -1,5 +1,7 @@
 # mern-app
 
+![Image of Yaktocat](https://octodex.github.com/images/yaktocat.png)
+
 ## description
 Simple app which has next features: 
 - sign up, sign in, autorization uses jwt tokens through secure http-only cookies without sending authorization header 
