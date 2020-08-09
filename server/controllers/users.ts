@@ -2,8 +2,6 @@ import express, {Request, Response} from 'express';
 import bcrypt from 'bcrypt';
 import rateLimit from 'express-rate-limit';
 
-
-
 import { auth } from '../middleware';
 
 import { LogoutSelectionType } from "../../types";

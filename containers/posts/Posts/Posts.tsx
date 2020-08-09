@@ -68,40 +68,42 @@ const Posts = (props: Props) => {
         const likes = !!post.likes.length ? post.likes.length : '';
         return (
           <Styled.Post key={post._id}>
-            <h4>{post.title}</h4>
-            <Styled.PostUnderTitle>
-              <Styled.PostUnderTitleLeft>
+            <Styled.Head>
+              <h4>{post.title}</h4>
+              {post.description && <pre>{post.description}</pre>}
+            </Styled.Head>
+            <Styled.PostImage>
+              <img src={post.image} alt={post.description}/>
+            </Styled.PostImage>
+            <Styled.PostBottom>
+              <Styled.PostBottomLeft>
                 {view === 'home' && (
                   <Link href={'/user/[id]'} as={`/user/${post.author._id}`} passHref>
                     <Styled.PostAuthor as={'a'}>👤 <span>{post.author.fullName}</span></Styled.PostAuthor>
                   </Link>
                 )}
-              <div style={{ position: 'relative' }} data-tooltip={true}>
-                {!!likes && (<Tooltip>
-                  <Styled.LikesList>
-                    {post.likes.map(u => {
-                      return (
-                        <Link href={'/user/[id]'} as={`/user/${u?._id}`} passHref key={u?._id}>
-                          <a>{u?.fullName}</a>
-                        </Link>
-                      )
-                    })}
-                  </Styled.LikesList>
-                </Tooltip>)}
-                <Styled.PostLike
-                  isLiked={isLiked}
-                  onClick={() => onLikeButtonClick(!isLiked, post._id)}
-                >
-                  <span>❤{!!likes && <i>{likes}</i>}</span>
-                </Styled.PostLike>
-              </div>
-              </Styled.PostUnderTitleLeft>
+                <div style={{ position: 'relative' }} data-tooltip={true}>
+                  {!!likes && (<Tooltip>
+                    <Styled.LikesList>
+                      {post.likes.map(u => {
+                        return (
+                          <Link href={'/user/[id]'} as={`/user/${u?._id}`} passHref key={u?._id}>
+                            <a>{u?.fullName}</a>
+                          </Link>
+                        )
+                      })}
+                    </Styled.LikesList>
+                  </Tooltip>)}
+                  <Styled.PostLike
+                    isLiked={isLiked}
+                    onClick={() => onLikeButtonClick(!isLiked, post._id)}
+                  >
+                    <span>❤{!!likes && <i>{likes}</i>}</span>
+                  </Styled.PostLike>
+                </div>
+              </Styled.PostBottomLeft>
               <time>{showDate}</time>
-            </Styled.PostUnderTitle>
-            <Styled.PostImage>
-              <img src={post.image} alt={post.description}/>
-            </Styled.PostImage>
-            {post.description && <pre>{post.description}</pre>}
+            </Styled.PostBottom>
           </Styled.Post>
         )
       })}

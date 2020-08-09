@@ -4,7 +4,7 @@ import styled, { css } from 'styled-components';
 const Home: any = {};
 
 Home.Root = styled.div`
-  padding: 8rem 0;
+  padding: 6rem 0;
   min-height: 100vh;
 `;
 

@@ -82,13 +82,11 @@ const Home = (props: Props) => {
   return (
     <Styled.Root>
       <div className={'content-wrapper'}>
-        <h1>Home</h1>
-        <hr/>
+        <h1>Feed</h1>
         <Styled.AddButton as={'button'} onClick={onAddButtonClick}>
           <span/>
         </Styled.AddButton>
         <section>
-          <br/>
           <Posts
             posts={posts}
             newPost={newPost}

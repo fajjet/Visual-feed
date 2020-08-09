@@ -4,7 +4,6 @@ import styled, { css } from 'styled-components';
 const Posts: any = {};
 
 Posts.Root = styled.div`
-  padding: 8rem 0;
   min-height: 100vh;
 `;
 
@@ -60,18 +59,18 @@ Posts.AddButton = styled.div`
 
 Posts.Post = styled.article`
   position: relative;
-  margin-bottom: 3rem;
-  padding-bottom: 3.75rem;
+  margin-bottom: 2rem;
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: 0 0 3px rgba(0,0,0,0.1);
   pre{
-    background-color: #ebebeb;
+    padding: 0;
     margin-bottom: 0;
-    margin-top: 1.5rem;
+    background: none;
+    padding-top: 0.5rem;
   }
   time {
     font-size: 0.75rem;
-  }
-  &:not(:last-of-type) {
-     border-bottom: 1px solid steelblue;
   }
 `;
 
@@ -80,10 +79,9 @@ Posts.PostImage = styled.div`
   justify-content: center;
   position: relative;
   img {
-    max-height: 70vh;
-    margin-bottom: 0;
+    width: 100%;
+    margin: 0;
   }
-  background-color: #ebebeb;
 `;
 
 Posts.PostAuthor = styled.div`
@@ -96,10 +94,10 @@ Posts.PostAuthor = styled.div`
   }
 `;
 
-Posts.PostUnderTitle = styled.div`
+Posts.PostBottom = styled.div`
   display: flex;
   justify-content: space-between;
-  margin-bottom: 0.5rem;
+  padding: 1.5rem 2rem;
 `;
 
 Posts.PostLike = styled.div<{ isLiked: boolean }>`
@@ -160,11 +158,18 @@ Posts.LikesList = styled.div`
   }
 `;
 
-Posts.PostUnderTitleLeft = styled.div`
+Posts.PostBottomLeft = styled.div`
   display: flex;
   align-items: center;
   a{
    margin-right: 1rem;
+  }
+`;
+
+Posts.Head = styled.div`
+  padding: 1.5rem 2rem;
+  h4 {
+    margin: 0;
   }
 `;
 
