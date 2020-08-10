@@ -60,9 +60,6 @@ Posts.AddButton = styled.div`
 Posts.Post = styled.article`
   position: relative;
   margin-bottom: 2rem;
-  background-color: white;
-  border-radius: 5px;
-  box-shadow: 0 0 3px rgba(0,0,0,0.1);
   pre{
     padding: 0;
     margin-bottom: 0;

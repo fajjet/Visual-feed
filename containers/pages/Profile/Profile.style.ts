@@ -46,6 +46,10 @@ Profile.Head = styled.span`
 Profile.Session = styled.div`
   padding-top: 0.5rem;
   max-width: 35rem;
+  margin-bottom: 1.75rem;
+  pre{
+    margin-bottom: 0;
+  }
 `;
 
 Profile.SessionHead = styled.span`

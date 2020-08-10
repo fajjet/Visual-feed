@@ -22,14 +22,19 @@ Users.ItemAvatar = styled.div`
   margin-right: 1rem;
 `;
 
-Users.Item = styled.div`
+Users.ItemInner = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 1rem;
   margin: 0;
+`;
+
+Users.Item = styled.div`
+  display: block;
   border: none !important;
   transition: background-color 0.15s ease;
+  margin-bottom: 1rem;
   &:hover{
     background-color: rgba(0,0,0,0.025);
   }

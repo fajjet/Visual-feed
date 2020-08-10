@@ -12,13 +12,22 @@ User.Head = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  h1 {
+    margin: 0;
+  }
 `;
 
 User.Role = styled.div`
-  background-color: steelblue;
-  color: white;
-  padding: 0.15rem 0.5rem;
+  color: black;
+  padding: 0.35rem 0.8rem;
   border-radius: 5px;
+  font-weight: 500;
+  text-transform: capitalize;
+  border: 1px solid rgba(0,0,0,0.125);
+`;
+
+User.Posts = styled.div`
+  padding-top: 2rem;
 `;
 
 export default User;

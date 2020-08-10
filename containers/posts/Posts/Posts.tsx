@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
-import { Tooltip } from "components";
+import { Tooltip, Card } from "components";
 import { updateLikes } from 'utils/api';
 import Styled from './Posts.style';
 import { State } from "store/initialState";
@@ -68,6 +68,7 @@ const Posts = (props: Props) => {
         const likes = !!post.likes.length ? post.likes.length : '';
         return (
           <Styled.Post key={post._id}>
+            <Card>
             <Styled.Head>
               <h4>{post.title}</h4>
               {post.description && <pre>{post.description}</pre>}
@@ -104,6 +105,7 @@ const Posts = (props: Props) => {
               </Styled.PostBottomLeft>
               <time>{showDate}</time>
             </Styled.PostBottom>
+            </Card>
           </Styled.Post>
         )
       })}

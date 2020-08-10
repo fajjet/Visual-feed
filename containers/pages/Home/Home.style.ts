@@ -25,15 +25,14 @@ Home.AddButton = styled.div`
   border: none;
   line-height: 0;
   overflow: hidden;
-  transition: all 0.35s ease;
+  transition: all 0.25s ease 0.15s;
   box-shadow: inset 0 0 10px rgba(0,0,0,0.1), 0 2px 10px rgba(0,0,0,0.175);
   span {
     display: inline-block;
     position: relative;
-    height: 0.8rem;
-    width: 0.8rem;
+    height: 14px;
+    width: 14px;
     color: steelblue;
-    transition: all 0.15s ease;
     &:after{
       content: '';
       display: inline-block;
@@ -55,52 +54,41 @@ Home.AddButton = styled.div`
       width: 100%;
       background-color: currentColor;
       box-shadow: 0 0 1px currentColor;
+      transition: all 0.3s ease;
+      transform: translate3d(0,0,0);
     }
   }
   @keyframes addButtonLine1{
     0%{
-      transform: translateX(0);
+      transform: translate3d(0,0,0);
       width: 100%;
     }
     50%{
-      transform: translateX(2.5rem);
+      transform: translate3d(2.5rem,0,0);
       width: 100%;
     }
     51%{
-      transform: translateX(-2rem);
-      width: 170%;
+      transform: translate3d(-2.5rem,0,0);
+      width: 200%;
+    }
+    80%{
+      transform: translate3d(-0.2rem,0,0);
+      width: 120%;
     }
     100%{
-      transform: translateX(0);
+      transform: translate3d(0,0,0);
       width: 100%;
-    }
-  }
-  @keyframes addButtonLine2{
-    0%{
-      transform: translateY(0);
-      height: 100%;
-    }
-    50%{
-      transform: translateY(2.5rem);
-      height: 100%;
-    }
-    51%{
-      transform: translateY(-2.5rem);
-      height: 200%;
-    }
-    100%{
-      transform: translateY(0);
-      height: 100%;
     }
   }
   &:hover{
-    box-shadow: inset 0 0 10px rgba(0,0,0,0.175), 0 5px 15px rgba(0,0,0,0.25);
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.175), 5px 0 15px rgba(0,0,0,0.25);
+    transform: rotate(90deg);
     span {
       &:before{
-        animation: addButtonLine1 0.5s ease forwards 0.05s;
+        animation: addButtonLine1 0.7s ease forwards;
       }
       &:after{
-        animation: addButtonLine2 0.5s ease forwards;
+        transform: rotate(0) translateZ(0);
       }
     }
   }

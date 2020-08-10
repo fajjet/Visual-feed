@@ -12,9 +12,9 @@ SignInForm.Root = styled.div`
 `;
 
 SignInForm.Field = styled.div`
-  padding-bottom: 1rem;
+  padding-bottom: 0.5rem;
   &:last-of-type{
-    padding-bottom: 2rem;
+    padding-bottom: 1.5rem;
   }
 `;
 

@@ -11,8 +11,9 @@ TextInput.Root = styled.div`
     display: block;
     padding: 0 5px;
     appearance: none;
-    border: 1px solid black;
+    border: 1px solid rgba(0,0,0,0.35);
     outline: none;
+    background-color: white;
     &:not([value=""]):not(:focus):invalid{
       border-color: red;
     }
@@ -23,6 +24,8 @@ TextInput.Label = styled.span`
   display: block;
   margin-right: 1rem;
   font-size: 14px;
+  padding-bottom: 0.15rem;
+  color: #4a4a4a;
 `;
 
 TextInput.Input = styled.input`

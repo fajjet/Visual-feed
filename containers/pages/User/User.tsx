@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { Card } from 'components';
 import { Posts } from "containers";
 import Styled from './User.style';
 import { User as UserType } from "types";
@@ -16,17 +17,17 @@ const User = (props: Props) => {
       <div className={'content-wrapper'}>
         {props.data !== null ? (
           <>
-            <Styled.Head>
-              <h1>{data?.fullName}</h1>
-              <Styled.Role>{data?.role}</Styled.Role>
-            </Styled.Head>
-            <hr/>
-            <section>
-              <h4 style={{ color: 'steelblue' }}>User posts: {data?.posts?.length}</h4>
+            <Card noPadding={false}>
+              <Styled.Head>
+                <h1>{data?.fullName}</h1>
+                <Styled.Role>{data?.role}</Styled.Role>
+              </Styled.Head>
+            </Card>
+            <Styled.Posts>
               {!!data?.posts?.length && (
                 <Posts posts={data?.posts} view={'user'}/>
               )}
-            </section>
+            </Styled.Posts>
           </>
         ) : ( <h1>User not found</h1> )}
       </div>
