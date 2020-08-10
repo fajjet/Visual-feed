@@ -50,6 +50,7 @@ Profile.Session = styled.div`
   pre{
     margin-bottom: 0;
   }
+  
 `;
 
 Profile.SessionHead = styled.span`
