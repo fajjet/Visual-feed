@@ -1,4 +1,4 @@
-import React, { ReactChild, ReactNode } from 'react';
+import React, { ReactNode } from 'react';
 import Styled from './Card.style';
 
 const Card = (props: { children: ReactNode, as?: string, noPadding?: boolean }) => {
