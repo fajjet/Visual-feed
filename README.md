@@ -12,7 +12,7 @@ Simple app which has next features:
 - uploading images and store them on cloudinary
 
 ## todo
-- [ ] little redesign
+- [x] little redesign
 - [ ] ts refactor
 - [ ] fix controller responses
 - [ ] tags feature
