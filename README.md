@@ -1,7 +1,5 @@
 # mern-app
 
-![](/test.svg)
-
 ## description
 Simple app which has next features: 
 - sign up, sign in, autorization uses jwt tokens through secure http-only cookies without sending authorization header 
@@ -12,6 +10,18 @@ Simple app which has next features:
 - posts have got like feature (also it shows users who liked a post) 
 - forms cover validation for all possible cases and fire notifications
 - uploading images and store them on cloudinary
+
+## todo
+[x] little redesign
+[x] ts refactor
+[x] fix controller responses
+[x] tags feature
+[x] collapse / expand feature in case of overheight
+[x] play gif button feature
+[x] user avatars feature
+[x] blog post detailed page feature
+[x] comments on detail page feature
+[x] optional: rating and reply feature for comments
 
 ## tech stack
 jwt auth, express, mongoose (mongodb), nextjs (react), styled-components, redux, cloudinary
