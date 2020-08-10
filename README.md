@@ -12,16 +12,16 @@ Simple app which has next features:
 - uploading images and store them on cloudinary
 
 ## todo
-[x] little redesign
-[x] ts refactor
-[x] fix controller responses
-[x] tags feature
-[x] collapse / expand feature in case of overheight
-[x] play gif button feature
-[x] user avatars feature
-[x] blog post detailed page feature
-[x] comments on detail page feature
-[x] optional: rating and reply feature for comments
+- [ ] little redesign
+- [ ] ts refactor
+- [ ] fix controller responses
+- [ ] tags feature
+- [ ] collapse / expand feature in case of overheight
+- [ ] play gif button feature
+- [ ] user avatars feature
+- [ ] blog post detailed page feature
+- [ ] comments on detail page feature
+- [ ] optional: rating and reply feature for comments
 
 ## tech stack
 jwt auth, express, mongoose (mongodb), nextjs (react), styled-components, redux, cloudinary
