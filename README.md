@@ -13,7 +13,7 @@ Simple app which has next features:
 
 ## todo
 - [x] simple redesign
-- [ ] ts refactor
+- [ ] refactor
 - [ ] fix controller responses
 - [ ] tags feature
 - [ ] collapse / expand feature in case of overheight
