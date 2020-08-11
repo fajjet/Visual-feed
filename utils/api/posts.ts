@@ -1,7 +1,4 @@
-// import nodeFetch from 'isomorphic-fetch';
-
 import { transformObjectToFormData } from "../helpers";
-
 import { HttpResponse, Post, PostWithPopulatedUsers } from "types";
 
 interface PostPayload extends Omit<Post, 'creationTime' | '_id' | 'image' | 'likes'> {

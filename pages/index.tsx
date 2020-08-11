@@ -5,6 +5,7 @@ import { PostWithPopulatedUsers } from "types";
 import { Home } from 'containers';
 import absoluteUrl from "next-absolute-url";
 import nodeFetch from "isomorphic-fetch";
+import { NextPageContext } from "next";
 
 interface Props {
   pageProps: {
@@ -21,7 +22,7 @@ const HomePage = (props: Props) => {
   )
 };
 
-export const getServerSideProps = async (context: any) => {
+export const getServerSideProps = async (context: NextPageContext) => {
   const props = {
     posts: [],
   };

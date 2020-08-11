@@ -4,7 +4,8 @@ import { Users } from 'containers';
 import absoluteUrl from "next-absolute-url";
 import nodeFetch from "isomorphic-fetch";
 import { User } from "types";
-import {Helmet} from "../components";
+import { Helmet } from "../components";
+import { NextPageContext } from "next";
 
 interface Props {
   pageProps: {
@@ -21,7 +22,7 @@ const UsersPage = (props: Props) => {
   )
 };
 
-export const getServerSideProps = async (context: any) => {
+export const getServerSideProps = async (context: NextPageContext) => {
   let users = null;
   if (context.req) {
     const { origin } = absoluteUrl(context.req);

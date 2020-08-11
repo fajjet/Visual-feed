@@ -38,11 +38,9 @@ export const removeSymbolsAndDigits = (string: string) => {
 };
 
 export const timeSince = (date: number) => {
-
   const now = new Date().getTime();
   const seconds = Math.floor((now - date) / 1000);
   let interval = Math.floor(seconds / 31536000);
-
   if (interval > 1) {
     return interval + " years";
   }

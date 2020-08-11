@@ -1,4 +1,4 @@
-import express, { Response } from 'express';
+import express, { Response, Request } from 'express';
 import cloudinary from 'cloudinary';
 import rateLimit from 'express-rate-limit';
 
@@ -32,15 +32,15 @@ const limit = rateLimit({
   }
 });
 
-router.post('/api/posts', postCreationLimiter, auth, async (req: any, res: Response) => {
+router.post('/api/posts', postCreationLimiter, auth, async (req: Request, res: Response) => {
   try {
     const { title, description, author } = req.body;
-    const { image } = req.files;
+    const image: any = req.files?.image;
     const creationTime = Date.now();
 
     if (!image) throw { error: 'Image is required' };
 
-    const isValidExt = validateRegex.test(image.name);
+    const isValidExt = validateRegex.test(image?.name);
     if (!isValidExt) throw { error: 'Allowed image extensions: ' + allowedImageExts.join(', ') };
     const sizeMb = image.size / 1024 / 1024;
     if (sizeMb > 1.5) throw { error: 'Image max size is 1.5 MB' };
@@ -62,7 +62,7 @@ router.post('/api/posts', postCreationLimiter, auth, async (req: any, res: Respo
   }
 });
 
-router.get('/api/posts/:page?', limit, async (req: any, res: Response) => {
+router.get('/api/posts/:page?', limit, async (req: Request, res: Response) => {
   try{
     const { page } = req.params;
     const posts = await Post.find({})
@@ -75,7 +75,7 @@ router.get('/api/posts/:page?', limit, async (req: any, res: Response) => {
   }
 });
 
-router.get('/api/posts/user/:id', limit, async (req: any, res: Response) => {
+router.get('/api/posts/user/:id', limit, async (req: Request, res: Response) => {
   try{
     const { id } = req.params;
     const posts = await Post.find({ author: id }).sort({ creationTime: -1 })
@@ -87,7 +87,7 @@ router.get('/api/posts/user/:id', limit, async (req: any, res: Response) => {
   }
 });
 
-router.put('/api/posts/like/:id', limit, auth, async (req: any, res: Response) => {
+router.put('/api/posts/like/:id', limit, auth, async (req: Request, res: Response) => {
   try{
     const { id } = req.params;
     const user = res.locals.user;
@@ -106,7 +106,7 @@ router.put('/api/posts/like/:id', limit, auth, async (req: any, res: Response) =
   }
 });
 
-router.put('/api/posts/dislike/:id', limit, auth, async (req: any, res: Response) => {
+router.put('/api/posts/dislike/:id', limit, auth, async (req: Request, res: Response) => {
   try{
     const { id } = req.params;
     const user = res.locals.user;

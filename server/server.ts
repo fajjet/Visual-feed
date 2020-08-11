@@ -1,8 +1,6 @@
 import next from 'next';
 import express, { Response, Request } from 'express';
-// @ts-ignore
 import cookieParser from 'cookie-parser';
-// @ts-ignore
 import fileUpload from 'express-fileupload';
 
 import userRouter from './controllers/users';

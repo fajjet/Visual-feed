@@ -1,7 +1,6 @@
 import nodeFetch from 'isomorphic-fetch';
 
 import { Trace, LogoutSelectionType, HttpResponse, User } from "types";
-
 type UserPayload = Omit<User, 'sessions' | '_id' | 'role'>;
 
 export const getUsers = async (isServer: boolean)
