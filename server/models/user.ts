@@ -52,15 +52,19 @@ UserSchema.statics.findByCredentials = async (email: string, password: string) =
   return user;
 };
 
-UserSchema.methods.generateAuthToken = async function(this: IUser, trace: Trace) {
-  const user = this;
+UserSchema.statics.pushNewSessionMutation = (user: IUser, trace: Trace, token: string): void => {
   const { uag, ip } = trace;
-  const token = jwt.sign({_id: user._id}, process.env.JWT_KEY);
+  const date = Date.now();
   const sessions = user.sessions.filter(session => {
     return !(session.ip === ip && session.uag === uag);
   });
-  const date = Date.now();
   user.sessions = [ ...sessions, { token, lastSeenDate: date, ...trace } ];
+};
+
+UserSchema.methods.generateAuthToken = async function(this: IUser, trace: Trace) {
+  const user = this;
+  const token = jwt.sign({_id: user._id}, process.env.JWT_KEY);
+  UserSchema.statics.pushNewSessionMutation(user, trace, token);
   await user.save();
   const createdTokenId = user.sessions[user.sessions.length - 1]._id;
   return { token, id: createdTokenId };

@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { Users } from 'containers';
 import absoluteUrl from "next-absolute-url";
 import nodeFetch from "isomorphic-fetch";

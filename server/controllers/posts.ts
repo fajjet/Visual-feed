@@ -1,14 +1,11 @@
 import express, { Response, Request } from 'express';
-import cloudinary from 'cloudinary';
 import rateLimit from 'express-rate-limit';
 
+import { handleImageUpload } from "../utils";
 import { auth } from '../middleware';
 import Post from "../models/post";
 
 const router = express.Router();
-
-const allowedImageExts = ['jpg', 'jpeg', 'png', 'gif'];
-const validateRegex = new RegExp(`.(${allowedImageExts.join('|')})$`, 'i');
 
 const reqErrText = 'Too many requests to the server';
 
@@ -36,29 +33,18 @@ router.post('/api/posts', postCreationLimiter, auth, async (req: Request, res: R
   try {
     const { title, description, author } = req.body;
     const image: any = req.files?.image;
+
+    const url = await handleImageUpload(image);
+
     const creationTime = Date.now();
-
-    if (!image) throw { error: 'Image is required' };
-
-    const isValidExt = validateRegex.test(image?.name);
-    if (!isValidExt) throw { error: 'Allowed image extensions: ' + allowedImageExts.join(', ') };
-    const sizeMb = image.size / 1024 / 1024;
-    if (sizeMb > 1.5) throw { error: 'Image max size is 1.5 MB' };
-
-    const uploadRes = await cloudinary.v2.uploader.upload(image.tempFilePath, {
-      width: 2000, height: 2000, crop: "limit"
-    });
-
-    const { secure_url: url } = uploadRes || {};
-    if (!url) throw { error: `Image upload problem, try again later` };
-
     const post = new Post({ title, description, creationTime, author, image: url });
     await post.save();
+
     const user = res.locals.user;
     res.status(200).send({ post: { ...post.toObject(), author: user } });
 
   } catch (error) {
-    res.status(400).send(error);
+    res.status(error.status || 400).send(error);
   }
 });
 
