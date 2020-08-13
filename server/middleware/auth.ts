@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 import User from '../models/user';
 import { Request, Response, NextFunction } from "express";
 
-const throwPermissionError = () => { throw { error: 'You have no permission' } }
+const throwPermissionError = () => { throw { status: 401, error: 'You have no permission' } }
 
 const authMain = async (req: Request, res: Response, next: NextFunction) => {
   const { token: bodyToken } = req.body;

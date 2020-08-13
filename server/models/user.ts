@@ -15,6 +15,9 @@ export interface IUser extends IUserDocument {
 
 export interface IUserModel extends Model<IUser> {
   findByCredentials(email: string, password: string): IUser;
+  pushNewSessionMutation(user: IUser, trace: Trace, token: string): void;
+  getAllUsers(): Promise<IUser[]>;
+  getUserById(id: string): Promise<IUser | null>;
 }
 
 export const UserSchema = new Schema({
@@ -59,6 +62,30 @@ UserSchema.statics.pushNewSessionMutation = (user: IUser, trace: Trace, token: s
     return !(session.ip === ip && session.uag === uag);
   });
   user.sessions = [ ...sessions, { token, lastSeenDate: date, ...trace } ];
+};
+
+const sensetiveFields = {
+  password: 0,
+  sessions: 0,
+};
+
+UserSchema.statics.getAllUsers = async () : Promise<IUser[]> => {
+  return await User.find({}, {
+    ...sensetiveFields,
+    posts: 0,
+  });
+};
+
+UserSchema.statics.getUserById = async (id: string) : Promise<IUser | null> => {
+  const user = await User.findOne({ _id: id }, {
+    ...sensetiveFields
+  }).populate({
+    path: 'posts',
+    options: { sort: { creationTime: -1 } },
+    populate: { path: 'likes', select: 'firstName lastName fullName' },
+  });
+  if (!user) throw { status: 404, error: 'User not found' };
+  return user;
 };
 
 UserSchema.methods.generateAuthToken = async function(this: IUser, trace: Trace) {

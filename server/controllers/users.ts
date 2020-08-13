@@ -33,31 +33,19 @@ const router = express.Router();
 
 router.get('/api/users', apiLimiter, async (req: express.Request, res: express.Response) => {
   try {
-    const users = await User.find({}, {
-      password: 0,
-      sessions: 0,
-      posts: 0,
-    });
+    const users = await User.getAllUsers();
     res.status(200).send({ users });
   } catch (error) {
-    res.status(400).send(error);
+    res.status(500).send(error);
   }
 });
 
 router.get('/api/users/user/:id', apiLimiter, async (req: express.Request, res: express.Response) => {
   try {
-    const { id } = req.params;
-    const user = await User.findOne({ _id: id }, {
-      password: 0,
-      sessions: 0,
-    }).populate({
-      path: 'posts',
-      options: { sort: { creationTime: -1 } },
-      populate: { path: 'likes', select: 'firstName lastName fullName' },
-    });
+    const user = await User.getUserById(req.params.id);
     res.status(200).send({ user });
   } catch (error) {
-    res.status(400).send(error);
+    res.status(error.status || 500).send(error);
   }
 });
 
