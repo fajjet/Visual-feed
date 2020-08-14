@@ -8,6 +8,7 @@ export { default as SignIn } from './pages/SignIn/SignIn';
 export { default as Profile } from './pages/Profile/Profile';
 export { default as Users } from './pages/Users/Users';
 export { default as User } from './pages/User/User';
+export { default as Error } from './pages/Error/Error';
 
 export { default as SignUpForm } from './forms/SignUpForm/SignUpForm';
 export { default as SignInForm } from './forms/SignInForm/SignInForm';

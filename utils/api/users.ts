@@ -1,7 +1,6 @@
 import nodeFetch from 'isomorphic-fetch';
 
-import { Trace, LogoutSelectionType, HttpResponse, User } from "types";
-type UserPayload = Omit<User, 'sessions' | '_id' | 'role'>;
+import { Trace, LogoutSelectionType, HttpResponse, User, UserCreationPayload, ErrorResponse } from "types";
 
 export const getUsers = async (isServer: boolean)
   : Promise<HttpResponse<{ users?: User[], error?: string  }>> => {
@@ -12,8 +11,8 @@ export const getUsers = async (isServer: boolean)
   });
 };
 
-export const createUser = async (data: UserPayload)
-  : Promise<HttpResponse<{ user?: User, tokenId?: string, error?: string  }>> => {
+export const createUser = async (data: UserCreationPayload)
+  : Promise<HttpResponse<{ user?: User, tokenId?: string } & ErrorResponse>> => {
   const trace = await getUserTrace();
   return await fetch('/api/users', {
       method: 'POST',
@@ -25,7 +24,7 @@ export const createUser = async (data: UserPayload)
 export const updateUser = async (data: {
   firstName: string;
   lastName: string;
-}) : Promise<HttpResponse<{ user?: User, error?: string  }>> => {
+}) : Promise<HttpResponse<{ user?: User } & ErrorResponse>> => {
   return await fetch('/api/users', {
       method: 'PUT',
       headers: { 'Content-type': 'application/json', Accept: 'application/json' },
@@ -36,7 +35,7 @@ export const updateUser = async (data: {
 export const updateUserPassword = async (data: {
   currentPassword: string;
   newPassword: string;
-}) : Promise<HttpResponse<{ user?: User, error?: string  }>> => {
+}) : Promise<HttpResponse<{ user?: User } & ErrorResponse>> => {
   return await fetch('/api/users/password', {
       method: 'PUT',
       headers: { 'Content-type': 'application/json', Accept: 'application/json', },
@@ -54,7 +53,7 @@ export const auth = async (email: string, password: string) => {
 };
 
 export const logout = async (selection: LogoutSelectionType)
-  : Promise<HttpResponse<{ user?: User, error?: string  }>> => {
+  : Promise<HttpResponse<{ user?: User } & ErrorResponse>> => {
     return await fetch('/api/users/logout', {
       method: 'POST',
       headers: { 'Content-type': 'application/json', Accept: 'application/json' },

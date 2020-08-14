@@ -3,13 +3,10 @@ import { useDispatch } from "react-redux";
 import { toast } from 'react-toastify';
 
 import { TextInput } from "components";
-import { User } from "types";
 import { normalizeNameInput } from "utils";
 import { updateUser } from "utils/api";
 import actions from "store/actions";
-
-// import Styled from './Profile.style';
-
+import { User } from "types";
 
 interface Props {
   user: User;
@@ -36,6 +33,9 @@ const ProfileDataForm = (props: Props) => {
     if (res.status === 200) {
       dispatch(actions.setUser(response.user));
       toast.success('Changes saved');
+    } else {
+      const err = response.error || response._message || 'Error';
+      toast.error(err);
     }
   };
 
@@ -47,6 +47,7 @@ const ProfileDataForm = (props: Props) => {
         onChange={(value: string) => setFirstName(normalizeNameInput(value))}
         type={'text'}
         minLength={3}
+        maxLength={30}
         required
       />
       <TextInput
@@ -55,6 +56,7 @@ const ProfileDataForm = (props: Props) => {
         onChange={(value: string) => setLastName(normalizeNameInput(value))}
         type={'text'}
         minLength={3}
+        maxLength={30}
         required
       />
       <br/>

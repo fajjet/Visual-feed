@@ -26,6 +26,8 @@ export interface User {
   posts?: PostWithPopulatedUsers[];
 }
 
+export type UserCreationPayload = Omit<User, 'sessions' | '_id' | 'role'>;
+
 export interface Trace {
   ip: string;
   uag: string;

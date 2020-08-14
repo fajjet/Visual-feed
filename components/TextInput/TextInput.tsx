@@ -11,6 +11,7 @@ interface Props {
   required?: boolean;
   label?: string;
   minLength?: number;
+  maxLength?: number;
   placeholder?: string;
   as?: 'input' | 'textarea';
 }
@@ -23,6 +24,7 @@ const TextInput = (props: Props) => {
     onChange: onChangeHandler,
     required,
     minLength,
+    maxLength,
     name: passedName,
     placeholder = '',
     as = 'input',
@@ -44,6 +46,7 @@ const TextInput = (props: Props) => {
           value={value}
           required={required}
           minLength={minLength}
+          maxLength={maxLength}
           placeholder={placeholder}
           as={as}
         />

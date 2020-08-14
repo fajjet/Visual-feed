@@ -22,3 +22,12 @@ export interface AppContextWithCookies extends AppContext{
 export interface NextPageContextWithCookies extends NextPageContext{
   req?: IncomingMessage & { [key: string]: any };
 }
+
+export interface Map {
+  [key: string]: any;
+}
+
+export interface ErrorResponse{
+  error?: string;
+  _message?: string;
+};

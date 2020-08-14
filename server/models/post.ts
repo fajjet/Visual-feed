@@ -19,11 +19,11 @@ export interface IPostModel extends Model<IPost> {
 
 export const PostSchema = new Schema({
   author: { type: Schema.Types.ObjectId, ref: 'User' },
-  title: { type: String, required: true, minlength: 2 },
-  image: { type: String, required: true },
-  description: { type: String },
+  title: { type: String, required: true, minlength: 2, maxlength: 100 },
+  image: { type: String, required: true, maxlength: 1000 },
+  description: { type: String, maxlength: 500 },
   creationTime: { type: Number },
-  likes: [{ type: Schema.Types.ObjectId, ref: 'User'  }],
+  likes: [{ type: Schema.Types.ObjectId, ref: 'User' }],
 });
 
 PostSchema.statics.createPost = async function(req: Request, imageUrl: string) : Promise<IPost> {
