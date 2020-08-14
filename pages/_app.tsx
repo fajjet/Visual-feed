@@ -6,7 +6,7 @@ import actionsCreators from 'store/actions';
 import { ToastContainer } from 'react-toastify';
 import Head from "next/head";
 
-import { AppContextWithCookies } from 'types';
+import { CustomAppContext } from 'types';
 import { wrapper } from 'store';
 import { Page } from 'containers';
 
@@ -51,7 +51,7 @@ const MyApp = (props: AppProps) => {
   )
 };
 
-MyApp.getInitialProps = async ({ ctx, Component } : AppContextWithCookies) => {
+MyApp.getInitialProps = async ({ ctx, Component } : CustomAppContext) => {
   if (ctx.req && !process.browser) {
     const { token } = ctx.req.cookies;
     const { origin } = absoluteUrl(ctx.req);

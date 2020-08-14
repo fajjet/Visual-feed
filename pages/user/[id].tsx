@@ -1,8 +1,7 @@
 import React from 'react';
 
-import { User as UserType } from 'types';
+import { User as UserType, CustomNextPageContext } from 'types';
 import { User } from 'containers';
-import { NextPageContext } from "next";
 import absoluteUrl from "next-absolute-url";
 import nodeFetch from "isomorphic-fetch";
 import { Helmet } from "components";
@@ -23,7 +22,7 @@ const UserPage = (props: Props) => {
   )
 };
 
-export const getServerSideProps = async (context: NextPageContext) => {
+export const getServerSideProps = async (context: CustomNextPageContext) => {
   const props = { user: null };
   if (context.req) {
     const id = context.query.id;

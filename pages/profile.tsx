@@ -3,7 +3,7 @@ import Cookies from "js-cookie";
 
 import { Profile } from 'containers';
 import { Helmet } from "components";
-import { NextPageContextWithCookies } from 'types';
+import { CustomNextPageContext } from 'types';
 
 interface Props {
   pageProps: {
@@ -21,7 +21,7 @@ const ProfilePage = (props: Props) => {
   )
 };
 
-ProfilePage.getInitialProps = async (context: NextPageContextWithCookies) => {
+ProfilePage.getInitialProps = async (context: CustomNextPageContext) => {
   let tokenId = '';
   if (context.req) {
     tokenId = context.req?.cookies?.tokenId;

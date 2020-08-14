@@ -28,7 +28,6 @@ const port = process.env.PORT || 3000;
 
         server.use(express.json());
 
-        // API
         server.use(userRouter);
         server.use(postRouter);
 

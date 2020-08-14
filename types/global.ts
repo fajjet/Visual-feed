@@ -15,11 +15,11 @@ export interface HttpResponse<T> extends Response {
 
 export type LogoutSelectionType = 'current' | 'all' | { id: string | undefined };
 
-export interface AppContextWithCookies extends AppContext{
+export interface CustomAppContext extends AppContext{
   ctx: NextPageContext & { req?: IncomingMessage & { cookies: { [key: string]: any } } };
 }
 
-export interface NextPageContextWithCookies extends NextPageContext{
+export interface CustomNextPageContext extends NextPageContext{
   req?: IncomingMessage & { [key: string]: any };
 }
 

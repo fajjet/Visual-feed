@@ -4,6 +4,8 @@ import { MakeStore, Context, createWrapper } from 'next-redux-wrapper';
 import { createLogger } from 'redux-logger';
 import { State } from './initialState';
 
+const dev = process.env.NODE_ENV !== "production";
+
 import reducers from './reducers';
 
 const loggerIgnoreList: string[] = [];
@@ -14,7 +16,7 @@ const logger = createLogger({
 
 const middlewares: Array<Middleware> = [thunk];
 
-if (process.browser) middlewares.push(logger);
+if (process.browser && dev) middlewares.push(logger);
 
 const makeStore: MakeStore<State> = (context: Context) => createStore(
   reducers,

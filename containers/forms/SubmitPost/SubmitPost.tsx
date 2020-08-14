@@ -79,11 +79,13 @@ const SubmitPost = (props: Props) => {
             onChange={v => setTitle(v)}
             required={true}
             minLength={2}
+            maxLength={100}
           />
           <TextInput
             value={description}
             label={'Short description'}
             onChange={v => setDescription(v)}
+            maxLength={500}
             as={'textarea'}
           />
           <br/>
