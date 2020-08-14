@@ -15,6 +15,7 @@ Simple app which has next features:
 - [x] simple redesign
 - [ ] refactor
 - [ ] fix controller responses
+- [ ] image lazy loading
 - [ ] tags feature
 - [ ] collapse / expand feature in case of overheight
 - [ ] play gif button feature
