@@ -13,8 +13,8 @@ Simple app which has next features:
 
 ## todo
 - [x] simple redesign
-- [ ] refactor
-- [ ] fix controller responses
+- [x] refactor
+- [x] fix controller responses
 - [ ] image lazy loading
 - [ ] tags feature
 - [ ] collapse / expand feature in case of overheight
