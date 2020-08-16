@@ -32,8 +32,8 @@ const limit = rateLimit({
 router.post('/api/posts', postCreationLimiter, auth, async (req: Request, res: Response) => {
   try {
     const image: any = req.files?.image;
-    const url = await handleImageUpload(image);
-    const post = await Post.createPost(req, url);
+    const publicId = await handleImageUpload(image);
+    const post = await Post.createPost(req, publicId);
     res.status(200).send({ post: { ...post.toObject(), author: res.locals.user } });
   } catch (error) {
     res.status(error.status || 500).send(error);

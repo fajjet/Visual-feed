@@ -52,11 +52,11 @@ const Home = (props: Props) => {
     const se = document?.scrollingElement;
     const clientHeight = document.documentElement.clientHeight;
     const point = (se?.scrollHeight || 0) - (clientHeight * 1.5);
-    if ((se?.scrollTop || 0) >= point) fetchMore()
+    if ((se?.scrollTop || 0) >= point) await fetchMore()
   };
 
   useEffect(() => {
-    window.addEventListener('scroll', onScroll);
+    window.addEventListener('scroll', onScroll, { passive: true });
     return () => {
       window.removeEventListener('scroll', onScroll);
     }

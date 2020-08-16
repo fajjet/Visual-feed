@@ -11,7 +11,7 @@ export interface IPost extends IPostDocument {
 }
 
 export interface IPostModel extends Model<IPost> {
-  createPost(req: Request, imageUrl: string): Promise<IPost>;
+  createPost(req: Request, publicId: string): Promise<IPost>;
   getPostsByPage(page: number) : Promise<IPost[]>;
   likePost(id: string, user: IUser) : Promise<IPost>;
   dislikePost(id: string, user: IUser) : Promise<IPost>;
@@ -26,10 +26,10 @@ export const PostSchema = new Schema({
   likes: [{ type: Schema.Types.ObjectId, ref: 'User' }],
 });
 
-PostSchema.statics.createPost = async function(req: Request, imageUrl: string) : Promise<IPost> {
+PostSchema.statics.createPost = async function(req: Request, publicId: string) : Promise<IPost> {
   const { title, description, author } = req.body;
   const creationTime = Date.now();
-  const post = new Post({ title, description, creationTime, author, image: imageUrl });
+  const post = new Post({ title, description, creationTime, author, image: publicId });
   await post.save();
   return post;
 };

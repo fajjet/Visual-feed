@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import Link from "next/link";
 
-import { Tooltip, Card } from "components";
+import { Tooltip, Card, Image as ImageComponent } from "components";
 import { updateLikes } from 'utils/api';
+import { cloudinaryUrl } from 'utils';
 import Styled from './Posts.style';
 import { State } from "store/initialState";
 import { PostWithPopulatedUsers } from "types";
-import Link from "next/link";
 
 interface Props {
   posts: PostWithPopulatedUsers[];
@@ -66,6 +67,7 @@ const Posts = (props: Props) => {
           month: 'short', hour: 'numeric', minute: 'numeric', year: 'numeric' });
         const isLiked = post.likes.some(u => u && user?._id === u._id);
         const likes = !!post.likes.length ? post.likes.length : '';
+        const image = cloudinaryUrl(post.image);
         return (
           <Styled.Post key={post._id}>
             <Card>
@@ -74,7 +76,11 @@ const Posts = (props: Props) => {
               {post.description && <pre>{post.description}</pre>}
             </Styled.Head>
             <Styled.PostImage>
-              <img src={post.image} alt={post.description}/>
+              <ImageComponent
+                lowUrl={image.low}
+                normalUrl={image.normal}
+                alt={post.description}
+              />
             </Styled.PostImage>
             <Styled.PostBottom>
               <Styled.PostBottomLeft>

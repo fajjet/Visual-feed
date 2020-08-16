@@ -86,3 +86,12 @@ export const transformObjectToFormData = (obj: any) : null | FormData => {
   });
   return data;
 };
+
+export const cloudinaryUrl = (publicId: string) => {
+  const base = 'https://res.cloudinary.com/dmdde6mop/image/upload';
+  return {
+    original: base + `/f_auto/${publicId}`,
+    normal: base + `/q_70,f_auto/${publicId}`,
+    low: base + `/q_1/${publicId}`
+   }
+};

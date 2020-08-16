@@ -16,8 +16,8 @@ export const handleImageUpload = async (image: any) => {
     width: 2000, height: 2000, crop: "limit"
   });
 
-  const { secure_url: url } = uploadRes || {};
-  if (!url) throw { status: 500, error: `Image upload problem, try again later` };
+  const { public_id } = uploadRes || {};
+  if (!public_id) throw { status: 500, error: `Image upload problem, try again later` };
 
-  return url;
+  return public_id;
 };
