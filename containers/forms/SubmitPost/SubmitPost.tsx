@@ -18,22 +18,26 @@ interface Props {
 const SubmitPost = (props: Props) => {
   const user = useSelector((state: State) => state.app.user);
   const { onClose, isActive, onSuccessSubmit } = props;
+
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [image, setImage] = useState<undefined | File>(undefined);
   const [loading, setLoading] = useState(false);
+
   const formRef = useRef<null | HTMLFormElement>(null);
+  const isSending = useRef(false);
 
   const onSubmit = async (e: React.FormEvent) => {
+    if (isSending.current) return;
     e.preventDefault();
     try {
       if (loading) return;
       if (!user) throw 'Not authorized';
       if (!image) throw 'No image selected';
       setLoading(true);
+      isSending.current = true;
       const res = await createPost({ author: user._id, title, description, image });
       const response = await res.json();
-      setLoading(false);
       if (res.status === 200) {
         toast.success('Post has been successfully created');
         setTitle('');
@@ -49,6 +53,9 @@ const SubmitPost = (props: Props) => {
       }
     } catch (e) {
       toast.error(e);
+    } finally {
+      isSending.current = false;
+      setLoading(false);
     }
   };
 

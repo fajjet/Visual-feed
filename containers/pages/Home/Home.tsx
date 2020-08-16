@@ -15,14 +15,35 @@ interface Props {
 const Home = (props: Props) => {
   const { posts } = props;
   const user = useSelector((state: State) => state.app.user);
+
   const isFetching = useRef(false);
   const isEnd = useRef(posts?.length !== 5);
   const lastFetchTime = useRef(0);
   const postOffset = useRef(0);
+
   const [submitFormIsActive, setSubmitFormIsActive] = useState(false);
   const [newPost, setNewPost] = useState<PostWithPopulatedUsers | null>(null);
   const [loadMorePosts, setLoadMorePosts] = useState<PostWithPopulatedUsers[] | null>(null);
   const [noMorePosts, setNotMorePosts] = useState(posts?.length !== 5);
+
+  const fetchMore = async () => {
+    lastFetchTime.current = Date.now();
+    isFetching.current = true;
+    postOffset.current += 5;
+
+    const res = await getPosts(postOffset.current);
+    const response = await res.json();
+    const posts = response.posts;
+
+    if (res.status === 200 && !!posts?.length) {
+      setLoadMorePosts(response.posts);
+      isFetching.current = false;
+    }
+    if (res.status !== 200 || posts?.length !== 5){
+      isEnd.current = true;
+      setNotMorePosts(true);
+    }
+  }
 
   const onScroll = async () => {
     if (!process.browser || isFetching.current || isEnd.current || !posts?.length) return;
@@ -31,27 +52,7 @@ const Home = (props: Props) => {
     const se = document?.scrollingElement;
     const clientHeight = document.documentElement.clientHeight;
     const point = (se?.scrollHeight || 0) - (clientHeight * 1.5);
-    if ((se?.scrollTop || 0) >= point) {
-      lastFetchTime.current = Date.now();
-      isFetching.current = true;
-      postOffset.current += 5;
-      const res = await getPosts(postOffset.current);
-      const response = await res.json();
-      if (res.status === 200) {
-        const posts = response.posts;
-        if (!!posts?.length) {
-          setLoadMorePosts(response.posts);
-          isFetching.current = false;
-        }
-        if (posts?.length !== 5) {
-          isEnd.current = true;
-          setNotMorePosts(true);
-        }
-      } else {
-        isEnd.current = true;
-        setNotMorePosts(true);
-      }
-    }
+    if ((se?.scrollTop || 0) >= point) fetchMore()
   };
 
   useEffect(() => {

@@ -9,7 +9,6 @@ const ChangePasswordForm: NextComponentType = () => {
 
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
-  // const dispatch = useDispatch();
 
   const arePasswordsEqual = currentPassword === newPassword;
 

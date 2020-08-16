@@ -9,6 +9,7 @@ import Styled from './Profile.style';
 import { State } from "store/initialState";
 import actions from 'store/actions';
 import { LogoutSelectionType } from 'types';
+import {toast} from "react-toastify";
 
 interface Props {
   tokenId: string;
@@ -20,28 +21,25 @@ const Profile = (props: Props) => {
   const dispatch = useDispatch();
 
   const logout = async (selection: LogoutSelectionType) => {
+    const throwErr = () => { throw new Error('Internal server error') };
     try {
       const res = await logoutFetch(selection);
       const logoutCurrentSession = () => {
         if (res.status === 200) {
           dispatch(actions.setUser(undefined));
           location.replace('/');
-        } else {
-          throw new Error('Some error');
-        }
+        } else throwErr()
       };
       if (typeof selection === 'object') {
         if (res.status === 200) {
           const user = (await res.json()).user;
           dispatch(actions.setUser(user));
-        } else {
-          throw new Error('Some error');
-        }
+        } else throwErr()
       } else {
         logoutCurrentSession();
       }
     } catch(err) {
-
+      toast.error(err);
     }
   };
 
