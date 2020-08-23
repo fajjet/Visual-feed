@@ -3,7 +3,12 @@ import cloudinary from "cloudinary";
 export const allowedImageExts = ['jpg', 'jpeg', 'png', 'gif'];
 const validateRegex = new RegExp(`.(${allowedImageExts.join('|')})$`, 'i');
 
-export const handleImageUpload = async (image: any) => {
+interface Output {
+  id: string;
+  format: string;
+}
+
+export const handleImageUpload = async (image: any) : Promise<Output | void> => {
   if (!image) throw { status: 400, error: 'Image is required' };
   const isValidExt = validateRegex.test(image?.name);
 
@@ -16,8 +21,8 @@ export const handleImageUpload = async (image: any) => {
     width: 2000, height: 2000, crop: "limit"
   });
 
-  const { public_id } = uploadRes || {};
+  const { public_id, format } = uploadRes || {};
   if (!public_id) throw { status: 500, error: `Image upload problem, try again later` };
 
-  return public_id;
+  return { id: public_id, format };
 };

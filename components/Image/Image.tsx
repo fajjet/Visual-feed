@@ -1,21 +1,24 @@
 import React, { useState, useEffect } from 'react';
 
+import { FormattedImage, ImageFormats } from 'types';
+
 interface Props {
-  lowUrl: string;
-  normalUrl: string;
+  image: FormattedImage;
+  format: ImageFormats;
   alt?: string;
 }
 
 const ImageComponent = (props: Props) => {
+  const { image: formattedImage } = props;
   const [isLoaded, setIsLoaded] = useState(false);
   useEffect(() => {
     const image = new Image();
     image.onload = () => { setIsLoaded(true) };
-    image.src = props.normalUrl;
+    image.src = formattedImage.normal;
   }, []);
   return (
     <img
-      src={isLoaded ? props.normalUrl : props.lowUrl}
+      src={isLoaded ? formattedImage.normal : formattedImage.low}
       alt={props.alt}
     />
   )

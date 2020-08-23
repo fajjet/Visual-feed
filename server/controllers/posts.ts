@@ -32,18 +32,22 @@ const limit = rateLimit({
 router.post('/api/posts', postCreationLimiter, auth, async (req: Request, res: Response) => {
   try {
     const image: any = req.files?.image;
-    const publicId = await handleImageUpload(image);
-    const post = await Post.createPost(req, publicId);
-    res.status(200).send({ post: { ...post.toObject(), author: res.locals.user } });
+    const imageInfo = await handleImageUpload(image);
+    if (imageInfo) {
+      const post = await Post.createPost(req, imageInfo);
+      res.status(200).send({ post: { ...post.toObject(), author: res.locals.user } });
+    } else {
+      throw { error: 'Internal server error' };
+    }
   } catch (error) {
     res.status(error.status || 500).send(error);
   }
 });
 
-router.get('/api/posts/:page?', limit, async (req: Request, res: Response) => {
+router.get('/api/posts/:page?/:authorId?', limit, async (req: Request, res: Response) => {
   try{
-    const { page } = req.params;
-    const posts = await Post.getPostsByPage(parseInt(page));
+    const { page, authorId } = req.params;
+    const posts = await Post.getPostsByPage(parseInt(page), authorId);
     res.status(200).send({ posts });
   } catch (error) {
     res.status(400).send(error);

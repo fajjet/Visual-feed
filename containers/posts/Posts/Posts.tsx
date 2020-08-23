@@ -1,45 +1,44 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import Link from "next/link";
 
 import { Tooltip, Card, Image as ImageComponent } from "components";
-import { updateLikes } from 'utils/api';
+import {updateLikes} from 'utils/api';
 import { cloudinaryUrl } from 'utils';
 import Styled from './Posts.style';
 import { State } from "store/initialState";
-import { PostWithPopulatedUsers } from "types";
+import {PostWithPopulatedUsers} from "types";
+import useFetchMore from './FetchMore';
 
 interface Props {
   posts: PostWithPopulatedUsers[];
   newPost?: PostWithPopulatedUsers | null;
-  loadMorePosts?: PostWithPopulatedUsers[] | null;
   view?: 'user' | 'home';
+  authorId?: string;
 }
 
 const Posts = (props: Props) => {
-  const { posts, newPost, view = 'home', loadMorePosts } = props;
+  const { posts, newPost, authorId, view = 'home' } = props;
   const user = useSelector((state: State) => state.app.user);
-  const [actualPosts, setActualPosts] = useState<PostWithPopulatedUsers[]>([]);
+  const [actualPosts, setActualPosts] = useState<PostWithPopulatedUsers[]>(posts);
+  const [noMorePosts, setNoMorePosts] = useState(posts.length < 5);
+
+  const morePosts = useFetchMore({ length: actualPosts.length, authorId });
 
   useEffect(() => {
-    setActualPosts(posts || []);
-  }, []);
+    if (morePosts !== null) {
+      setActualPosts([ ...actualPosts, ...morePosts ]);
+    } else {
+      setNoMorePosts(true);
+    }
+  }, [morePosts]);
 
   useEffect(() => {
     if (newPost) {
-      const find = actualPosts.some(p => p._id === newPost._id);
-      if (!find) setActualPosts([ newPost, ...actualPosts ]);
+      setActualPosts([ newPost, ...actualPosts ]);
     }
   }, [newPost]);
-
-  useEffect(() => {
-    if (!!loadMorePosts?.length) {
-      const anyPost = loadMorePosts[0];
-      const find = actualPosts.some(p => p._id === anyPost._id);
-      if (!find) setActualPosts([ ...actualPosts, ...loadMorePosts ]);
-    }
-  }, [loadMorePosts]);
 
   const onLikeButtonClick = async (action: boolean, id: string) => {
     if (!user) {
@@ -67,7 +66,7 @@ const Posts = (props: Props) => {
           month: 'short', hour: 'numeric', minute: 'numeric', year: 'numeric' });
         const isLiked = post.likes.some(u => u && user?._id === u._id);
         const likes = !!post.likes.length ? post.likes.length : '';
-        const image = cloudinaryUrl(post.image);
+        const image = cloudinaryUrl(post.image.id);
         return (
           <Styled.Post key={post._id}>
             <Card>
@@ -77,8 +76,8 @@ const Posts = (props: Props) => {
             </Styled.Head>
             <Styled.PostImage>
               <ImageComponent
-                lowUrl={image.low}
-                normalUrl={image.normal}
+                format={post.image.format}
+                image={image}
                 alt={post.description}
               />
             </Styled.PostImage>
@@ -115,6 +114,8 @@ const Posts = (props: Props) => {
           </Styled.Post>
         )
       })}
+      {!!posts.length && noMorePosts && <h5>There are no more posts to show... yet</h5>}
+      {!posts.length && <h5>There are no posts yet... Don't you want to be first?</h5>}
     </>
   )
 };

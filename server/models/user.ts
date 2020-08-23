@@ -86,7 +86,7 @@ UserSchema.statics.getUserById = async (id: string) : Promise<IUser | null> => {
     ...sensetiveFields
   }).populate({
     path: 'posts',
-    options: { sort: { creationTime: -1 } },
+    options: { sort: { creationTime: -1 }, limit: 5 },
     populate: { path: 'likes', select: 'firstName lastName fullName' },
   });
   if (!user) throw { status: 404, error: 'User not found' };

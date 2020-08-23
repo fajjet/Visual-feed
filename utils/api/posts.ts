@@ -1,12 +1,12 @@
 import { transformObjectToFormData } from "../helpers";
-import { HttpResponse, Post, PostWithPopulatedUsers } from "types";
+import { HttpResponse, Post, PostWithPopulatedUsers, ErrorResponse } from "types";
 
 interface PostPayload extends Omit<Post, 'creationTime' | '_id' | 'image' | 'likes'> {
   image: File;
 }
 
 export const createPost = async (data: PostPayload)
-  : Promise<HttpResponse<{ post?: PostWithPopulatedUsers, error?: string }>> => {
+  : Promise<HttpResponse<{ post?: PostWithPopulatedUsers } & ErrorResponse>> => {
   const formData = transformObjectToFormData(data);
   return await fetch('/api/posts', {
     method: 'POST',
@@ -18,7 +18,7 @@ export const createPost = async (data: PostPayload)
 };
 
 export const updateLikes = async (action: boolean, id: string)
-  : Promise<HttpResponse<{ post?: PostWithPopulatedUsers, error?: string }>> => {
+  : Promise<HttpResponse<{ post?: PostWithPopulatedUsers } & ErrorResponse>> => {
   return await fetch(`/api/posts/${action ? 'like' : 'dislike'}/${id}`, {
     method: 'PUT',
     headers: {
@@ -27,9 +27,9 @@ export const updateLikes = async (action: boolean, id: string)
   });
 };
 
-export const getPosts = async (skip: number)
-  : Promise<HttpResponse<{ posts: PostWithPopulatedUsers[], error?: string }>> => {
-  return await fetch('/api/posts/' + skip, {
+export const getPosts = async (skip: number = 0, authorId: string = '')
+  : Promise<HttpResponse<{ posts: PostWithPopulatedUsers[] } & ErrorResponse>> => {
+  return await fetch('/api/posts/' + skip + `/${authorId}`, {
     method: 'GET',
     headers: { Accept: 'application/json' },
   });

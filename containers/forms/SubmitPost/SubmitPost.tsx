@@ -49,7 +49,8 @@ const SubmitPost = (props: Props) => {
           top: 0,
         });
       } else {
-        toast.error(response.error);
+        const error = response.error || response._message || 'Unknown error';
+        toast.error(error);
       }
     } catch (e) {
       toast.error(e);

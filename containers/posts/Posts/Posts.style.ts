@@ -76,7 +76,7 @@ Posts.PostImage = styled.div`
   justify-content: center;
   position: relative;
   img {
-    width: 100%;
+    max-width: 100%;
     margin: 0;
   }
 `;

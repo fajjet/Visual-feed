@@ -1,4 +1,5 @@
 import React from 'react';
+import { useRouter } from "next/router";
 
 import { Card } from 'components';
 import { Posts } from "containers";
@@ -11,6 +12,9 @@ interface Props {
 
 const User = (props: Props) => {
   const { data } = props;
+
+  const router = useRouter();
+  const authorId = String(router.query.id);
 
   return (
     <Styled.Root>
@@ -25,7 +29,7 @@ const User = (props: Props) => {
             </Card>
             <Styled.Posts>
               {!!data?.posts?.length && (
-                <Posts posts={data?.posts} view={'user'}/>
+                <Posts posts={data?.posts} view={'user'} authorId={authorId}/>
               )}
             </Styled.Posts>
           </>

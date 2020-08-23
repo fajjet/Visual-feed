@@ -31,3 +31,17 @@ export interface ErrorResponse{
   error?: string;
   _message?: string;
 };
+
+export type ImageFormats = 'jpeg' | 'gif' ;
+
+export interface CloudinaryImage{
+  id: string;
+  format: ImageFormats;
+}
+
+export interface FormattedImage{
+  original: string;
+  normal: string;
+  static: string;
+  low: string;
+}
