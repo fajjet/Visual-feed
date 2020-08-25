@@ -11,7 +11,7 @@ export interface IPost extends IPostDocument {
 }
 
 export interface IPostModel extends Model<IPost> {
-  createPost(req: Request, image: { id: string, format: string }): Promise<IPost>;
+  createPost(req: Request, image: CloudinaryImage): Promise<IPost>;
   getPostsByPage(page: number, authorId?: string) : Promise<IPost[]>;
   likePost(id: string, user: IUser) : Promise<IPost>;
   dislikePost(id: string, user: IUser) : Promise<IPost>;
@@ -23,6 +23,8 @@ export const PostSchema = new Schema({
   image: {
     id: { type: String, required: true },
     format: { type: String, required: true },
+    height: { type: Number, required: true },
+    width: { type: Number, required: true },
   },
   description: { type: String, maxlength: 500 },
   creationTime: { type: Number },

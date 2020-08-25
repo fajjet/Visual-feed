@@ -54,3 +54,24 @@ a {
     padding: 0 20px;
   }
 }
+
+@keyframes fadeIn {
+  0%{
+    opacity: 0;
+  }
+  100%{
+    opacity: 1;
+  }
+}
+
+@keyframes colorAnimation {
+  0%{
+    color: hsl(0,70%,70%);
+  }
+  50%{
+    color: hsl(180,70%,70%);
+  }
+  100%{
+    color: hsl(360,100%,70%);
+  }
+}

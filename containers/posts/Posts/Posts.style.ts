@@ -75,9 +75,12 @@ Posts.PostImage = styled.div`
   display: flex;
   justify-content: center;
   position: relative;
+  max-height: 512px;
   img {
+    object-fit: cover;
     max-width: 100%;
     margin: 0;
+    animation: fadeIn 0.5s ease forwards;
   }
 `;
 

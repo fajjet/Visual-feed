@@ -37,6 +37,8 @@ export type ImageFormats = 'jpeg' | 'gif' ;
 export interface CloudinaryImage{
   id: string;
   format: ImageFormats;
+  height: number;
+  width: number;
 }
 
 export interface FormattedImage{

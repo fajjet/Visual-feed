@@ -27,12 +27,23 @@ Home.AddButton = styled.div`
   overflow: hidden;
   transition: all 0.25s ease 0.15s;
   box-shadow: inset 0 0 10px rgba(0,0,0,0.1), 0 2px 10px rgba(0,0,0,0.175);
+  @keyframes shadowPulse{
+    0%{
+       box-shadow: 0 0 1px currentColor;
+    }
+    50%{
+       box-shadow: 0 0 5px currentColor;
+    }
+    100%{
+       box-shadow: 0 0 1px currentColor;
+    }
+  }
   span {
     display: inline-block;
     position: relative;
     height: 14px;
     width: 14px;
-    color: steelblue;
+    animation: colorAnimation 10s linear infinite;
     &:after{
       content: '';
       display: inline-block;
@@ -43,6 +54,7 @@ Home.AddButton = styled.div`
       width: 2px;
       background-color: currentColor;
       box-shadow: 0 0 1px currentColor;
+      animation: shadowPulse 1.5s ease infinite;
     }
     &:before{
       content: '';
@@ -54,8 +66,9 @@ Home.AddButton = styled.div`
       width: 100%;
       background-color: currentColor;
       box-shadow: 0 0 1px currentColor;
-      transition: all 0.3s ease;
+      transition: transform 0.3s ease;
       transform: translate3d(0,0,0);
+      animation: shadowPulse 1.5s ease infinite;
     }
   }
   @keyframes addButtonLine1{

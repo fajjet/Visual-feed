@@ -5,7 +5,6 @@ import Link from "next/link";
 
 import { Tooltip, Card, Image as ImageComponent } from "components";
 import {updateLikes} from 'utils/api';
-import { cloudinaryUrl } from 'utils';
 import Styled from './Posts.style';
 import { State } from "store/initialState";
 import {PostWithPopulatedUsers} from "types";
@@ -66,7 +65,6 @@ const Posts = (props: Props) => {
           month: 'short', hour: 'numeric', minute: 'numeric', year: 'numeric' });
         const isLiked = post.likes.some(u => u && user?._id === u._id);
         const likes = !!post.likes.length ? post.likes.length : '';
-        const image = cloudinaryUrl(post.image.id);
         return (
           <Styled.Post key={post._id}>
             <Card>
@@ -76,8 +74,7 @@ const Posts = (props: Props) => {
             </Styled.Head>
             <Styled.PostImage>
               <ImageComponent
-                format={post.image.format}
-                image={image}
+                image={post.image}
                 alt={post.description}
               />
             </Styled.PostImage>
