@@ -32,7 +32,7 @@ export interface ErrorResponse{
   _message?: string;
 };
 
-export type ImageFormats = 'jpeg' | 'gif' ;
+export type ImageFormats = 'jpeg' | 'jpg' | 'png' | 'gif' ;
 
 export interface CloudinaryImage{
   id: string;

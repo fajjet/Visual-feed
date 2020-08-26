@@ -56,4 +56,8 @@ SubmitPost.CloseArea = styled.div`
   width: 100%;
 `;
 
+SubmitPost.Text = styled.div`
+  padding-bottom: 0.5rem;
+`;
+
 export default SubmitPost;

@@ -93,7 +93,7 @@ export const cloudinaryUrl = (publicId: string) : FormattedImage => {
   return {
     original: base + `/f_auto/${publicId}`,
     normal: base + `/q_70,f_auto/${publicId}`,
-    static: base + `/q_700,f_jpeg/${publicId}`,
+    static: base + `/q_700/${publicId}.jpeg`,
     low: base + `/q_1,f_jpeg/${publicId}`
    }
 };

@@ -72,8 +72,7 @@ const SubmitPost = (props: Props) => {
         <Styled.Content>
           <h4>Submit a new post</h4>
           <label>
-            Image (max size 1.5 mb)
-            <br/>
+            <Styled.Text>{'Choose image ( .gif < 10MB, .others < 1.5MB )'}</Styled.Text>
             <input
               type={'file'}
               required={true}
