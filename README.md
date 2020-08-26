@@ -16,7 +16,6 @@ Simple app which has next features:
 - [x] refactor
 - [x] fix controller responses
 - [x] image correct appearance
-- [ ] tags feature
 - [ ] play gif button feature
 - [ ] user avatars feature
 - [ ] blog post detailed page feature
