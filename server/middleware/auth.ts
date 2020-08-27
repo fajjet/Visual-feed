@@ -4,7 +4,7 @@ import { Request, Response, NextFunction } from "express";
 
 const throwPermissionError = () => { throw { status: 401, error: 'You have no permission' } }
 
-const authMain = async (req: Request, res: Response, next: NextFunction) => {
+const tryAuth = async (req: Request, res: Response, next: NextFunction) => {
   const { token: bodyToken } = req.body;
   const token = req.cookies.token || bodyToken;
 
@@ -17,7 +17,7 @@ const authMain = async (req: Request, res: Response, next: NextFunction) => {
   next();
 }
 
-const authOnError = (req: Request, res: Response, next: NextFunction, error: Error) => {
+const onAuthFail = (req: Request, res: Response, next: NextFunction, error: Error) => {
   const { nextShouldBeCalled } = req.body;
   if (nextShouldBeCalled) {
     res.status(409);
@@ -29,8 +29,8 @@ const authOnError = (req: Request, res: Response, next: NextFunction, error: Err
 
 export const auth = async(req: Request, res: Response, next: NextFunction) => {
   try {
-    await authMain(req, res, next);
+    await tryAuth(req, res, next);
   } catch (error) {
-    authOnError(req, res, next, error);
+    onAuthFail(req, res, next, error);
   }
 };

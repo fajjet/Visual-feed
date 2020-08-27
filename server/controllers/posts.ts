@@ -1,5 +1,6 @@
 import express, { Response, Request } from 'express';
 import rateLimit from 'express-rate-limit';
+import { UploadedFile } from 'express-fileupload';
 
 import { handleImageUpload } from "../utils";
 import { auth } from '../middleware';
@@ -8,31 +9,19 @@ import Post from "../models/post";
 const router = express.Router();
 
 const reqErrText = 'Too many requests to the server';
-
-const postCreationLimiter = rateLimit({
-  windowMs: 5 * (60 * 1000),
-  max: 15,
-  message: {
-    status: 429,
+const message = {
+  status: 429,
     error: reqErrText,
     message: reqErrText,
-  }
-});
+};
 
-const limit = rateLimit({
-  windowMs: 1 * (60 * 1000),
-  max: 15,
-  message: {
-    status: 429,
-    error: reqErrText,
-    message: reqErrText,
-  }
-});
+const postCreationLimiter = rateLimit({ windowMs: 5 * (60 * 1000),  max: 15, message });
+const limit = rateLimit({ windowMs: 1 * (60 * 1000), max: 15, message });
 
 router.post('/api/posts', postCreationLimiter, auth, async (req: Request, res: Response) => {
   try {
-    const image: any = req.files?.image;
-    const imageInfo = await handleImageUpload(image);
+    const image = req.files?.image;
+    const imageInfo = await handleImageUpload(image as UploadedFile);
     if (imageInfo) {
       const post = await Post.createPost(req, imageInfo);
       res.status(200).send({ post: { ...post.toObject(), author: res.locals.user } });

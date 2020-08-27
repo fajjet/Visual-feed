@@ -1,6 +1,6 @@
 import nodeFetch from 'isomorphic-fetch';
 
-import { Trace, LogoutSelectionType, HttpResponse, User, UserCreationPayload, ErrorResponse } from "types";
+import {Trace, LogoutSelectionType, HttpResponse, User, UserCreationPayload, ErrorResponse } from "types";
 
 export const getUsers = async (isServer: boolean)
   : Promise<HttpResponse<{ users?: User[], error?: string  }>> => {
@@ -45,11 +45,11 @@ export const updateUserPassword = async (data: {
 
 export const auth = async (email: string, password: string) => {
   const trace = await getUserTrace();
-    return await fetch('/api/users/auth', {
-      method: 'POST',
-      headers: { 'Content-type': 'application/json' },
-      body: JSON.stringify({ email, password, trace }),
-    });
+  return await fetch('/api/users/auth', {
+    method: 'POST',
+    headers: { 'Content-type': 'application/json' },
+    body: JSON.stringify({ email, password, trace }),
+  });
 };
 
 export const logout = async (selection: LogoutSelectionType)

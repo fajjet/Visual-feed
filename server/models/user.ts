@@ -21,7 +21,7 @@ export interface IUserModel extends Model<IUser> {
   findByCredentials(email: string, password: string): IUser;
   pushNewSessionMutation(user: IUser, trace: Trace, token: string): void;
   getAllUsers(): Promise<IUser[]>;
-  getUserById(id: string): Promise<IUser | null>;
+  getUserById(id: string): Promise<IUser | void>;
   createUser(userData: UserCreationPayload): Promise<IUser>;
 }
 
@@ -69,21 +69,21 @@ UserSchema.statics.pushNewSessionMutation = (user: IUser, trace: Trace, token: s
   user.sessions = [ ...sessions, { token, lastSeenDate: date, ...trace } ];
 };
 
-const sensetiveFields = {
+const sensitiveFields = {
   password: 0,
   sessions: 0,
 };
 
-UserSchema.statics.getAllUsers = async () : Promise<IUser[]> => {
+UserSchema.statics.getAllUsers = async () => {
   return await User.find({}, {
-    ...sensetiveFields,
+    ...sensitiveFields,
     posts: 0,
   });
 };
 
-UserSchema.statics.getUserById = async (id: string) : Promise<IUser | null> => {
+UserSchema.statics.getUserById = async (id: string) => {
   const user = await User.findOne({ _id: id }, {
-    ...sensetiveFields
+    ...sensitiveFields
   }).populate({
     path: 'posts',
     options: { sort: { creationTime: -1 }, limit: 5 },
@@ -93,8 +93,8 @@ UserSchema.statics.getUserById = async (id: string) : Promise<IUser | null> => {
   return user;
 };
 
-UserSchema.statics.createUser = async (userData: UserCreationPayload) : Promise<IUser> => {
-  const existedUser = await User.findOne({ email: userData.email }, { posts: 0, ...sensetiveFields });
+UserSchema.statics.createUser = async (userData: UserCreationPayload) => {
+  const existedUser = await User.findOne({ email: userData.email }, { posts: 0, ...sensitiveFields });
   if (existedUser) throw { status: 409, error: 'User with the same email already exists' };
   const user = new User(userData);
   await user.save();

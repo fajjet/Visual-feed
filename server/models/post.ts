@@ -48,7 +48,7 @@ const pop = [{
 }];
 
 PostSchema.statics.getPostsByPage = async function(page: number, authorId?: string) {
-  const where: any = {};
+  const where: Partial<Post> = {};
   if (authorId) where.author = authorId;
   return await Post.find(where)
     .sort({ creationTime: -1 }).limit(5).skip(Number(page) || 0)

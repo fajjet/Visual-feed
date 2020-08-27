@@ -24,25 +24,47 @@ Image.Play = styled.div<{ state: boolean }>`
   left: 0;
   height: 100%;
   width: 100%;
-  background-color: rgba(0,0,0,0.25);
+  //background-color: rgba(0,0,0,0.25);
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.3s ease;
+  transition: all 0.7s ease-out;
+  &:before, &:after {
+    content: '';
+    position: absolute;
+    height: 100%;
+    width: 50%;
+    left: 0;
+    top: 0;
+    background-color: rgba(0,0,0,0.25);
+    transition: all 0.3s ease;
+  }
+  &:after{
+    left: auto;
+    right: 0;
+  }
   ${props =>
   props.state &&
   css`
-    background: none;    
+    background: none;   
+    &:before{
+      transform: translateX(-100%);
+    } 
+    &:after{
+      transform: translateX(100%);
+    } 
   `};
 `;
 
 Image.PlayButton = styled.button<{ state: boolean }>`
   height: 5rem;
   width: 5rem;
+  position: relative;
+  z-index: 2;
   border-radius: 50%;
   background-color: white !important;
   color: black !important;
-  transition: all 0.35s ease;
+  transition: all 0.7s cubic-bezier(.3,.63,.01,1);
   border: 3px solid white !important;
   box-shadow: inset 0 0 0 0 lightskyblue;
   font-size: 10px;
@@ -60,6 +82,7 @@ Image.PlayButton = styled.button<{ state: boolean }>`
   props.state &&
   css`
     top: 50%;  
+    transition: all 0.6s cubic-bezier(.26,.72,.07,1.15);
     span{
       transform: translateY(-150%);
     }

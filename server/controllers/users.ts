@@ -7,30 +7,14 @@ import { LogoutSelectionType, UserCreationPayload, Trace } from "../../types";
 import User, {IUser} from "../models/user";
 
 const reqErrText = 'Too many requests to the server';
+const message = { status: 429, message: reqErrText, error: reqErrText };
 
-const apiLimiter = rateLimit({
-  windowMs: 1 * (60 * 1000),
-  max: 30,
-  message: {
-    status: 429,
-    message: reqErrText,
-    error: reqErrText,
-  },
-});
-
-const signUpLimit = rateLimit({
-  windowMs: 5 * (60 * 1000),
-  max: 10,
-  message: {
-    status: 429,
-    message: reqErrText,
-    error: reqErrText,
-  },
-});
+const apiLimiter = rateLimit({ windowMs: 1 * (60 * 1000), max: 30, message });
+const signUpLimit = rateLimit({ windowMs: 5 * (60 * 1000), max: 10, message });
 
 const router = express.Router();
 
-router.get('/api/users', apiLimiter, async (req: express.Request, res: express.Response) => {
+router.get('/api/users', apiLimiter, async (req: Request, res: Response) => {
   try {
     const users = await User.getAllUsers();
     res.status(200).send({ users });
@@ -39,7 +23,7 @@ router.get('/api/users', apiLimiter, async (req: express.Request, res: express.R
   }
 });
 
-router.get('/api/users/user/:id', apiLimiter, async (req: express.Request, res: express.Response) => {
+router.get('/api/users/user/:id', apiLimiter, async (req: Request, res: Response) => {
   try {
     const user = await User.getUserById(req.params.id);
     res.status(200).send({ user });
@@ -48,7 +32,7 @@ router.get('/api/users/user/:id', apiLimiter, async (req: express.Request, res: 
   }
 });
 
-router.post('/api/users', signUpLimit, async (req: express.Request, res: express.Response) => {
+router.post('/api/users', signUpLimit, async (req: Request, res: Response) => {
   try {
     const { user: userData, trace } : { user: UserCreationPayload, trace: Trace } = req.body;
     const user = await User.createUser(userData);
@@ -60,7 +44,7 @@ router.post('/api/users', signUpLimit, async (req: express.Request, res: express
   }
 });
 
-router.post('/api/users/auth', apiLimiter, async (req: express.Request, res: express.Response) => {
+router.post('/api/users/auth', apiLimiter, async (req: Request, res: Response) => {
   try {
     const { email, password, trace } = req.body;
     const user = await User.findByCredentials(email, password);
@@ -87,7 +71,7 @@ router.all('/api/users/me', apiLimiter, auth, async (req: Request, res: Response
   }
 });
 
-router.post('/api/users/logout', apiLimiter, auth, async (req: express.Request, res: express.Response) => {
+router.post('/api/users/logout', apiLimiter, auth, async (req: Request, res: Response) => {
   try {
     const selection: LogoutSelectionType = req.body.selection;
     const user: IUser = res.locals.user;
@@ -100,7 +84,7 @@ router.post('/api/users/logout', apiLimiter, auth, async (req: express.Request, 
   }
 });
 
-router.put('/api/users', apiLimiter, auth, async (req: express.Request, res: express.Response) => {
+router.put('/api/users', apiLimiter, auth, async (req: Request, res: Response) => {
   try {
     const data = req.body.user;
     const user: IUser = res.locals.user;
@@ -111,7 +95,7 @@ router.put('/api/users', apiLimiter, auth, async (req: express.Request, res: exp
   }
 });
 
-router.put('/api/users/password', apiLimiter, auth, async (req: express.Request, res: express.Response) => {
+router.put('/api/users/password', apiLimiter, auth, async (req: Request, res: Response) => {
   try {
     const { currentPassword, newPassword } = req.body;
     const user: IUser = res.locals.user;
