@@ -1,14 +1,13 @@
 import React, {useState, useEffect} from 'react';
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import Link from "next/link";
 
-import { Tooltip, Card, Image as ImageComponent } from "components";
-import {updateLikes} from 'utils/api';
-import Styled from './Posts.style';
+import { Article } from "components";
+import { updateLikes } from 'utils/api';
 import { State } from "store/initialState";
 import {PostWithPopulatedUsers} from "types";
 import useFetchMore from './FetchMore';
+// import Styled from './Posts.style';
 
 interface Props {
   posts: PostWithPopulatedUsers[];
@@ -59,56 +58,14 @@ const Posts = (props: Props) => {
   return (
     <>
       {actualPosts?.map(post => {
-        const date = new Date(post.creationTime);
-        const showDate = date.toLocaleDateString('en-US', {
-          day: 'numeric', hour12: false,
-          month: 'short', hour: 'numeric', minute: 'numeric', year: 'numeric' });
-        const isLiked = post.likes.some(u => u && user?._id === u._id);
-        const likes = !!post.likes.length ? post.likes.length : '';
         return (
-          <Styled.Post key={post._id}>
-            <Card>
-            <Styled.Head>
-              <h4>{post.title}</h4>
-              {post.description && <pre>{post.description}</pre>}
-            </Styled.Head>
-            <Styled.PostImage>
-              <ImageComponent
-                image={post.image}
-                alt={post.description}
-              />
-            </Styled.PostImage>
-            <Styled.PostBottom>
-              <Styled.PostBottomLeft>
-                {view === 'home' && (
-                  <Link href={'/user/[id]'} as={`/user/${post.author._id}`} passHref>
-                    <Styled.PostAuthor as={'a'}>👤 <span>{post.author.fullName}</span></Styled.PostAuthor>
-                  </Link>
-                )}
-                <div style={{ position: 'relative' }} data-tooltip={true}>
-                  {!!likes && (<Tooltip>
-                    <Styled.LikesList>
-                      {post.likes.map(u => {
-                        return (
-                          <Link href={'/user/[id]'} as={`/user/${u?._id}`} passHref key={u?._id}>
-                            <a>{u?.fullName}</a>
-                          </Link>
-                        )
-                      })}
-                    </Styled.LikesList>
-                  </Tooltip>)}
-                  <Styled.PostLike
-                    isLiked={isLiked}
-                    onClick={() => onLikeButtonClick(!isLiked, post._id)}
-                  >
-                    <span>❤{!!likes && <i>{likes}</i>}</span>
-                  </Styled.PostLike>
-                </div>
-              </Styled.PostBottomLeft>
-              <time>{showDate}</time>
-            </Styled.PostBottom>
-            </Card>
-          </Styled.Post>
+          <Article 
+            key={post._id}
+            post={post}
+            user={user || null}
+            view={view}
+            onLikeButtonClick={onLikeButtonClick}
+          />
         )
       })}
       {!!posts.length && noMorePosts && <h5>There are no more posts to show... yet</h5>}

@@ -33,13 +33,23 @@ router.post('/api/posts', postCreationLimiter, auth, async (req: Request, res: R
   }
 });
 
-router.get('/api/posts/:page?/:authorId?', limit, async (req: Request, res: Response) => {
+router.get('/api/posts/all/:page?/:authorId?', limit, async (req: Request, res: Response) => {
   try{
     const { page, authorId } = req.params;
     const posts = await Post.getPostsByPage(parseInt(page), authorId);
     res.status(200).send({ posts });
   } catch (error) {
     res.status(400).send(error);
+  }
+});
+
+router.get('/api/posts/:id', limit, async (req: Request, res: Response) => {
+  try{
+    const { id } = req.params;
+    const post = await Post.getPostById(id);
+    res.status(200).send({ post });
+  } catch (error) {
+    res.status(error.status || 400).send(error);
   }
 });
 

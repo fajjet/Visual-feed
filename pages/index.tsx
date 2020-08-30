@@ -28,7 +28,7 @@ export const getServerSideProps = async (context: NextPageContext) => {
   };
   if (context.req) {
     const { origin } = absoluteUrl(context.req);
-    const res = await nodeFetch(origin + '/api/posts', {
+    const res = await nodeFetch(origin + '/api/posts/all', {
       method: 'GET',
       headers: { Accept: 'application/json' }
     });

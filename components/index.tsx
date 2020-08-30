@@ -6,3 +6,4 @@ export { default as Tooltip } from './Tooltip/Tooltip';
 export { default as Helmet } from './Helmet/Helmet';
 export { default as Card } from './Card/Card';
 export { default as Image } from './Image/Image';
+export { default as Article } from './Article/Article';

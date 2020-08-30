@@ -13,6 +13,7 @@ export interface IPost extends IPostDocument {
 export interface IPostModel extends Model<IPost> {
   createPost(req: Request, image: CloudinaryImage): Promise<IPost>;
   getPostsByPage(page: number, authorId?: string) : Promise<IPost[]>;
+  getPostById(id: string) : Promise<IPost>;
   likePost(id: string, user: IUser) : Promise<IPost>;
   dislikePost(id: string, user: IUser) : Promise<IPost>;
 }
@@ -53,6 +54,12 @@ PostSchema.statics.getPostsByPage = async function(page: number, authorId?: stri
   return await Post.find(where)
     .sort({ creationTime: -1 }).limit(5).skip(Number(page) || 0)
     .populate(pop)
+};
+
+PostSchema.statics.getPostById = async function(id: string) {
+  const post = await Post.findOne({ _id: id }).populate(pop);
+  if (!post) throw { status: 404, error: 'Post not found' };
+  return post;
 };
 
 PostSchema.statics.likePost = async function(id: string, user: IUser) {

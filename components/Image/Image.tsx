@@ -7,11 +7,12 @@ import Styled from './Image.style';
 
 interface Props {
   image: CloudinaryImage;
+  noHeightLimit?: boolean;
   alt?: string;
 }
 
 const ImageComponent = (props: Props) => {
-  const { image } = props;
+  const { image, noHeightLimit } = props;
 
   const [isLoaded, setIsLoaded] = useState(false);
   const [gifIsLoaded, setGifIsLoaded] = useState(false);
@@ -42,7 +43,7 @@ const ImageComponent = (props: Props) => {
   const showLoader = !isLoaded || isGifFormat && playState && !gifIsLoaded;
 
   return (
-    <Styled.Root>
+    <Styled.Root noHeightLimit={noHeightLimit}>
       {!isLoaded && <div style={{ paddingTop: (ratio * 100) + '%' }}></div>}
       {isLoaded && (
         <img

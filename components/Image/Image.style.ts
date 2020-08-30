@@ -2,7 +2,7 @@ import styled, { css } from 'styled-components';
 
 const Image: any = {};
 
-Image.Root = styled.div`
+Image.Root = styled.div<{ noHeightLimit: boolean }>`
   max-height: 64vh;
   width: 100%;
   display: flex;
@@ -10,6 +10,9 @@ Image.Root = styled.div`
   justify-content: center;
   overflow: hidden;
   position: relative;
+  ${props => props.noHeightLimit && css`
+    max-height: initial;
+  `}
   img {
     object-fit: cover;
     max-width: 100%;

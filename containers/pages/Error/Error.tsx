@@ -7,7 +7,7 @@ interface Props {
 }
 
 const Error = (props: Props) => {
-  const code = Array(20).fill(String(props.statusCode)).join('#');
+  const code = props.statusCode;
   return (
     <Styled.Root>
       <div className={'content-wrapper'}>
