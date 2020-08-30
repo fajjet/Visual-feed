@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components';
 const Image: any = {};
 
 Image.Root = styled.div`
-  max-height: 512px;
+  max-height: 64vh;
   width: 100%;
   display: flex;
   align-items: center;
