@@ -6,7 +6,7 @@ interface Props {
   value: any;
   name?: string;
   type?: 'text' | 'email' | 'number' | 'password' | 'tel';
-  onChange?(value: string): any;
+  onChangeHandler?(value: string): any;
   label?: string;
   as?: 'input' | 'textarea';
 }
@@ -16,7 +16,7 @@ const TextInput = (props: Props & InputHTMLAttributes<HTMLInputElement>) => {
     label,
     type = 'text',
     value,
-    onChange: onChangeHandler,
+    onChangeHandler,
     required,
     minLength,
     maxLength,

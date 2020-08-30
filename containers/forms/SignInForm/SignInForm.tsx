@@ -44,7 +44,7 @@ const SignInForm = () => {
         <TextInput
           value={email}
           label={'Email'}
-          onChange={(value: string) => setEmail(value)}
+          onChangeHandler={(value: string) => setEmail(value)}
           type={'email'}
           required
         />
@@ -53,7 +53,7 @@ const SignInForm = () => {
         <TextInput
           value={password}
           label={'Password'}
-          onChange={(value: string) => setPassword(value)}
+          onChangeHandler={(value: string) => setPassword(value)}
           type={'password'}
           minLength={6}
           required

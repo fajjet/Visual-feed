@@ -47,7 +47,7 @@ const SignUpForm = () => {
         <TextInput
           value={firstName}
           label={'First name'}
-          onChange={(value: string) => setFirstName(normalizeNameInput(value))}
+          onChangeHandler={(value: string) => setFirstName(normalizeNameInput(value))}
           type={'text'}
           minLength={2}
           maxLength={30}
@@ -58,7 +58,7 @@ const SignUpForm = () => {
         <TextInput
           value={lastName}
           label={'Last name'}
-          onChange={(value: string) => setLastName(normalizeNameInput(value))}
+          onChangeHandler={(value: string) => setLastName(normalizeNameInput(value))}
           type={'text'}
           minLength={2}
           maxLength={30}
@@ -70,7 +70,7 @@ const SignUpForm = () => {
           placeholder={'* without confirmation'}
           value={email}
           label={'Email'}
-          onChange={(value: string) => setEmail(value)}
+          onChangeHandler={(value: string) => setEmail(value)}
           type={'email'}
           maxLength={100}
           required
@@ -80,7 +80,7 @@ const SignUpForm = () => {
         <TextInput
           value={password}
           label={'Password'}
-          onChange={(value: string) => setPassword(value)}
+          onChangeHandler={(value: string) => setPassword(value)}
           type={'password'}
           minLength={6}
           maxLength={64}

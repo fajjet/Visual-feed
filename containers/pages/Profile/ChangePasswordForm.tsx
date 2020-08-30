@@ -31,7 +31,7 @@ const ChangePasswordForm: NextComponentType = () => {
       <TextInput
         label={'Current password'}
         value={currentPassword}
-        onChange={(value: string) => setCurrentPassword(value)}
+        onChangeHandler={(value: string) => setCurrentPassword(value)}
         type={'password'}
         minLength={6}
         required
@@ -39,7 +39,7 @@ const ChangePasswordForm: NextComponentType = () => {
       <TextInput
         label={'New password'}
         value={newPassword}
-        onChange={(value: string) => setNewPassword(value)}
+        onChangeHandler={(value: string) => setNewPassword(value)}
         type={'password'}
         minLength={6}
         required

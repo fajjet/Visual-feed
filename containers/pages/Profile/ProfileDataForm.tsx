@@ -44,7 +44,7 @@ const ProfileDataForm = (props: Props) => {
       <TextInput
         label={'First name'}
         value={firstName}
-        onChange={(value: string) => setFirstName(normalizeNameInput(value))}
+        onChangeHandler={(value: string) => setFirstName(normalizeNameInput(value))}
         type={'text'}
         minLength={3}
         maxLength={30}
@@ -53,7 +53,7 @@ const ProfileDataForm = (props: Props) => {
       <TextInput
         label={'Last name'}
         value={lastName}
-        onChange={(value: string) => setLastName(normalizeNameInput(value))}
+        onChangeHandler={(value: string) => setLastName(normalizeNameInput(value))}
         type={'text'}
         minLength={3}
         maxLength={30}
