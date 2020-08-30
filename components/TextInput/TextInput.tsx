@@ -1,22 +1,17 @@
-import React from 'react';
-// import { Loader } from 'components';
+import React, { InputHTMLAttributes } from 'react';
 
 import Styled from './TextInput.style';
 
 interface Props {
-  name?: string;
   value: any;
+  name?: string;
   type?: 'text' | 'email' | 'number' | 'password' | 'tel';
   onChange?(value: string): any;
-  required?: boolean;
   label?: string;
-  minLength?: number;
-  maxLength?: number;
-  placeholder?: string;
   as?: 'input' | 'textarea';
 }
 
-const TextInput = (props: Props) => {
+const TextInput = (props: Props & InputHTMLAttributes<HTMLInputElement>) => {
   const {
     label,
     type = 'text',

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
+import { Loader } from 'components';
 import { cloudinaryUrl } from 'utils';
 import { CloudinaryImage } from 'types';
 import Styled from './Image.style';
@@ -13,6 +14,7 @@ const ImageComponent = (props: Props) => {
   const { image } = props;
 
   const [isLoaded, setIsLoaded] = useState(false);
+  const [gifIsLoaded, setGifIsLoaded] = useState(false);
   const [playState, setPlayState] = useState(false);
   const formattedImage = cloudinaryUrl(image.id);
 
@@ -21,12 +23,15 @@ const ImageComponent = (props: Props) => {
 
   const loadNormalSize = (size: 'static' | 'normal') => {
     const image = new Image();
-    image.onload = () => { setIsLoaded(true) };
+    image.onload = () => {
+      isGifFormat && size === 'normal' ? setGifIsLoaded(true) : setIsLoaded(true);
+    };
     image.src = formattedImage[size];
   };
 
   const onPlayStateChange = () => {
     setPlayState(!playState);
+    loadNormalSize('normal');
   };
 
   useEffect(() => {
@@ -34,6 +39,7 @@ const ImageComponent = (props: Props) => {
   }, []);
 
   const src = isGifFormat ? playState ? formattedImage.normal : formattedImage.static : formattedImage.normal;
+  const showLoader = !isLoaded || isGifFormat && playState && !gifIsLoaded;
 
   return (
     <Styled.Root>
@@ -45,12 +51,13 @@ const ImageComponent = (props: Props) => {
         />
       )}
       {isGifFormat && (
-        <Styled.Play state={playState}>
+        <Styled.Play state={playState && gifIsLoaded}>
           <Styled.PlayButton state={playState} type={'button'} onClick={onPlayStateChange}>
             <span>{playState ? 'STOP' : 'PLAY'}</span>
           </Styled.PlayButton>
         </Styled.Play>
       )}
+      {showLoader && <Loader/>}
     </Styled.Root>
   )
 };

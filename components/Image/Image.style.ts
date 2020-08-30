@@ -37,7 +37,7 @@ Image.Play = styled.div<{ state: boolean }>`
     left: 0;
     top: 0;
     background-color: rgba(0,0,0,0.25);
-    transition: all 0.3s ease;
+    transition: all 0.5s ease;
   }
   &:after{
     left: auto;
@@ -64,7 +64,10 @@ Image.PlayButton = styled.button<{ state: boolean }>`
   border-radius: 50%;
   background-color: white !important;
   color: black !important;
-  transition: all 0.7s cubic-bezier(.3,.63,.01,1);
+  transition: 
+    top 0.7s cubic-bezier(.3,.63,.01,1), 
+    transform 0.7s cubic-bezier(.3,.63,.01,1), 
+    box-shadow 0.5s ease;
   border: 3px solid white !important;
   box-shadow: inset 0 0 0 0 lightskyblue;
   font-size: 10px;
@@ -76,13 +79,16 @@ Image.PlayButton = styled.button<{ state: boolean }>`
     letter-spacing: 2px;
     line-height: 1;
     display: inline-block;
-    transition: all 0.2s ease 0.05s;
+    transition: letter-spacing 0.2s ease 0.05s, transform 0.5s ease;
   }
   ${props =>
   props.state &&
   css`
     top: 50%;  
-    transition: all 0.6s cubic-bezier(.26,.72,.07,1.15);
+    transition: 
+      transform 0.5s cubic-bezier(.47,.56,.17,1.15),
+      top 0.5s cubic-bezier(.47,.56,.17,1.15),
+      box-shadow 0.5s ease;  
     span{
       transform: translateY(-150%);
     }
