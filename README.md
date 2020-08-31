@@ -1,7 +1,7 @@
-# mern-app
+# Visual feed
 
 ## description
-Simple app which has next features: 
+Simple feed app which has next features: 
 - sign up, sign in, autorization uses jwt tokens through secure http-only cookies without sending authorization header 
 - secure routes with rate limits for each route 
 - profile page with the list of active sessions and forms to modify your personal data and password 
