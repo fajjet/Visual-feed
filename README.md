@@ -10,7 +10,7 @@ Simple feed app which has next features:
 - posts have got like feature (also it shows users who liked a post) 
 - forms cover validation for all possible cases and fire notifications
 - uploading images and store them on cloudinary
-- detailed post page
+- ~~detailed post page~~
 
 ## tech stack
 jwt auth, express, mongoose (mongodb), nextjs (react), styled-components, redux, cloudinary
