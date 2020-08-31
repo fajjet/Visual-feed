@@ -10,16 +10,7 @@ Simple app which has next features:
 - posts have got like feature (also it shows users who liked a post) 
 - forms cover validation for all possible cases and fire notifications
 - uploading images and store them on cloudinary
-
-## todo
-- [x] simple redesign
-- [x] refactor
-- [x] fix controller responses
-- [x] image correct appearance
-- [x] play gif feature
-- [ ] blog post detailed page feature
-- [ ] comments on detail page feature
-- [ ] optional: rating and reply feature for comments
+- detailed post page
 
 ## tech stack
 jwt auth, express, mongoose (mongodb), nextjs (react), styled-components, redux, cloudinary
