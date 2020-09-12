@@ -1,6 +1,14 @@
 import { User } from "./user";
 import { CloudinaryImage } from "./common";
 
+export interface Comment {
+  _id: string;
+  author: User;
+  content: string;
+  createdAt: number;
+  updatedAt: number;
+}
+
 export interface Post {
   _id: string;
   author: string;
@@ -9,13 +17,7 @@ export interface Post {
   creationTime: number;
   description?: string;
   likes: User[];
-}
-
-export interface Comment {
-  _id: string;
-  author: string;
-  creationTime: number;
-  content: string;
+  comments: Comment[];
 }
 
 export interface PostWithPopulatedUsers extends Omit<Post, "author"> {

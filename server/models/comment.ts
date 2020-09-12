@@ -8,11 +8,13 @@ export interface IComment extends ICommentDocument {}
 
 export interface ICommentModel extends Model<IComment> {}
 
-export const CommentSchema = new Schema({
-  author: { type: Schema.Types.ObjectId, ref: "User", required: true },
-  creationTime: { type: Number, required: true },
-  content: { type: String, required: true },
-});
+export const CommentSchema = new Schema(
+  {
+    author: { type: Schema.Types.ObjectId, ref: "User", required: true },
+    content: { type: String, required: true },
+  },
+  { timestamps: true }
+);
 
 const Comment: ICommentModel = model<IComment, ICommentModel>(
   "Comment",

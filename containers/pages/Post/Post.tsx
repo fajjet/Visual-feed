@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import { AddComment } from "containers";
 import { updateLikes } from "utils/api";
 import { State } from "store/initialState";
-import { Article } from "components";
+import { Article, Card } from "components";
 import { PostWithPopulatedUsers } from "types";
 import Styled from "./post.style";
 
@@ -28,6 +28,10 @@ const Post = (props: Props) => {
     if (response.error) toast.error(response.error);
   };
 
+  const onCommentSubmitSuccess = (post: PostWithPopulatedUsers) => {
+    setData(post);
+  };
+
   return (
     <Styled.Root>
       <div className={"content-wrapper"}>
@@ -41,7 +45,24 @@ const Post = (props: Props) => {
           />
         )}
         <h3>Comments</h3>
-        <AddComment />
+        {data?.comments.map((comment) => {
+          return (
+            <Styled.Comment key={comment._id}>
+              <Card noPadding={false}>
+                <p>{comment.content}</p>
+                <b>by {comment.author.fullName}</b>
+                <br />
+                <time>{comment.createdAt}</time>
+              </Card>
+            </Styled.Comment>
+          );
+        })}
+        <Styled.AddComment>
+          <AddComment
+            postId={data?._id || ""}
+            onSubmitSuccess={onCommentSubmitSuccess}
+          />
+        </Styled.AddComment>
       </div>
     </Styled.Root>
   );

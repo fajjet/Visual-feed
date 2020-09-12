@@ -37,13 +37,12 @@ const SubmitPost = (props: Props) => {
       setLoading(true);
       isSending.current = true;
       const res = await createPost({
-        author: user._id,
         title,
         description,
         image,
       });
       const response = await res.json();
-      if (res.status === 200) {
+      if (res.status === 201) {
         toast.success("Post has been successfully created");
         setTitle("");
         setDescription("");
