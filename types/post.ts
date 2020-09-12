@@ -11,6 +11,13 @@ export interface Post {
   likes: User[];
 }
 
+export interface Comment {
+  _id: string;
+  author: string;
+  creationTime: number;
+  content: string;
+}
+
 export interface PostWithPopulatedUsers extends Omit<Post, "author"> {
   author: User;
 }
