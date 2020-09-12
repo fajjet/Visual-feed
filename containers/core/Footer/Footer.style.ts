@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 // import { provider } from 'styles';
 
 const Footer: any = {};
@@ -14,7 +14,7 @@ Footer.Root = styled.div`
 Footer.Wrapper = styled.div`
   display: flex;
   justify-content: space-between;
-  a{
+  a {
     opacity: 0.5;
   }
 `;

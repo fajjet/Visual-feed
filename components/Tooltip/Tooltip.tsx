@@ -1,5 +1,5 @@
-import React from 'react';
-import Block from './Tooltip.style';
+import React from "react";
+import Block from "./tooltip.style";
 
 const Tooltip = (props: any) => {
   return (
@@ -11,6 +11,6 @@ const Tooltip = (props: any) => {
       </Block.Tooltip>
     </Block.Root>
   );
-}
+};
 
 export default React.memo(Tooltip);

@@ -1,10 +1,10 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef } from "react";
 import { toast } from "react-toastify";
-import {useSelector} from "react-redux";
+import { useSelector } from "react-redux";
 
-import { PostWithPopulatedUsers, User } from 'types';
+import { PostWithPopulatedUsers, User } from "types";
 import { createPost } from "utils/api";
-import Styled from './SubmitPost.style';
+import Styled from "./submit-post.style";
 import { TextInput } from "components";
 import { State } from "store/initialState";
 
@@ -19,8 +19,8 @@ const SubmitPost = (props: Props) => {
   const user = useSelector((state: State) => state.app.user);
   const { onClose, isActive, onSuccessSubmit } = props;
 
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
   const [image, setImage] = useState<undefined | File>(undefined);
   const [loading, setLoading] = useState(false);
 
@@ -32,16 +32,21 @@ const SubmitPost = (props: Props) => {
     e.preventDefault();
     try {
       if (loading) return;
-      if (!user) throw 'Not authorized';
-      if (!image) throw 'No image selected';
+      if (!user) throw "Not authorized";
+      if (!image) throw "No image selected";
       setLoading(true);
       isSending.current = true;
-      const res = await createPost({ author: user._id, title, description, image });
+      const res = await createPost({
+        author: user._id,
+        title,
+        description,
+        image,
+      });
       const response = await res.json();
       if (res.status === 200) {
-        toast.success('Post has been successfully created');
-        setTitle('');
-        setDescription('');
+        toast.success("Post has been successfully created");
+        setTitle("");
+        setDescription("");
         setImage(undefined);
         formRef.current?.reset();
         onSuccessSubmit(response.post);
@@ -49,7 +54,7 @@ const SubmitPost = (props: Props) => {
           top: 0,
         });
       } else {
-        const error = response.error || response._message || 'Unknown error';
+        const error = response.error || response._message || "Unknown error";
         toast.error(error);
       }
     } catch (e) {
@@ -66,44 +71,55 @@ const SubmitPost = (props: Props) => {
   };
 
   return (
-    <Styled.Root as={'form'} ref={formRef} onSubmit={onSubmit} isActive={isActive}>
-      <div className={'content-wrapper'}>
-        <Styled.CloseArea onClick={onClose}/>
+    <Styled.Root
+      as={"form"}
+      ref={formRef}
+      onSubmit={onSubmit}
+      isActive={isActive}
+    >
+      <div className={"content-wrapper"}>
+        <Styled.CloseArea onClick={onClose} />
         <Styled.Content>
           <h4>Submit a new post</h4>
           <label>
-            <Styled.Text>{'Choose image ( .gif < 10MB, .others < 1.5MB )'}</Styled.Text>
+            <Styled.Text>
+              {"Choose image ( .gif < 10MB, .others < 1.5MB )"}
+            </Styled.Text>
             <input
-              type={'file'}
+              type={"file"}
               required={true}
               onChange={onFileInputChange}
-              accept={'.jpg, .jpeg, .png, .gif'}
+              accept={".jpg, .jpeg, .png, .gif"}
             />
           </label>
           <TextInput
             value={title}
-            label={'Title'}
-            onChangeHandler={v => setTitle(v)}
+            label={"Title"}
+            onChangeHandler={(v) => setTitle(v)}
             required={true}
             minLength={2}
             maxLength={100}
           />
           <TextInput
             value={description}
-            label={'Short description'}
-            onChangeHandler={v => setDescription(v)}
+            label={"Short description"}
+            onChangeHandler={(v) => setDescription(v)}
             maxLength={500}
-            as={'textarea'}
+            as={"textarea"}
           />
-          <br/>
+          <br />
           <Styled.ButtonsBar>
-            <button type={'submit'} disabled={loading}>{loading ? 'Sending' : 'Submit'}</button>
-            <button id={'close'} type={'button'} onClick={onClose}>close</button>
+            <button type={"submit"} disabled={loading}>
+              {loading ? "Sending" : "Submit"}
+            </button>
+            <button id={"close"} type={"button"} onClick={onClose}>
+              close
+            </button>
           </Styled.ButtonsBar>
         </Styled.Content>
       </div>
     </Styled.Root>
-  )
+  );
 };
 
 export default React.memo(SubmitPost);

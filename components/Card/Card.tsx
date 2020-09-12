@@ -1,5 +1,5 @@
-import React, { ReactNode } from 'react';
-import Styled from './Card.style';
+import React, { ReactNode } from "react";
+import Styled from "./card.style";
 
 interface Props {
   children: ReactNode;
@@ -12,12 +12,12 @@ const Card = (props: Props) => {
     <Styled.Root noPadding={props.noPadding} as={props.as}>
       {props.children}
     </Styled.Root>
-  )
+  );
 };
 
 Card.defaultProps = {
   noPadding: true,
-  as: 'div',
-}
+  as: "div",
+};
 
 export default React.memo(Card);

@@ -1,7 +1,7 @@
-import React from 'react';
+import React from "react";
 
-import Styled from './Text.style';
-export type View = 'h1';
+import Styled from "./text.style";
+export type View = "h1";
 
 interface Props {
   children: string;
@@ -11,12 +11,12 @@ interface Props {
 }
 
 const Text = (props: Props) => {
-  const { children, view, as = 'span', style } = props;
+  const { children, view, as = "span", style } = props;
   return (
     <Styled.Root view={view} as={as} style={style}>
       {children}
     </Styled.Root>
-  )
+  );
 };
 
 export default React.memo(Text);

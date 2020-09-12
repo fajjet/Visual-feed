@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Styled from './Error.style';
+import Styled from './error.style';
 
 interface Props {
   statusCode: number;

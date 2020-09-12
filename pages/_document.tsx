@@ -1,6 +1,12 @@
-import Document, { Html, Head, Main, NextScript, DocumentContext } from 'next/document';
+import Document, {
+  Html,
+  Head,
+  Main,
+  NextScript,
+  DocumentContext,
+} from "next/document";
 import { AppInitialProps } from "next/app";
-import { ServerStyleSheet } from 'styled-components';
+import { ServerStyleSheet } from "styled-components";
 
 export default class MyDocument extends Document {
   static async getInitialProps(ctx: DocumentContext) {
@@ -10,7 +16,8 @@ export default class MyDocument extends Document {
     try {
       ctx.renderPage = () =>
         originalRenderPage({
-          enhanceApp: (App: any) => (props: AppInitialProps) => sheet.collectStyles(<App {...props} />)
+          enhanceApp: (App: any) => (props: AppInitialProps) =>
+            sheet.collectStyles(<App {...props} />),
         });
 
       const initialProps = await Document.getInitialProps(ctx);
@@ -21,7 +28,7 @@ export default class MyDocument extends Document {
             {initialProps.styles}
             {sheet.getStyleElement()}
           </>
-        )
+        ),
       };
     } finally {
       sheet.seal();
@@ -30,14 +37,22 @@ export default class MyDocument extends Document {
 
   render() {
     return (
-      <Html lang={'en'}>
+      <Html lang={"en"}>
         <Head>
-          <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"/>
-          <link rel="stylesheet" href="https://unpkg.com/sakura.css/css/sakura.css" type="text/css"/>
+          <meta
+            http-equiv="Content-Security-Policy"
+            content="upgrade-insecure-requests"
+          />
+          <link
+            rel="stylesheet"
+            href="https://unpkg.com/sakura.css/css/sakura.css"
+            type="text/css"
+          />
+          <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
         </Head>
         <body>
-        <Main />
-        <NextScript />
+          <Main />
+          <NextScript />
         </body>
       </Html>
     );

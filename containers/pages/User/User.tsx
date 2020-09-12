@@ -1,9 +1,9 @@
-import React from 'react';
+import React from "react";
 import { useRouter } from "next/router";
 
-import { Card } from 'components';
+import { Card } from "components";
 import { Posts } from "containers";
-import Styled from './User.style';
+import Styled from "./user.style";
 import { User as UserType } from "types";
 
 interface Props {
@@ -18,7 +18,7 @@ const User = (props: Props) => {
 
   return (
     <Styled.Root>
-      <div className={'content-wrapper'}>
+      <div className={"content-wrapper"}>
         {props.data !== null ? (
           <>
             <Card noPadding={false}>
@@ -29,14 +29,16 @@ const User = (props: Props) => {
             </Card>
             <Styled.Posts>
               {!!data?.posts?.length && (
-                <Posts posts={data?.posts} view={'user'} authorId={authorId}/>
+                <Posts posts={data?.posts} view={"user"} authorId={authorId} />
               )}
             </Styled.Posts>
           </>
-        ) : ( <h1>User not found</h1> )}
+        ) : (
+          <h1>User not found</h1>
+        )}
       </div>
     </Styled.Root>
-  )
+  );
 };
 
 export default React.memo(User);

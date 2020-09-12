@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const Header: any = {};
 
@@ -9,7 +9,7 @@ Header.Root = styled.div`
   width: 100%;
   height: 4.25rem;
   background-color: white;
-  box-shadow: 0 0 18px rgba(0,0,0,0.05);
+  box-shadow: 0 0 18px rgba(0, 0, 0, 0.05);
   z-index: 100;
   font-weight: 300;
   text-transform: uppercase;
@@ -31,7 +31,7 @@ Header.Link = styled.div`
   position: relative;
   transition: color 0.2s ease;
   &:after {
-    content: '';
+    content: "";
     position: absolute;
     bottom: -2px;
     left: 0;
@@ -42,10 +42,10 @@ Header.Link = styled.div`
     transform: scale(0, 3);
     //opacity: 0;
     transition: all 0.2s ease;
-  } 
+  }
   &:hover {
     color: steelblue;
-    &:after{
+    &:after {
       transform: none;
       opacity: 1;
     }

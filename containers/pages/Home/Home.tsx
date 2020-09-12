@@ -1,9 +1,9 @@
-import React, {useState} from 'react';
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
 import { Posts, SubmitPost } from "containers";
-import Styled from './Home.style';
+import Styled from "./home.style";
 import { State } from "store/initialState";
 import { PostWithPopulatedUsers } from "types";
 
@@ -17,18 +17,18 @@ const Home = (props: Props) => {
   const [submitFormIsActive, setSubmitFormIsActive] = useState(false);
   const [newPost, setNewPost] = useState<PostWithPopulatedUsers | null>(null);
 
-  const onSubmitFormClose = () => {
+  const onFormClose = () => {
     setSubmitFormIsActive(!submitFormIsActive);
   };
 
-  const onSuccessPostSubmit = (post: PostWithPopulatedUsers) => {
+  const onSubmitSuccess = (post: PostWithPopulatedUsers) => {
     setSubmitFormIsActive(false);
     setNewPost(post);
   };
 
   const onAddButtonClick = () => {
     if (!user) {
-      toast.warn('You need to be authorized to create posts');
+      toast.warn("You have to be authorized to create posts");
       return;
     }
     setSubmitFormIsActive(true);
@@ -36,26 +36,25 @@ const Home = (props: Props) => {
 
   return (
     <Styled.Root>
-      <div className={'content-wrapper'}>
+      <div className={"content-wrapper"}>
         <h1>Feed</h1>
-        <Styled.AddButton as={'button'} onClick={onAddButtonClick}>
-          <span/>
+        <Styled.AddButton as={"button"} onClick={onAddButtonClick}>
+          <span />
         </Styled.AddButton>
         <section>
-          <Posts
-            posts={posts}
-            newPost={newPost}
-          />
+          <Posts posts={posts} newPost={newPost} />
         </section>
-        {user && <SubmitPost
-          user={user}
-          onClose={onSubmitFormClose}
-          onSuccessSubmit={onSuccessPostSubmit}
-          isActive={submitFormIsActive}
-        />}
+        {user && (
+          <SubmitPost
+            user={user}
+            onClose={onFormClose}
+            onSuccessSubmit={onSubmitSuccess}
+            isActive={submitFormIsActive}
+          />
+        )}
       </div>
     </Styled.Root>
-  )
+  );
 };
 
 export default React.memo(Home);

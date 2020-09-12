@@ -1,28 +1,28 @@
-import React, { InputHTMLAttributes } from 'react';
+import React, { InputHTMLAttributes } from "react";
 
-import Styled from './TextInput.style';
+import Styled from "./text-input.style";
 
 interface Props {
   value: any;
   name?: string;
-  type?: 'text' | 'email' | 'number' | 'password' | 'tel';
+  type?: "text" | "email" | "number" | "password" | "tel";
   onChangeHandler?(value: string): any;
   label?: string;
-  as?: 'input' | 'textarea';
+  as?: "input" | "textarea";
 }
 
 const TextInput = (props: Props & InputHTMLAttributes<HTMLInputElement>) => {
   const {
     label,
-    type = 'text',
+    type = "text",
     value,
     onChangeHandler,
     required,
     minLength,
     maxLength,
     name: passedName,
-    placeholder = '',
-    as = 'input',
+    placeholder = "",
+    as = "input",
   } = props;
   const name = passedName || label;
 
@@ -47,7 +47,7 @@ const TextInput = (props: Props & InputHTMLAttributes<HTMLInputElement>) => {
         />
       </label>
     </Styled.Root>
-  )
+  );
 };
 
 export default React.memo(TextInput);

@@ -1,5 +1,5 @@
-import { User } from './user';
-import { CloudinaryImage } from './global';
+import { User } from "./user";
+import { CloudinaryImage } from "./common";
 
 export interface Post {
   _id: string;
@@ -11,6 +11,6 @@ export interface Post {
   likes: User[];
 }
 
-export interface PostWithPopulatedUsers extends Omit<Post, 'author'>{
+export interface PostWithPopulatedUsers extends Omit<Post, "author"> {
   author: User;
 }

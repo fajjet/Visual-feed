@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
-import {updateLikes} from 'utils/api';
-import { State } from 'store/initialState';
-import { Article } from 'components';
-import { PostWithPopulatedUsers } from 'types';
-import Styled from './Post.style';
+import { updateLikes } from "utils/api";
+import { State } from "store/initialState";
+import { Article } from "components";
+import { PostWithPopulatedUsers } from "types";
+import Styled from "./post.style";
 
-interface Props{
+interface Props {
   data: PostWithPopulatedUsers | null;
 }
 
@@ -18,7 +18,7 @@ const Post = (props: Props) => {
 
   const onLikeButtonClick = async (action: boolean, id: string) => {
     if (!user) {
-      toast.warn('You need to be logged in to like posts');
+      toast.warn("You need to be logged in to like posts");
       return;
     }
     const res = await updateLikes(action, id);
@@ -29,19 +29,20 @@ const Post = (props: Props) => {
 
   return (
     <Styled.Root>
-      <div className={'content-wrapper'}>
+      <div className={"content-wrapper"}>
         {!data && <h1>Post not found</h1>}
         {data && (
           <Article
             post={data}
             user={user || null}
             onLikeButtonClick={onLikeButtonClick}
-            view={'detail'}
+            view={"detail"}
           />
         )}
+        {/* <h3>Comments</h3> */}
       </div>
     </Styled.Root>
-  )
+  );
 };
 
 export default React.memo(Post);
