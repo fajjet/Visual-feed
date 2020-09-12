@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 // import { provider } from 'styles';
 
 const TextInput: any = {};
@@ -11,12 +11,21 @@ TextInput.Root = styled.div`
     display: block;
     padding: 0 5px;
     appearance: none;
-    border: 1px solid rgba(0,0,0,0.35);
+    border: 1px solid rgba(0, 0, 0, 0.35);
     outline: none;
     background-color: white;
-    &:not([value=""]):not(:focus):invalid{
+    &:not([value=""]):not(:focus):invalid {
       border-color: red;
     }
+  }
+  textarea {
+    resize: vertical;
+    min-height: 40px !important;
+  }
+  label {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
   }
 `;
 
@@ -26,6 +35,7 @@ TextInput.Label = styled.span`
   font-size: 14px;
   padding-bottom: 0.15rem;
   color: #4a4a4a;
+  display: flex;
 `;
 
 TextInput.Input = styled.input`

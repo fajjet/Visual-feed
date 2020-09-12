@@ -14,5 +14,6 @@ export { default as Error } from "./pages/error/error";
 export { default as SignUpForm } from "./forms/sign-up-form/sign-up-form";
 export { default as SignInForm } from "./forms/sign-in-form/sign-in-form";
 export { default as SubmitPost } from "./forms/submit-post/submit-post";
+export { default as AddComment } from "./forms/add-comment/add-comment";
 
 export { default as Posts } from "./posts/posts";

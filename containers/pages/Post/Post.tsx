@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
+import { AddComment } from "containers";
 import { updateLikes } from "utils/api";
 import { State } from "store/initialState";
 import { Article } from "components";
@@ -39,7 +40,8 @@ const Post = (props: Props) => {
             view={"detail"}
           />
         )}
-        {/* <h3>Comments</h3> */}
+        <h3>Comments</h3>
+        <AddComment />
       </div>
     </Styled.Root>
   );

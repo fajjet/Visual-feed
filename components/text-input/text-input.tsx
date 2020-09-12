@@ -1,4 +1,4 @@
-import React, { InputHTMLAttributes } from "react";
+import React, { InputHTMLAttributes, TextareaHTMLAttributes } from "react";
 
 import Styled from "./text-input.style";
 
@@ -11,7 +11,10 @@ interface Props {
   as?: "input" | "textarea";
 }
 
-const TextInput = (props: Props & InputHTMLAttributes<HTMLInputElement>) => {
+type HTMLProps = TextareaHTMLAttributes<HTMLTextAreaElement> &
+  InputHTMLAttributes<HTMLTextAreaElement>;
+
+const TextInput = (props: Props & HTMLProps) => {
   const {
     label,
     type = "text",
