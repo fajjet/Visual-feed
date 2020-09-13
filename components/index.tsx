@@ -6,5 +6,5 @@ export { default as Tooltip } from "./tooltip/tooltip";
 export { default as Helmet } from "./helmet/helmet";
 export { default as Card } from "./card/card";
 export { default as Image } from "./image/image";
-export { default as Article } from "./article/article";
+// export { default as Article } from "./article/article";
 export { default as Comment } from "./comment/comment";

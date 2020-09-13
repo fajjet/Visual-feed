@@ -5,7 +5,8 @@ import { toast } from "react-toastify";
 import { AddComment } from "containers";
 import { updateLikes } from "utils/api";
 import { State } from "store/initialState";
-import { Article, Card, Comment } from "components";
+import { Card, Comment } from "components";
+import Article from "../../../components/article/article";
 import { PostWithPopulatedUsers } from "types";
 import Styled from "./post.style";
 

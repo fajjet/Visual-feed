@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
-import { Article } from "components";
+import Article from "../../components/article/article";
 import { updateLikes } from "utils/api";
 import { State } from "store/initialState";
 import { PostWithPopulatedUsers } from "types";
