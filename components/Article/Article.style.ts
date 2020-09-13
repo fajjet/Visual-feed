@@ -1,11 +1,11 @@
-import styled, { css } from 'styled-components';
+import styled, { css } from "styled-components";
 
 const Article: any = {};
 
 Article.Root = styled.article`
   position: relative;
   margin-bottom: 2rem;
-  pre{
+  pre {
     padding: 0;
     margin-bottom: 0;
     background: none;
@@ -16,9 +16,7 @@ Article.Root = styled.article`
   }
 `;
 
-Article.Image = styled.div`
-  
-`;
+Article.Image = styled.div``;
 
 Article.Author = styled.div`
   border: none !important;
@@ -49,9 +47,10 @@ Article.Like = styled.div<{ isLiked: boolean }>`
     color: steelblue;
   }
   ${({ isLiked }) => css`
-    ${isLiked && css`
-        color: red;
-     `}
+    ${isLiked &&
+    css`
+      color: red;
+    `}
   `}
   span {
     display: inline-block;
@@ -62,11 +61,11 @@ Article.Like = styled.div<{ isLiked: boolean }>`
     margin-left: 0.25rem;
     font-weight: 700;
     @keyframes numInit {
-      0%{
+      0% {
         transform: translateY(5px);
         opacity: 0;
       }
-      100%{
+      100% {
         transform: translateY(0);
         opacity: 1;
       }
@@ -88,7 +87,7 @@ Article.LikeList = styled.div`
     color: inherit !important;
     display: inline-block;
     font-size: 0.9rem;
-    &:hover{
+    &:hover {
       text-decoration: underline;
     }
   }
@@ -97,8 +96,8 @@ Article.LikeList = styled.div`
 Article.BottomLeft = styled.div`
   display: flex;
   align-items: center;
-  a{
-   margin-right: 1rem;
+  a {
+    margin-right: 1rem;
   }
 `;
 
@@ -109,6 +108,19 @@ Article.Head = styled.div`
   }
   h1 {
     margin: 0.35rem 0;
+  }
+`;
+
+Article.Comments = styled.div`
+  display: flex;
+  align-items: center;
+  margin-right: 1rem;
+  border: none !important;
+  span {
+    padding-left: 5px;
+    font-weight: 700;
+    opacity: 0.65;
+    font-size: 0.9rem;
   }
 `;
 

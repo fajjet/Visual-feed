@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import { AddComment } from "containers";
 import { updateLikes } from "utils/api";
 import { State } from "store/initialState";
-import { Article, Card } from "components";
+import { Article, Card, Comment } from "components";
 import { PostWithPopulatedUsers } from "types";
 import Styled from "./post.style";
 
@@ -45,18 +45,19 @@ const Post = (props: Props) => {
           />
         )}
         <h3>Comments</h3>
-        {data?.comments.map((comment) => {
-          return (
-            <Styled.Comment key={comment._id}>
-              <Card noPadding={false}>
-                <p>{comment.content}</p>
-                <b>by {comment.author.fullName}</b>
-                <br />
-                <time>{comment.createdAt}</time>
-              </Card>
-            </Styled.Comment>
-          );
-        })}
+        <Card noPadding={false}>
+          {!!data?.comments.length ? (
+            data?.comments.map((comment) => {
+              return (
+                <Styled.Comment key={comment._id}>
+                  <Comment data={comment} />
+                </Styled.Comment>
+              );
+            })
+          ) : (
+            <h6>There are no comments yet. Be first!</h6>
+          )}
+        </Card>
         <Styled.AddComment>
           <AddComment
             postId={data?._id || ""}

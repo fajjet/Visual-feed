@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
 
+import { formateDate } from "utils";
 import { PostWithPopulatedUsers, User } from "types";
 import { Tooltip, Card, Image as ImageComponent } from "components";
 import Styled from "./article.style";
@@ -15,15 +16,11 @@ interface Props {
 const Article = (props: Props) => {
   const { user, view, onLikeButtonClick, post } = props;
 
+  console.log(post);
+
   const date = new Date(post.creationTime);
-  const showDate = date.toLocaleDateString("en-US", {
-    day: "numeric",
-    hour12: false,
-    month: "short",
-    hour: "numeric",
-    minute: "numeric",
-    year: "numeric",
-  });
+  const showDate = formateDate(date);
+
   const isLiked = post.likes.some((u) => u && user?._id === u._id);
   const likes = !!post.likes.length ? post.likes.length : "";
 
@@ -60,6 +57,13 @@ const Article = (props: Props) => {
                 <Styled.Author as={"a"}>
                   👤 <span>{post.author.fullName}</span>
                 </Styled.Author>
+              </Link>
+            )}
+            {view !== "detail" && (
+              <Link href={"/post/[id]"} as={`/post/${post._id}`} passHref>
+                <Styled.Comments as={"a"}>
+                  💬 <span>{post.comments.length}</span>
+                </Styled.Comments>
               </Link>
             )}
             <div style={{ position: "relative" }} data-tooltip={true}>

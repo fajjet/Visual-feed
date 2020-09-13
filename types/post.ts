@@ -5,8 +5,8 @@ export interface Comment {
   _id: string;
   author: User;
   content: string;
-  createdAt: number;
-  updatedAt: number;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export interface Post {

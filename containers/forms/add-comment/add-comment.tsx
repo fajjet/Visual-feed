@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 
@@ -14,14 +14,18 @@ interface Props {
 }
 
 export default function AddComment(props: Props) {
+  const isLoading = useRef(false);
   const { postId, onSubmitSuccess } = props;
   const user = useSelector((state: State) => state.app.user);
   const [comment, setComment] = useState("");
 
   const onSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
+    if (isLoading.current) return;
     e.preventDefault();
     try {
-      if (!user) throw "Not authorized";
+      if (!user) throw "You need to be authorized to leave a comment";
+      if (!comment) throw "Empty field";
+      isLoading.current = true;
       const res = await commentPost({ id: postId, content: comment });
       const response = await res.json();
       if (res.status === 201 && response.post) {
@@ -35,6 +39,7 @@ export default function AddComment(props: Props) {
     } catch (e) {
       toast.error(e);
     } finally {
+      isLoading.current = false;
     }
   };
 
@@ -42,12 +47,12 @@ export default function AddComment(props: Props) {
     <Card>
       <Styled.Root as={"form"} name={"add-comment"} onSubmit={onSubmit}>
         <Styled.Top>
-          <h5>Your opinion</h5>
+          <h5>Leave a comment</h5>
           <button type={"submit"}>Send</button>
         </Styled.Top>
         <TextInput
           as={"textarea"}
-          placeholder={"Write something"}
+          placeholder={"Enter your thoughts here"}
           value={comment}
           onChangeHandler={(e) => setComment(e)}
         />
