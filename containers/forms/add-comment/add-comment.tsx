@@ -19,9 +19,11 @@ export default function AddComment(props: Props) {
   const user = useSelector((state: State) => state.app.user);
   const [comment, setComment] = useState("");
 
-  const onSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
+  const onSubmit = async (
+    e: React.SyntheticEvent<HTMLFormElement> | undefined
+  ) => {
     if (isLoading.current) return;
-    e.preventDefault();
+    e && e.preventDefault();
     try {
       if (!user) throw "You need to be authorized to leave a comment";
       if (!comment) throw "Empty field";
@@ -43,18 +45,29 @@ export default function AddComment(props: Props) {
     }
   };
 
+  const onKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.keyCode === 13) {
+      e.preventDefault();
+      onSubmit(undefined);
+    }
+  };
+
   return (
     <Card>
       <Styled.Root as={"form"} name={"add-comment"} onSubmit={onSubmit}>
         <Styled.Top>
           <h5>Leave a comment</h5>
-          <button type={"submit"}>Send</button>
+          <button type={"submit"} disabled={!comment}>
+            Send
+          </button>
         </Styled.Top>
         <TextInput
           as={"textarea"}
           placeholder={"Enter your thoughts here"}
           value={comment}
           onChangeHandler={(e) => setComment(e)}
+          onKeyDown={onKeyDown}
+          required={true}
         />
       </Styled.Root>
     </Card>

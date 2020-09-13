@@ -26,6 +26,7 @@ const TextInput = (props: Props & HTMLProps) => {
     name: passedName,
     placeholder = "",
     as = "input",
+    ...restProps
   } = props;
   const name = passedName || label;
 
@@ -47,6 +48,7 @@ const TextInput = (props: Props & HTMLProps) => {
           maxLength={maxLength}
           placeholder={placeholder}
           as={as}
+          {...restProps}
         />
       </label>
     </Styled.Root>

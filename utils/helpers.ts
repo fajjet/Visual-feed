@@ -66,9 +66,9 @@ export const timeSince = (date: number) => {
   if (interval >= 1) {
     return `${interval} ${pluralize(interval, "minute")}`;
   }
-  return seconds !== 0
-    ? `${Math.floor(seconds)} ${pluralize(seconds, "second")}`
-    : "just now";
+  return seconds <= 0
+    ? "just now"
+    : `${Math.floor(seconds)} ${pluralize(seconds, "second")}`;
 };
 
 export const capitalizeFirstLetter = (s: string) => {
