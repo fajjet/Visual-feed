@@ -7,7 +7,7 @@
     "build-like-dev": "ts-node --project tsconfig.server.json server/server.ts",
     "dev": "nodemon -e ts,js --watch server --exec ts-node --project tsconfig.server.json server/server.ts",
     "build": "next build && tsc --project tsconfig.server.json",
-    "postinstall": "npm run build",
+    "postinstall": "yarn run build",
     "start": "NODE_ENV=production node dist/server/server.js"
   },
   "dependencies": {
