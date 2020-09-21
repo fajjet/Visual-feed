@@ -55,7 +55,7 @@ const Post = (props: Props) => {
               );
             })
           ) : (
-            <h6>There are no comments yet. Be first!</h6>
+            <h6>There are no comments yet. Be the first!</h6>
           )}
         </Card>
         <Styled.AddComment>
